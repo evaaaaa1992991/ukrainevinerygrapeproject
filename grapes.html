@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Сорти винограду — Виноробство України</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+
+    background-image: url('сорты фон.jpg') !important;
+    
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
+    position: relative !important;
+    min-height: 100vh;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(248, 245, 240, 0.15);
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    z-index: -1 !important;
+}
+
+
+.main-header-wrapper {
+    background: var(--panel-light) !important;
+    border-radius: var(--radius);
+    padding: 25px 30px !important;
+    margin: 0 0 25px 0 !important;
+    border: 2px solid rgba(212, 165, 116, 0.4) !important;
+    box-shadow: var(--shadow) !important;
+    position: relative;
+    z-index: 10;
+}
+
+.main-header-wrapper h1 {
+    margin-bottom: 10px !important;
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
+}
+
+.main-header-wrapper .subtitle {
+    color: var(--text-medium);
+    font-size: 1.1rem;
+    margin: 0;
+    line-height: 1.5;
+}
+
+        
+        .grapes-filter {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 25px 0;
+            padding: 20px;
+            background: var(--panel-light);
+            border-radius: var(--radius);
+            border: 2px solid rgba(212, 165, 116, 0.3);
+            box-shadow: var(--shadow);
+        }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid rgba(212, 165, 116, 0.5);
+            border-radius: 25px;
+            color: var(--text-medium);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--wine-gold), var(--wine-terracotta));
+            color: white;
+            border-color: var(--wine-terracotta);
+        }
+        
+        .filter-btn:hover {
+            background: rgba(212, 165, 116, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .filter-btn.active:hover {
+            background: linear-gradient(135deg, var(--wine-terracotta), var(--wine-gold));
+        }
+        
+        .grape-card {
+            position: relative;
+            overflow: hidden;
+            height: 700px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+        
+        .grape-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow);
+            border-color: var(--wine-gold);
+        }
+        
+        .grape-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 12px 12px 0 0;
+            flex-shrink: 0;
+        }
+        
+        .grape-type {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 2;
+            backdrop-filter: blur(5px);
+        }
+        
+        .white-grape {
+            background: rgba(212, 165, 116, 0.3);
+            color: var(--wine-brown);
+            border: 2px solid rgba(212, 165, 116, 0.5);
+        }
+        
+        .red-grape {
+            background: rgba(139, 69, 19, 0.3);
+            color: var(--wine-brown);
+            border: 2px solid rgba(139, 69, 19, 0.5);
+        }
+        
+        .pink-grape {
+            background: rgba(180, 101, 29, 0.3);
+            color: var(--wine-accent);
+            border: 2px solid rgba(180, 101, 29, 0.5);
+        }
+        
+        .grape-details {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .grape-details h3 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+            color: var(--wine-brown);
+            min-height: 40px;
+        }
+        
+        .grape-details p {
+            font-size: 15px;
+            line-height: 1.6;
+            margin: 0 0 15px 0;
+            flex-grow: 1;
+            color: var(--text-dark);
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 5;
+            -webkit-box-orient: vertical;
+            min-height: 120px;
+        }
+        
+        .grape-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 12px;
+            font-size: 14px;
+            color: var(--wine-terracotta);
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .grape-stats span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            background: rgba(212, 165, 116, 0.1);
+            padding: 6px 12px;
+            border-radius: 8px;
+            color: var(--wine-accent);
+        }
+        
+        .grape-regions {
+            margin-top: 12px;
+            font-size: 14px;
+            color: var(--text-medium);
+            padding-top: 10px;
+            border-top: 2px solid rgba(212, 165, 116, 0.2);
+        }
+        
+        .grape-details .pill {
+            margin-top: 15px;
+            align-self: flex-start;
+            padding: 10px 20px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+        
+        .modal .box {
+            max-width: 800px;
+            max-height: 85vh;
+        }
+        
+        /* Стилі для фільтрів */
+        .filter-count {
+            display: inline-block;
+            background: white;
+            color: var(--wine-brown);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-size: 12px;
+            line-height: 24px;
+            text-align: center;
+            margin-left: 5px;
+        }
+        
+        .filter-btn.active .filter-count {
+            background: rgba(255,255,255,0.3);
+            color: white;
+        }
+        
+        @media (max-width: 1200px) {
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .grape-card {
+                height: 400px;
+            }
+            
+            .grape-details p {
+                -webkit-line-clamp: 4;
+                min-height: 110px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .grape-card {
+                height: auto;
+                min-height: 380px;
+            }
+            
+            .grape-image {
+                height: 160px;
+            }
+            
+            .grape-details p {
+                -webkit-line-clamp: 8;
+                min-height: auto;
+            }
+            
+            .grapes-filter {
+                justify-content: center;
+                padding: 15px;
+            }
+            
+            .filter-btn {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .grape-card {
+                min-height: 400px;
+            }
+            
+            .grape-stats {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .filter-btn {
+                flex: 1;
+                min-width: 140px;
+                justify-content: center;
+            }
+        }
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo"><a href="index.html">Виноробство України</a></div>
+        <nav>
+            <a href="index.html">Головна</a>
+            <a href="regions.html">Регіони</a>
+            <a href="grapes.html" class="active">Сорти</a>
+            <a href="routes.html">Маршрути</a>
+            <a href="map.html">Карта</a>
+            <a href="craft-wines.html">Крафтові вина</a>
+            <a href="about.html">Про сайт</a>
+            <a href="profile.html"><i class="fas fa-user-circle"></i> Кабінет</a>
+        </nav>
+    </header>
+
+<main class="container">
+    <div class="main-header-wrapper">
+        <h1><i class="fas fa-wine-bottle"></i> Сорти винограду України</h1>
+        <p class="subtitle">Класифікація за кольором, смаковим профілем та регіонами вирощування</p>
+    </div>
+
+        <!-- Фільтри -->
+        <div class="grapes-filter">
+            <div class="filter-btn active" data-filter="all">
+                </i> Усі сорти
+                <span class="filter-count" id="count-all">12</span>
+            </div>
+            <div class="filter-btn" data-filter="white">
+                </i> Білі сорти
+                <span class="filter-count" id="count-white">7</span>
+            </div>
+            <div class="filter-btn" data-filter="red">
+                </i> Червоні сорти
+                <span class="filter-count" id="count-red">4</span>
+            </div>
+            <div class="filter-btn" data-filter="pink">
+                </i> Рожеві сорти
+                <span class="filter-count" id="count-pink">1</span>
+            </div>
+            <div class="filter-btn" data-filter="local">
+                </i> Грузинські сорти
+                <span class="filter-count" id="count-local">2</span>
+            </div>
+            <div class="filter-btn" data-filter="international">
+                </i> Міжнародні сорти
+                <span class="filter-count" id="count-international">10</span>
+            </div>
+        </div>
+
+        <!-- Картки сортів -->
+        <div class="grid" id="grapes-container">
+            <!-- Шардоне -->
+            <div class="card grape-card" data-type="white international">
+                <img src="шардоне!.jpg" alt="Шардоне" class="grape-image">
+                <span class="grape-type white-grape">Білий</span>
+                <div class="grape-details">
+                    <h3>Шардоне</h3>
+                    <p>Універсальний білий сорт, з якого виробляють вина різних стилів - від легких і фруктових до витриманих у дубі, з ароматами тропічних фруктів і ванілі. Часто використовується для ігристих вин. Вирощується переважно на Півдні України.</p>
+                    <div class="grape-stats">
+                        <span><i class="fas fa-temperature-low"></i> Прохолодний клімат</span>
+                        <span><i class="fas fa-wine-glass-alt"></i> Витримка в дубі</span>
+                    </div>
+                    <div class="grape-regions">
+                        <strong>Регіони:</strong> Південь України, Закарпаття, Одеська область
+                    </div>
+                    <a href="#modal-chardonnay" class="pill">Детальніше</a>
+                </div>
+            </div>
+
+            <!-- Аліготе -->
+            <div class="card grape-card" data-type="white international">
+                <img src="алиготе.png" alt="Аліготе" class="grape-image">
+                <span class="grape-type white-grape">Білий</span>
+                <div class="grape-details">
+                    <h3>Аліготе</h3>
+                    <p>Популярний в Україні сорт, з якого створюють сухі столові та ігристі вина. Має ніжний аромат з яблучно-цитрусовими та квітковими нотами, а при витримці у дубі - відтінки мигдалю й меду. Вирощується по всій Україні.</p>
+                    <div class="grape-stats">
+                        <span><i class="fas fa-apple-alt"></i> Яблучно-цитрусовий</span>
+                        <span><i class="fas fa-wine-glass"></i> Ігристі вина</span>
+                    </div>
+                    <div class="grape-regions">
+                        <strong>Регіони:</strong> Усі виноробні регіони України
+                    </div>
+                    <a href="#modal-aligote" class="pill">Детальніше</a>
+                </div>
+            </div>
+
+            <!-- Рислінг -->
+            <div class="card grape-card" data-type="white international">
+                <img src="рислинг!.png" alt="Рислінг" class="grape-image">
+                <span class="grape-type white-grape">Білий</span>
+                <div class="grape-details">
+                    <h3>Рислінг</h3>
+                    <p>Сорт, що добре почувається в прохолодному кліматі. Дає сухі та напівсухі вина з ароматами фруктів, цитрусів і мінералів. Вирощується на Закарпатті, Півдні та частково в центральних і західних регіонах України.</p>
+                    <div class="grape-stats">
+                        <span><i class="fas fa-mountain"></i> Прохолодний клімат</span>
+                        <span><i class="fas fa-lemon"></i> Цитрусовий аромат</span>
+                    </div>
+                    <div class="grape-regions">
+                        <strong>Регіони:</strong> Закарпаття, Південь України, Львівська область
+                    </div>
+                    <a href="#modal-riesling" class="pill">Детальніше</a>
+                </div>
+            </div>
+
+            <!-- Мускат -->
+            <div class="card grape-card" data-type="white international">
+                <img src="мускат!.png" alt="Мускат" class="grape-image">
+                <span class="grape-type white-grape">Білий</span>
+                <div class="grape-details">
+                    <h3>Мускат</h3>
+                    <p>Теплолюбний сорт, поширений на Півдні та Закарпатті. Вина з Мускату відзначаються яскравими ароматами солодких квітів і стиглих фруктів. Ідеальний для десертних і солодких вин. Витримує теплий клімат.</p>
+                    <div class="grape-stats">
+                        <span><i class="fas fa-sun"></i> Теплий клімат</span>
+                        <span><i class="fas fa-candy-cane"></i> Солодкий стиль</span>
+                    </div>
+                    <div class="grape-regions">
+                        <strong>Регіони:</strong> Південь України, Закарпаття, Одеська область
+                    </div>
+                    <a href="#modal-muscat" class="pill">Детальніше</a>
+                </div>
+            </div>
+
+            <!-- Ркацителі -->
+            <div class="card grape-card" data-type="white local">
+                <img src="ркацители.png" alt="Ркацителі" class="grape-image">
+                <span class="grape-type white-grape">Білий</span>
+                <div class="grape-details">
+                    <h3>Ркацителі</h3>
+                    <p><strong>Грузинський сорт</strong>, що добре адаптувався в Україні, особливо на Херсонщині та Одещині. Дає свіжі, ароматні вина з вираженою кислотністю та фруктовими нотами. Відмінно підходить для столових вин.</p>
+                    <div class="grape-stats">
+                        <span><i class="fas fa-leaf"></i> Висока кислотність</span>
+                        <span><i class="fas fa-apple-alt"></i> Фруктовий профіль</span>
+                    </div>
+                    <div class="grape-regions">
+                        <strong>Регіони:</strong> Херсонська область, Одеська область, Миколаївська область
+                    </div>
+                    <a href="#modal-rkatsiteli" class="pill">Детальніше</a>
+                </div>
+            </div>
+
+            <!-- Совіньйон Блан -->
+            <div class="card grape-card" data-type="white international">
+                <img src="совиньон.png" alt="Совіньйон" class="grape-image">
+                <span class="grape-type white-grape">Білий</span>
+                <div class="grape-details">
+                    <h3>Совіньйон Блан</h3>
+                    <p>Французький сорт, відомий своїми трав'яними й цитрусовими нотами. Морозостійкий, вирощується майже у всіх виноробних регіонах України. Використовується для створення свіжих, ароматних білих вин.</p>
+                    <div class="grape-stats">
+                        <span><i class="fas fa-leaf"></i> Трав'янистий аромат</span>
+                        <span><i class="fas fa-wind"></i> Свіжість</span>
+                    </div>
+                    <div class="grape-regions">
+                        <strong>Регіони:</strong> Усі виноробні регіони України
+                    </div>
+                    <a href="#modal-sauvignon" class="pill">Детальніше</a>
+                </div>
+            </div>
+
+            <!-- Піно Грі -->
+            <div class="card grape-card" data-type="pink international">
+                <img src="пино гри!.png" alt="Піно Грі" class="grape-image">
+                <span class="grape-type pink-grape">Рожевий</span>
+                <div class="grape-details">
+                    <h3>Піно Грі</h3>
+                    <p>Елегантний французький сорт, чутливий до умов вирощування, але дає високоякісні, витончені вина. Часто використовується для створення ароматних білих та рожевих вин з нотками персика та абрикоса.</p>
+                    <div class="grape-stats">
+                        <span><i class="fas fa-heart"></i> Витонченість</span>
+                        <span><i class="fas fa-wine-bottle"></i> Висока якість</span>
+                    </div>
+                    <div class="grape-regions">
+                        <strong>Регіони:</strong> Закарпаття, Одеська область, Вінницька область
+                    </div>
+                    <a href="#modal-pinogris" class="pill">Детальніше</a>
+                </div>
+            </div>
+
+            <!-- Каберне Совіньйон -->
+            <div class="card grape-card" data-type="red international">
+                <img src="каберне совиньон.png" alt="Каберне" class="grape-image">
+                <span class="grape-type red-grape">Червоний</span>
+                <div class="grape-details">
+                    <h3>Каберне Совіньйон</h3>
+                    <p>Один із найпоширеніших червоних сортів в Україні. Вина з нього мають насичений смак і добре підходять для витримки. Дає вина з нотами чорної смородини, вишні, перцю та дуба. Ідеальний для витримки.</p>
+                    <div class="grape-stats">
+                        <span><i class="fas fa-sun"></i> Теплий клімат</span>
+                        <span><i class="fas fa-clock"></i> Довга витримка</span>
+                    </div>
+                    <div class="grape-regions">
+                        <strong>Регіони:</strong> Усі виноробні регіони України
+                    </div>
+                    <a href="#modal-cabernet" class="pill">Детальніше</a>
+                </div>
+            </div>
+
+            <!-- Мерло -->
+            <div class="card grape-card" data-type="red international">
+                <img src="мерло.png" alt="Мерло" class="grape-image">
+                <span class="grape-type red-grape">Червоний</span>
+                <div class="grape-details">
+                    <h3>Мерло</h3>
+                    <p>Сорт з м'яким, гармонійним смаком і нотами стиглих ягід, слив і шоколаду. Добре росте на українських чорноземах, дає доступні за ціною якісні вина. Часто використовується в купажах з Каберне.</p>
+                    <div class="grape-stats">
+                        <span><i class="fas fa-thermometer-half"></i> Помірний клімат</span>
+                        <span><i class="fas fa-berry"></i> Ягідний аромат</span>
+                    </div>
+                    <div class="grape-regions">
+                        <strong>Регіони:</strong> Усі виноробні регіони України
+                    </div>
+                    <a href="#modal-merlot" class="pill">Детальніше</a>
+                </div>
+            </div>
+
+            <!-- Сапераві -->
+            <div class="card grape-card" data-type="red local">
+                <img src="саперави.png" alt="Сапераві" class="grape-image">
+                <span class="grape-type red-grape">Червоний</span>
+                <div class="grape-details">
+                    <h3>Сапераві</h3>
+                    <p><strong>Грузинський сорт</strong> із забарвленою м'якоттю, що дає глибокі, насичені вина з тонами чорних ягід і прянощів. Вирощується переважно на Півдні України. Відмінно підходить для тривалої витримки.</p>
+                    <div class="grape-stats">
+                        <span><i class="fas fa-pepper-hot"></i> Пряний смак</span>
+                        <span><i class="fas fa-wine-bottle"></i> Глибокий колір</span>
+                    </div>
+                    <div class="grape-regions">
+                        <strong>Регіони:</strong> Південь України, Херсонська, Одеська області
+                    </div>
+                    <a href="#modal-saperavi" class="pill">Детальніше</a>
+                </div>
+            </div>
+
+            <!-- Піно Нуар -->
+            <div class="card grape-card" data-type="red international">
+                <img src="пино нуар.png" alt="Піно Нуар" class="grape-image">
+                <span class="grape-type red-grape">Червоний</span>
+                <div class="grape-details">
+                    <h3>Піно Нуар</h3>
+                    <p>Елегантний червоний сорт, що вимагає особливих умов вирощування. Дає витончені вина з ніжними танінами і ароматами червоних ягід, вишні та землі. Вирощується в обмежених кількостях.</p>
+                    <div class="grape-stats">
+                        <span><i class="fas fa-heart"></i> Витонченість</span>
+                        <span><i class="fas fa-seedling"></i> Вибагливий</span>
+                    </div>
+                    <div class="grape-regions">
+                        <strong>Регіони:</strong> Закарпаття, Одеська область, Вінницька область
+                    </div>
+                    <a href="#modal-pinotnoir" class="pill">Детальніше</a>
+                </div>
+            </div>
+
+            <!-- Піно Блан -->
+            <div class="card grape-card" data-type="white international">
+                <img src="пино блан.png" alt="Піно Блан" class="grape-image">
+                <span class="grape-type white-grape">Білий</span>
+                <div class="grape-details">
+                    <h3>Піно Блан</h3>
+                    <p>Білий сорт з родини Піно, що дає свіжі, легкі вина з ніжними фруктовими нотами. Часто використовується для створення ігристих вин та купажів. Відмінно підходить для легких літніх вин.</p>
+                    <div class="grape-stats">
+                        <span><i class="fas fa-wind"></i> Свіжість</span>
+                        <span><i class="fas fa-wine-glass"></i> Легкість</span>
+                    </div>
+                    <div class="grape-regions">
+                        <strong>Регіони:</strong> Закарпаття, Одеська область, Херсонська область
+                    </div>
+                    <a href="#modal-pinoblanc" class="pill">Детальніше</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Статистика сортів -->
+        <div class="card" style="margin-top: 40px; padding: 30px;">
+            <h3><i class="fas fa-chart-pie"></i> Статистика сортів винограду</h3>
+            <div class="statistics" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px;">
+                <div class="stat-item" style="text-align: center; padding: 20px; background: rgba(212, 165, 116, 0.1); border-radius: 10px;">
+                    <div class="stat-value" style="font-size: 2rem; color: var(--wine-brown);">7</div>
+                    <div class="stat-label" style="color: var(--text-medium);">Білих сортів</div>
+                </div>
+                <div class="stat-item" style="text-align: center; padding: 20px; background: rgba(139, 69, 19, 0.1); border-radius: 10px;">
+                    <div class="stat-value" style="font-size: 2rem; color: var(--wine-brown);">4</div>
+                    <div class="stat-label" style="color: var(--text-medium);">Червоних сортів</div>
+                </div>
+                <div class="stat-item" style="text-align: center; padding: 20px; background: rgba(180, 101, 29, 0.1); border-radius: 10px;">
+                    <div class="stat-value" style="font-size: 2rem; color: var(--wine-brown);">1</div>
+                    <div class="stat-label" style="color: var(--text-medium);">Рожевих сортів</div>
+                </div>
+                <div class="stat-item" style="text-align: center; padding: 20px; background: rgba(106, 13, 173, 0.1); border-radius: 10px;">
+                    <div class="stat-value" style="font-size: 2rem; color: var(--wine-brown);">2</div>
+                    <div class="stat-label" style="color: var(--text-medium);">Грузинських сортів</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Модальні вікна з детальною інформацією -->
+        <div id="modal-chardonnay" class="modal">
+            <div class="box card">
+                <a class="close" href="#">&times;</a>
+                <h2>Шардоне — детальна інформація</h2>
+                <img src="шардоне!.jpg" alt="Шардоне" style="width:100%;border-radius:10px;margin:15px 0">
+                <h3>Характеристики</h3>
+                <div class="grid" style="grid-template-columns:repeat(2,1fr);margin:15px 0">
+                    <div><strong>Колір:</strong> Білий</div>
+                    <div><strong>Клімат:</strong> Прохолодний до помірного</div>
+                    <div><strong>Аромат:</strong> Тропічні фрукти, ваніль, яблуко, груша</div>
+                    <div><strong>Стиль вин:</strong> Сухі, повнотілі, ігристі</div>
+                    <div><strong>Кислотність:</strong> Середня до високої</div>
+                    <div><strong>Витримка:</strong> Часто в дубових бочках</div>
+                </div>
+                <h3>Регіони вирощування в Україні</h3>
+                <p>Переважно на Півдні України. Сорт добре адаптувався до українських ґрунтів та кліматичних умов.</p>
+                <h3>Рекомендації по споживанню</h3>
+                <p>Подається охолодженим до 10-12°C. Ідеально поєднується з рибою, морепродуктами, птицею та м'якими сирами.</p>
+            </div>
+        </div>
+
+        <div id="modal-aligote" class="modal">
+            <div class="box card">
+                <a class="close" href="#">&times;</a>
+                <h2>Аліготе — детальна інформація</h2>
+                <img src="алиготе.png" alt="Аліготе" style="width:100%;border-radius:10px;margin:15px 0">
+                <h3>Характеристики</h3>
+                <div class="grid" style="grid-template-columns:repeat(2,1fr);margin:15px 0">
+                    <div><strong>Колір:</strong> Білий</div>
+                    <div><strong>Походження:</strong> Франція</div>
+                    <div><strong>Аромат:</strong> Яблуко, цитрусові, квіти, мигдаль</div>
+                    <div><strong>Стиль вин:</strong> Сухі столові, ігристі</div>
+                    <div><strong>Кислотність:</strong> Висока</div>
+                    <div><strong>Алкоголь:</strong> 11-13%</div>
+                </div>
+                <h3>Особливості сорту</h3>
+                <p>Аліготе відрізняється високою кислотністю, що робить його ідеальним для створення свіжих, легких вин. При витримці в дубових бочках набуває ноти мигдалю та меду.</p>
+                <h3>Українські виробники</h3>
+                <p>Багато українських виробників використовують Аліготе для створення як столових, так і ігристих вин. Особливо популярний у виноробнях Одеської та Херсонської областей.</p>
+            </div>
+        </div>
+
+        <div id="modal-riesling" class="modal">
+            <div class="box card">
+                <a class="close" href="#">&times;</a>
+                <h2>Рислінг — детальна інформація</h2>
+                <img src="рислинг!.png" alt="Рислінг" style="width:100%;border-radius:10px;margin:15px 0">
+                <h3>Характеристики</h3>
+                <div class="grid" style="grid-template-columns:repeat(2,1fr);margin:15px 0">
+                    <div><strong>Колір:</strong> Білий</div>
+                    <div><strong>Клімат:</strong> Прохолодний</div>
+                    <div><strong>Аромат:</strong> Зелене яблуко, лайм, мінеральні ноти</div>
+                    <div><strong>Стиль вин:</strong> Сухі, напівсухі, солодкі</div>
+                    <div><strong>Кислотність:</strong> Висока</div>
+                    <div><strong>Витримка:</strong> Добре витримується</div>
+                </div>
+                <h3>Регіони вирощування в Україні</h3>
+                <p>Закарпаття та Одещина, переважно прохолодніші зони.</p>
+                <h3>Рекомендації по споживанню</h3>
+                <p>Подається при 8–10°C. Пасує до риби, морепродуктів, азійських страв.</p>
+            </div>
+        </div>
+        
+        <div id="modal-muscat" class="modal">
+            <div class="box card">
+                <a class="close" href="#">&times;</a>
+                <h2>Мускат — детальна інформація</h2>
+                <img src="мускат!.png" alt="Мускат" style="width:100%;border-radius:10px;margin:15px 0">
+                <h3>Характеристики</h3>
+                <div class="grid" style="grid-template-columns:repeat(2,1fr);margin:15px 0">
+                    <div><strong>Колір:</strong> Білий</div>
+                    <div><strong>Клімат:</strong> Теплий</div>
+                    <div><strong>Аромат:</strong> Квіти, мускатний горіх, мед</div>
+                    <div><strong>Стиль вин:</strong> Сухі, напівсолодкі, десертні</div>
+                    <div><strong>Кислотність:</strong> Середня</div>
+                    <div><strong>Витримка:</strong> Без тривалої витримки</div>
+                </div>
+                <h3>Регіони вирощування в Україні</h3>
+                <p>Південь України та Закарпаття.</p>
+                <h3>Рекомендації по споживанню</h3>
+                <p>Подається при 8–10°C. Ідеальний до десертів і фруктів.</p>
+            </div>
+        </div>
+        
+        <div id="modal-rkatsiteli" class="modal">
+            <div class="box card">
+                <a class="close" href="#">&times;</a>
+                <h2>Ркацителі — детальна інформація</h2>
+                <img src="ркацители.png" alt="Ркацителі" style="width:100%;border-radius:10px;margin:15px 0">
+                <h3>Характеристики</h3>
+                <div class="grid" style="grid-template-columns:repeat(2,1fr);margin:15px 0">
+                    <div><strong>Колір:</strong> Білий</div>
+                    <div><strong>Клімат:</strong> Помірний</div>
+                    <div><strong>Аромат:</strong> Яблуко, айва, трави</div>
+                    <div><strong>Стиль вин:</strong> Сухі, напівсухі</div>
+                    <div><strong>Кислотність:</strong> Висока</div>
+                    <div><strong>Витримка:</strong> Можлива витримка в дубі</div>
+                </div>
+                <h3>Регіони вирощування в Україні</h3>
+                <p>Одещина, Миколаївщина, Херсонщина.</p>
+                <h3>Рекомендації по споживанню</h3>
+                <p>Подається при 10–12°C. Поєднується з сирами та м’ясними закусками.</p>
+            </div>
+        </div>
+        
+        <div id="modal-sauvignon" class="modal">
+            <div class="box card">
+                <a class="close" href="#">&times;</a>
+                <h2>Совіньйон Блан — детальна інформація</h2>
+                <img src="совиньон.png" alt="Совіньйон Блан" style="width:100%;border-radius:10px;margin:15px 0">
+                <h3>Характеристики</h3>
+                <div class="grid" style="grid-template-columns:repeat(2,1fr);margin:15px 0">
+                    <div><strong>Колір:</strong> Білий</div>
+                    <div><strong>Клімат:</strong> Прохолодний до помірного</div>
+                    <div><strong>Аромат:</strong> Агрус, лайм, трава</div>
+                    <div><strong>Стиль вин:</strong> Сухі</div>
+                    <div><strong>Кислотність:</strong> Висока</div>
+                    <div><strong>Витримка:</strong> Без дуба</div>
+                </div>
+                <h3>Регіони вирощування в Україні</h3>
+                <p>Одещина, Закарпаття.</p>
+                <h3>Рекомендації по споживанню</h3>
+                <p>Подається при 8–10°C. Ідеальний до салатів і морепродуктів.</p>
+            </div>
+        </div>
+        
+        <div id="modal-pinot-gris" class="modal">
+            <div class="box card">
+                <a class="close" href="#">&times;</a>
+                <h2>Піно Грі — детальна інформація</h2>
+                <img src="пино гри!.png" alt="Піно Грі" style="width:100%;border-radius:10px;margin:15px 0">
+                <h3>Характеристики</h3>
+                <div class="grid" style="grid-template-columns:repeat(2,1fr);margin:15px 0">
+                    <div><strong>Колір:</strong> Білий</div>
+                    <div><strong>Клімат:</strong> Помірний</div>
+                    <div><strong>Аромат:</strong> Груша, яблуко, мед</div>
+                    <div><strong>Стиль вин:</strong> Сухі, напівсухі</div>
+                    <div><strong>Кислотність:</strong> Середня</div>
+                    <div><strong>Витримка:</strong> Рідко витримується</div>
+                </div>
+                <h3>Регіони вирощування в Україні</h3>
+                <p>Закарпаття та Південь України.</p>
+                <h3>Рекомендації по споживанню</h3>
+                <p>Подається при 9–11°C. Добре смакує з птицею та пастою.</p>
+            </div>
+        </div>
+        
+        <div id="modal-cabernet" class="modal">
+            <div class="box card">
+                <a class="close" href="#">&times;</a>
+                <h2>Каберне Совіньйон — детальна інформація</h2>
+                <img src="каберне совиньон.png" alt="Каберне Совіньйон" style="width:100%;border-radius:10px;margin:15px 0">
+                <h3>Характеристики</h3>
+                <div class="grid" style="grid-template-columns:repeat(2,1fr);margin:15px 0">
+                    <div><strong>Колір:</strong> Червоний</div>
+                    <div><strong>Клімат:</strong> Теплий</div>
+                    <div><strong>Аромат:</strong> Смородина, спеції, дуб</div>
+                    <div><strong>Стиль вин:</strong> Сухі, повнотілі</div>
+                    <div><strong>Кислотність:</strong> Середня</div>
+                    <div><strong>Витримка:</strong> Часто в дубі</div>
+                </div>
+                <h3>Регіони вирощування в Україні</h3>
+                <p>Південь України.</p>
+                <h3>Рекомендації по споживанню</h3>
+                <p>Подається при 16–18°C. Ідеальний до стейків і твердих сирів.</p>
+            </div>
+        </div>
+        
+        <div id="modal-merlot" class="modal">
+            <div class="box card">
+                <a class="close" href="#">&times;</a>
+                <h2>Мерло — детальна інформація</h2>
+                <img src="мерло.png" alt="Мерло" style="width:100%;border-radius:10px;margin:15px 0">
+                <h3>Характеристики</h3>
+                <div class="grid" style="grid-template-columns:repeat(2,1fr);margin:15px 0">
+                    <div><strong>Колір:</strong> Червоний</div>
+                    <div><strong>Клімат:</strong> Помірний</div>
+                    <div><strong>Аромат:</strong> Слива, вишня, шоколад</div>
+                    <div><strong>Стиль вин:</strong> Сухі</div>
+                    <div><strong>Кислотність:</strong> Середня</div>
+                    <div><strong>Витримка:</strong> Часто витримується</div>
+                </div>
+                <h3>Регіони вирощування в Україні</h3>
+                <p>Одещина та Миколаївщина.</p>
+                <h3>Рекомендації по споживанню</h3>
+                <p>Подається при 16–18°C. Добре поєднується з пастою та м’ясом.</p>
+            </div>
+        </div>
+        
+        <div id="modal-saperavi" class="modal">
+            <div class="box card">
+                <a class="close" href="#">&times;</a>
+                <h2>Сапераві — детальна інформація</h2>
+                <img src="саперави.png" alt="Сапераві" style="width:100%;border-radius:10px;margin:15px 0">
+                <h3>Характеристики</h3>
+                <div class="grid" style="grid-template-columns:repeat(2,1fr);margin:15px 0">
+                    <div><strong>Колір:</strong> Червоний</div>
+                    <div><strong>Клімат:</strong> Теплий</div>
+                    <div><strong>Аромат:</strong> Темні ягоди, спеції</div>
+                    <div><strong>Стиль вин:</strong> Сухі, насичені</div>
+                    <div><strong>Кислотність:</strong> Висока</div>
+                    <div><strong>Витримка:</strong> Добре витримується</div>
+                </div>
+                <h3>Регіони вирощування в Україні</h3>
+                <p>Південь України.</p>
+                <h3>Рекомендації по споживанню</h3>
+                <p>Подається при 16–18°C. Підходить до гострих і м’ясних страв.</p>
+            </div>
+        </div>
+        
+        <div id="modal-pinot-noir" class="modal">
+            <div class="box card">
+                <a class="close" href="#">&times;</a>
+                <h2>Піно Нуар — детальна інформація</h2>
+                <img src="пино нуар.png" alt="Піно Нуар" style="width:100%;border-radius:10px;margin:15px 0">
+                <h3>Характеристики</h3>
+                <div class="grid" style="grid-template-columns:repeat(2,1fr);margin:15px 0">
+                    <div><strong>Колір:</strong> Червоний</div>
+                    <div><strong>Клімат:</strong> Прохолодний</div>
+                    <div><strong>Аромат:</strong> Малина, вишня, земляні ноти</div>
+                    <div><strong>Стиль вин:</strong> Сухі</div>
+                    <div><strong>Кислотність:</strong> Середня</div>
+                    <div><strong>Витримка:</strong> Можлива витримка</div>
+                </div>
+                <h3>Регіони вирощування в Україні</h3>
+                <p>Закарпаття.</p>
+                <h3>Рекомендації по споживанню</h3>
+                <p>Подається при 14–16°C. Пасує до птиці та грибів.</p>
+            </div>
+        </div>
+        
+        <div id="modal-pinot-blanc" class="modal">
+            <div class="box card">
+                <a class="close" href="#">&times;</a>
+                <h2>Піно Блан — детальна інформація</h2>
+                <img src="пино блан.png" alt="Піно Блан" style="width:100%;border-radius:10px;margin:15px 0">
+                <h3>Характеристики</h3>
+                <div class="grid" style="grid-template-columns:repeat(2,1fr);margin:15px 0">
+                    <div><strong>Колір:</strong> Білий</div>
+                    <div><strong>Клімат:</strong> Помірний</div>
+                    <div><strong>Аромат:</strong> Яблуко, квіти, мигдаль</div>
+                    <div><strong>Стиль вин:</strong> Сухі</div>
+                    <div><strong>Кислотність:</strong> Середня</div>
+                    <div><strong>Витримка:</strong> Без витримки</div>
+                </div>
+                <h3>Регіони вирощування в Україні</h3>
+                <p>Закарпаття та Одещина.</p>
+                <h3>Рекомендації по споживанню</h3>
+                <p>Подається при 9–11°C. Добре поєднується з рибою та овочами.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>© 2025–2026 — Сорти винограду України • Випускна робота Гудим Єви Олександрівни</footer>
+
+    <script>
+        // Фільтрація сортів
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Видаляємо активний клас з усіх кнопок
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                // Додаємо активний клас до натиснутої кнопки
+                this.classList.add('active');
+                
+                const filter = this.getAttribute('data-filter');
+                const grapeCards = document.querySelectorAll('.grape-card');
+                let visibleCount = 0;
+                
+                grapeCards.forEach(card => {
+                    if (filter === 'all') {
+                        card.style.display = 'flex';
+                        visibleCount++;
+                    } else if (card.getAttribute('data-type').includes(filter)) {
+                        card.style.display = 'flex';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Оновлюємо статистику видимих елементів
+                updateFilterCounts();
+            });
+        });
+        
+        // Функція для підрахунку кількості карток у кожній категорії
+        function updateFilterCounts() {
+            const counts = {
+                'all': 0,
+                'white': 0,
+                'red': 0,
+                'pink': 0,
+                'local': 0,
+                'international': 0
+            };
+            
+            const grapeCards = document.querySelectorAll('.grape-card');
+            
+            grapeCards.forEach(card => {
+                counts.all++;
+                const types = card.getAttribute('data-type').split(' ');
+                
+                types.forEach(type => {
+                    if (counts.hasOwnProperty(type)) {
+                        counts[type]++;
+                    }
+                });
+            });
+            
+            // Оновлюємо лічильники
+            Object.keys(counts).forEach(filter => {
+                const countElement = document.getElementById(`count-${filter}`);
+                if (countElement) {
+                    countElement.textContent = counts[filter];
+                }
+            });
+        }
+        
+        // Ініціалізація лічильників при завантаженні
+        document.addEventListener('DOMContentLoaded', function() {
+            updateFilterCounts();
+            
+            // Додаємо підсвічування при наведенні на картки
+            const grapeCards = document.querySelectorAll('.grape-card');
+            grapeCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    const type = this.querySelector('.grape-type');
+                    if (type) {
+                        type.style.transform = 'scale(1.1)';
+                    }
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    const type = this.querySelector('.grape-type');
+                    if (type) {
+                        type.style.transform = 'scale(1)';
+                    }
+                });
+            });
+            
+            // Автоматична активація першого фільтру
+            const firstFilter = document.querySelector('.filter-btn[data-filter="all"]');
+            if (firstFilter) {
+                firstFilter.classList.add('active');
+            }
+        });
+        
+        // Покращуємо доступність модальних вікон
+        document.querySelectorAll('a[href^="#modal-"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                // Прокручуємо до верху при відкритті модального вікна
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+        
+        // Закриття модальних вікон при кліку на фон
+        window.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                window.location.hash = '';
+            }
+        });
+        
+        // Обробка клавіші ESC для закриття модальних вікон
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                window.location.hash = '';
+            }
+        });
+    </script>
+</body>
+</html>

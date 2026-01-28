@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Винні регіони — Виноробство України</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ВІДНОВЛЕНІ ОСНОВНІ СТИЛІ САЙТУ */
+    body {
+        background-image: url('вкладка регионы фон.jpg') !important;    
+        background-size: cover !important;
+        background-position: center !important;
+        background-attachment: fixed !important;
+        background-repeat: no-repeat !important;
+        position: relative !important;
+        min-height: 100vh;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        width: 100vw; height: 100vh;
+        background: rgba(248, 245, 240, 0.15);
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+        z-index: -1 !important;
+    }
+
+    .main-header-wrapper {
+        background: var(--panel-light, rgba(255,255,255,0.9)) !important;
+        border-radius: var(--radius, 15px);
+        padding: 25px 30px !important;
+        margin: 0 0 25px 0 !important;
+        border: 2px solid rgba(212, 165, 116, 0.4) !important;
+        box-shadow: var(--shadow, 0 10px 30px rgba(0,0,0,0.1)) !important;
+    }
+
+    /* ФІКСОВАНА СІТКА КАРТИ ТА ЛЕГЕНДИ */
+    .map-layout {
+      display: grid;
+      grid-template-columns: 1fr 260px; /* Карта зліва, легенда справа */
+      gap: 30px;
+      align-items: start;
+      margin-top: 30px;
+    }
+
+    .map-wrapper {
+      background: var(--panel-light, rgba(255,255,255,0.9));
+      padding: 20px;
+      border-radius: var(--radius, 15px);
+      border: 2px solid rgba(212,165,116,0.4);
+    }
+
+    .wine-map {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+    }
+
+    .map-legend {
+      background: var(--panel-light, rgba(255,255,255,0.9));
+      padding: 20px;
+      border-radius: var(--radius, 15px);
+      border: 2px solid rgba(212,165,116,0.4);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .legend-item:hover { color: #d4a574; }
+
+    .legend-color {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+    }
+
+    /* ВІДНОВЛЕНІ СТИЛІ КОНТЕНТУ РЕГІОНІВ */
+    #region-details {
+      background: var(--panel-light, rgba(255,255,255,0.9));
+      padding: 30px;
+      border-radius: var(--radius, 15px);
+      border: 2px solid #d4a574;
+      margin-bottom: 30px;
+      animation: slideIn 0.5s ease;
+    }
+
+    .geo-description {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #333;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 8px;
+      border-left: 4px solid #d4a574;
+      margin-top: 15px;
+    }
+
+    .close-region-btn {
+      background: #5c3d2e;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 15px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 15px;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo"><a href="index.html">Виноробство України</a></div>
+    <nav>
+      <a href="index.html">Головна</a>
+      <a href="regions.html" class="active">Регіони</a>
+      <a href="grapes.html">Сорти</a>
+      <a href="routes.html">Маршрути</a>
+      <a href="map.html">Карта</a>
+      <a href="craft-wines.html">Крафтові вина</a>
+      <a href="about.html">Про сайт</a>
+      <a href="profile.html"><i class="fas fa-user-circle"></i> Кабінет</a>
+    </nav>
+  </header>
+
+  <main class="container" style="max-width: 1200px; margin: 0 auto; padding: 20px;">
+    <div class="main-header-wrapper">
+        <h1><i class="fas fa-map"></i> Винні регіони України</h1>
+        <p class="subtitle">6 основних виноробних регіонів. Натисніть на регіон для детальної інформації.</p>
+    </div>
+
+    <section id="region-details" style="display:none;">
+      <div id="region-content"></div>
+      <button class="close-region-btn" onclick="document.getElementById('region-details').style.display='none'">Закрити</button>
+    </section>
+
+    <div class="map-layout">
+      <div class="map-wrapper">
+        <img src="Винні регіони України.png" usemap="#wine-regions-map" class="wine-map" alt="Карта">
+        <map name="wine-regions-map">
+          <area shape="poly" coords="448,388,425,365,401,361,381,359,358,406,343,426,336,438,368,443,410,449" href="javascript:void(0)" onclick="showRegionDetails('bes')">
+          <area shape="poly" coords="553,321,452,269,430,262,411,284,380,320,383,340,397,363,427,392,501,362,559,346" href="javascript:void(0)" onclick="showRegionDetails('prich')">
+          <area shape="poly" coords="56,272,80,254,102,271,144,298,164,334,144,345,123,336,107,332,86,332,55,306" href="javascript:void(0)" onclick="showRegionDetails('zak')">
+          <area shape="poly" coords="256,177,294,167,380,190,427,230,475,305,446,348,349,317,328,288,308,275,251,278" href="javascript:void(0)" onclick="showRegionDetails('pod')">
+          <area shape="poly" coords="76,119,161,49,200,73,243,115,247,168,248,204,216,199,189,219,173,254,85,163" href="javascript:void(0)" onclick="showRegionDetails('west')">
+          <area shape="poly" coords="547,229,445,71,401,62,374,86,351,120,354,140,467,292,607,348,760,306,733,256,627,255" href="javascript:void(0)" onclick="showRegionDetails('cent')">
+        </map>
+      </div>
+
+      <aside class="map-legend">
+        <h3 style="margin-top:0;">Легенда</h3>
+        <div class="legend-item" onclick="showRegionDetails('bes')"><span class="legend-color" style="background:#faf74f"></span>Бессарабія</div>
+        <div class="legend-item" onclick="showRegionDetails('prich')"><span class="legend-color" style="background:#ff462d"></span>Причорномор'я</div>
+        <div class="legend-item" onclick="showRegionDetails('zak')"><span class="legend-color" style="background:#d06bff"></span>Закарпаття</div>
+        <div class="legend-item" onclick="showRegionDetails('pod')"><span class="legend-color" style="background:#1a2ff1"></span>Поділля</div>
+        <div class="legend-item" onclick="showRegionDetails('west')"><span class="legend-color" style="background:#fd7b2f"></span>Західна Україна</div>
+        <div class="legend-item" onclick="showRegionDetails('cent')"><span class="legend-color" style="background:#50fa75"></span>Центральна та Східна</div>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    const regionsData = {
+      bes: { name: "Бессарабія", text: "Бессарабія – регіон на південному заході. Розташована між Дністром і Дунаєм, Бессарабія здавна була місцем зустрічі різних народів і культур. Цей регіон зберігав свій мультикультурний колорит до сьогодні, адже тут проживають українці, молдовани, болгари, гагаузи, албанці та інші – усього 140 національностей. Кожна з них внесла в кухню та традиції регіону свій колорит. Окрім культурного різноманіття, українська Бессарабія вражає своїми природними красотами: мальовничими пейзажами, річками, озерами та виноградниками. Теплий клімат, родючі грунти та води, повні риби, тож ясно, що це одна із найцікавіших областей України для гастрономічного туризму. 70 % площі Бессарабії знаходиться на території сучасної Молдови, решта – Україна. Бессарабські вина відомі своєю високою якістю і вже давно стали візитною карткою регіону. Цей регіон також відомий своєю історичною спадщиною, адже тут знаходяться древні фортеці, монастирі та стародавні поселення." },
+      prich: { name: "Причорномор'я", text: "Причорномор'я - регіон на півдні України, що простягається вздовж північного узбережжя Чорного моря. Найбільші його міста — Одеса і Миколаїв. Тут розташована більшість великих українських морських портів, що відповідають за експорт. Цей лісостеповий край цікавий не лише своїм узбережжям, адже територія, де річки впадають у море, утворює низку лиманів, плавнів і піщаних кіс. Біля села Парутине збереглися артефакти великої грецької колонії — Ольвії. Причорномор’я є одним з виноробних центрів півдня України, тут рівнинний рельєф, що підходить для вирощування винограду для столових ординарних вин – як кажуть, на щодень" },
+      zak: { name: "Закарпаття", text: "Закарпаття - це той регіон України, де вино – не просто напій, а ціла культура. Цей край славиться своїми унікальними теруарами, чудовими винами й мальовничими виноградниками. Схили вулканічних Карпат, багато сонця і достатньо води зумовили розвиток виноробства на цих землях з давніх часів. Клімат надзвичайно сприятливий для виноградарства та виноробства. Карпатські гори оберігають регіон від арктичних повітряних мас, що приходять з півночі і саме тому на Закарпатті здавна вирощували виноград. Місцеві родини роками займалися цією справою: на одній вулиці може бути до 40 винних підвалів. Незважаючи на радянську заборону підприємництва та сухий закон, традиції вдалося зберегти і тепер вони поступово відновлюються" },
+      pod: { name: "Поділля", text: "Поділля - історичний регіон у центрально-західній частині України, що межує з Молдовою. Назва регіону апелює до долини між річками Південний Буг і Дністер. Цей лісостеповий край всіяний невисокими горами, багатьма ярами та каньйонами річок. Поділля поєднує мальовничі природні та історичні пам’ятки. Найбільші міста регіону — Вінниця та Хмельницький. Історично регіон почав бути відомим як виноробний ще у 18 столітті, коли у Заліщиках висадили виноградник. Вже на кінець 19 століття площа виноградників сягала 350 гектарів. В 30-х роках минулого століття виноробна галузь регіону почала занепадати. Проте сьогодні там знову відроджується традиція, адже тут широкі річки та пагорби створюють ідеальний мікроклімат для вирощування виноградників в унікальному теруарі та створення неповторних вин" },
+      west: { name: "Західна Україна", text: "Західна Україна - регіон, що охоплює Львівську область для цілей даного путівника, має відому історію виноробства, яка характеризується стійкістю перед складними умовами. Незважаючи на те, що регіон вважається ризикованою територією для вирощування винограду, регіон зберіг горду традицію виноградарства, яка сягає століть. Виноробна спадщина під впливом культурних впливів, зокрема грецьких, римських та австро-угорських, пережила періоди трансформації. Сьогодні сучасні виноробні продовжують шанувати та розвивати цю багату спадщину, виробляючи вина, які відображають унікальний терруар регіону та дух наполегливості. Розташований серед мальовничих ландшафтів, захід України може похвалитися місцевістю, позначеною пагорбами та зеленими долинами. Географія регіону, хоч і приголомшлива, представляє проблеми для вирощування винограду через складні та нестабільні кліматичні умови. Суворі зими, дощові весна та осінь, непередбачувані травневі заморозки становлять значну загрозу для виноградників" },
+      cent: { name: "Центральна та Східна Україна", text: "Центральний виноробний регіон для цілей цього посібника охоплює Київську, Чернігівську, Черкаську та Кіровоградську області, розташовані на півночі України вздовж річок Десна та Дніпро. Рельєф цього регіону варіюється від плоских рівнин до пологих пагорбів, що пропонує різноманітний мікроклімат, ідеальний для вирощування винограду. Для центральної України характерний континентальний клімат з родючими чорноземами та помірною кількістю опадів. Цей регіон характеризується великими рівнинними просторами, ідеальними для вирощування винограду. Виноробний регіон Східної України охоплює Запорізьку, Донецьку та Дніпровську області. Ця територія характеризується поєднанням плоских рівнин і пологих пагорбів, які сприяють вирощуванню винограду. Південна частина Дніпровської області, що межує з Херсонською областю, особливо примітна придатністю для вирощування винограду. Регіон має переваги від близькості до річки Дніпро, яка є надійним джерелом води та пом’якшує клімат, що робить його більш сприятливим для вирощування винограду" }
+    };
+
+    function showRegionDetails(regionKey) {
+      const region = regionsData[regionKey];
+      if (!region) return;
+
+      const container = document.getElementById('region-details');
+      const content = document.getElementById('region-content');
+
+      content.innerHTML = `
+        <h2 style="color:#5c3d2e; margin-bottom:10px;">${region.name}</h2>
+        <div class="geo-description">
+          <p>${region.text}</p>
+        </div>
+      `;
+      
+      container.style.display = 'block';
+      window.scrollTo({ top: container.offsetTop - 50, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>

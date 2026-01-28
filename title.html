@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Випускна робота - Винний туризм України</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background: url('vinogradniki_shato_chizaj_vvecheri-1024x585.jpg') no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #5c3d2e;
+            position: relative;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: rgba(255, 248, 240, 0.92);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 900px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(92, 61, 46, 0.3);
+            border: 2px solid #8b7355;
+            position: relative;
+        }
+        
+        .main-title {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #d4a574;
+        }
+        
+        .main-title h1 {
+            font-size: 2.8rem;
+            color: #8b4513;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .main-title h2 {
+            font-size: 1.8rem;
+            color: #a0522d;
+            font-weight: normal;
+        }
+        
+        .details-toggle {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #8b7355;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        
+        .details-toggle:hover {
+            background: #a0522d;
+            transform: scale(1.1);
+        }
+        
+        .details-panel {
+            background: rgba(255, 248, 240, 0.98);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 20px;
+            border: 1px solid #d4a574;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .details-panel h3 {
+            color: #8b4513;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .info-item {
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            border-left: 4px solid #d4a574;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .info-item strong {
+            color: #8b4513;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+        
+        .continue-btn {
+            display: block;
+            margin: 40px auto 0;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #8b7355, #a0522d);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            text-align: center;
+            max-width: 300px;
+            box-shadow: 0 5px 15px rgba(139, 115, 85, 0.4);
+        }
+        
+        .continue-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(139, 115, 85, 0.6);
+            background: linear-gradient(135deg, #a0522d, #8b7355);
+        }
+        
+        .continue-btn i {
+            margin-left: 10px;
+        }
+        
+        .logo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.2rem;
+            color: #8b4513;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+            }
+            
+            .main-title h1 {
+                font-size: 2.2rem;
+            }
+            
+            .main-title h2 {
+                font-size: 1.4rem;
+            }
+            
+            .details-toggle {
+                top: 10px;
+                left: 10px;
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">ДНЛІТ</div>
+    
+    <button class="details-toggle" id="toggleBtn">
+        <i class="fas fa-info-circle"></i>
+    </button>
+    
+    <div class="container">
+        <div class="main-title">
+            <h1>Дніпровський науковий ліцей інформаційних технологій</h1>
+            <h2>Дніпровської міської ради</h2>
+        </div>
+        
+        <div class="details-panel" id="detailsPanel">
+            <h3>Випускна кваліфікаційна робота</h3>
+            
+            <div class="info-grid">
+                <div class="info-item">
+                    <strong>Тема роботи:</strong>
+                    <span>"Інтерактивний додаток виноробства та винного туризму в Україні"</span>
+                </div>
+                
+                <div class="info-item">
+                    <strong>Автор:</strong>
+                    <span>Гудим Єва Олександрівна</span>
+                </div>
+                
+                <div class="info-item">
+                    <strong>Наукові керівники:</strong>
+                    <span>Лавренюк Ірина Валеріївна<br>Лисичарова Галина Олександрівна</span>
+                </div>
+                
+                <div class="info-item">
+                    <strong>Навчальний рік:</strong>
+                    <span>2025–2026</span>
+                </div>
+            </div>
+            
+            <div class="info-item" style="grid-column: 1 / -1;">
+                <strong>Анотація:</strong>
+                <span>Інтерактивна веб-платформа для популяризації українського виноробства та планування винного туризму. Містить інформацію про винні регіони, сорти винограду, туристичні маршрути та крафтові виноробні.</span>
+            </div>
+        </div>
+        
+        <a href="index.html" class="continue-btn">
+            Перейти до сайту <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+
+    <script>
+        document.getElementById('toggleBtn').addEventListener('click', function() {
+            const panel = document.getElementById('detailsPanel');
+            if (panel.style.display === 'none' || panel.style.display === '') {
+                panel.style.display = 'block';
+                this.innerHTML = '<i class="fas fa-times"></i>';
+            } else {
+                panel.style.display = 'none';
+                this.innerHTML = '<i class="fas fa-info-circle"></i>';
+            }
+        });
+        
+        // Автоматично показуємо деталі при першому відвідуванні
+        window.onload = function() {
+            const panel = document.getElementById('detailsPanel');
+            const toggleBtn = document.getElementById('toggleBtn');
+            panel.style.display = 'block';
+            toggleBtn.innerHTML = '<i class="fas fa-times"></i>';
+        };
+    </script>
+</body>
+</html>

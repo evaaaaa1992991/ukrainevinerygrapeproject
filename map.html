@@ -1,0 +1,1355 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Інтерактивна карта — Виноробство України</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+  <style>
+  /* Загальні стилі для body - такий же фон як в grapes.html */
+  body {
+    /* Основний фон */
+    background-image: url('карта фон.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
+    
+    /* Інші властивості */
+    position: relative !important;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Розмитий шар поверх фону - як в grapes.html */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(248, 245, 240, 0.5); /* Прозоріший для кращого фону */
+    backdrop-filter: blur(8px); /* Сильніше розмиття */
+    -webkit-backdrop-filter: blur(8px); /* Для Safari */
+    z-index: -1;
+  }
+
+  /* Білий контейнер для заголовка - як в grapes.html */
+  .main-header-wrapper {
+    background: rgba(255, 255, 255, 0.98) !important;
+    border-radius: var(--radius);
+    padding: 30px !important;
+    margin: 0 0 25px 0 !important;
+    border: 2px solid var(--wine-gold) !important;
+    box-shadow: 0 10px 30px rgba(92, 61, 46, 0.2) !important;
+    position: relative;
+    z-index: 10;
+    backdrop-filter: blur(10px);
+  }
+
+  .main-header-wrapper h1 {
+    margin-bottom: 10px !important;
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
+    color: var(--wine-brown) !important;
+  }
+
+  .main-header-wrapper .subtitle {
+    color: var(--text-dark) !important;
+    font-size: 1.1rem;
+    margin: 0;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  /* Оновлюємо стилі для контролів карти */
+  .map-controls {
+    display:flex; 
+    gap:12px; 
+    margin:25px 0; 
+    flex-wrap:wrap; 
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.98) !important;
+    border-radius: var(--radius);
+    border: 2px solid var(--wine-gold) !important;
+    box-shadow: 0 10px 30px rgba(92, 61, 46, 0.2) !important;
+    position: relative;
+    z-index: 10;
+    backdrop-filter: blur(10px);
+  }
+
+  .map-btn { 
+    padding:10px 20px; 
+    background:white !important;
+    border:2px solid rgba(212, 165, 116, 0.5) !important;
+    border-radius:25px; 
+    color:var(--text-medium) !important; 
+    cursor:pointer; 
+    font-weight: 600;
+    transition: all 0.3s;
+  }
+
+  .map-btn.active { 
+    background:linear-gradient(135deg, var(--wine-gold), var(--wine-terracotta)) !important; 
+    color:white !important;
+    border-color: var(--wine-terracotta) !important;
+  }
+
+  .map-btn:hover {
+    background:rgba(212, 165, 116, 0.2) !important;
+    transform: translateY(-2px);
+  }
+
+  .map-btn.active:hover {
+    background:linear-gradient(135deg, var(--wine-terracotta), var(--wine-gold)) !important;
+  }
+
+  /* Оновлюємо стилі для контролів маршрутів */
+  .route-controls {
+    margin-top: 15px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.98) !important;
+    border-radius: var(--radius);
+    border: 2px solid rgba(212, 165, 116, 0.4) !important;
+    box-shadow: 0 10px 30px rgba(92, 61, 46, 0.15) !important;
+    backdrop-filter: blur(10px);
+  }
+
+  .route-controls h3 {
+    color: var(--wine-brown) !important;
+    margin-top: 0;
+  }
+
+  .route-select {
+    width: 100%;
+    padding: 12px 15px;
+    background: white !important;
+    border: 2px solid rgba(212, 165, 116, 0.5) !important;
+    border-radius: 8px;
+    color: var(--text-dark) !important;
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+
+  .route-btn {
+    padding: 12px 25px;
+    background: linear-gradient(135deg, var(--wine-gold), var(--wine-terracotta)) !important;
+    color: white !important;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .route-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(180, 101, 29, 0.3) !important;
+  }
+
+  /* Оновлюємо карту */
+  #map { 
+    height:600px; 
+    border-radius:12px; 
+    overflow:hidden; 
+    border:2px solid rgba(212, 165, 116, 0.4) !important; 
+    margin-top:15px;
+    z-index: 1;
+    box-shadow: 0 10px 30px rgba(92, 61, 46, 0.15) !important;
+  }
+
+  /* Оновлюємо легенду карти */
+  .map-legend {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-radius: 8px;
+    padding: 20px;
+    z-index: 1000;
+    border: 2px solid rgba(212, 165, 116, 0.4) !important;
+    backdrop-filter: blur(5px);
+    max-width: 250px;
+    box-shadow: 0 8px 20px rgba(92, 61, 46, 0.2) !important;
+  }
+
+  .map-legend h4 {
+    margin-top:0;
+    margin-bottom:10px;
+    color: var(--wine-brown) !important;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: var(--text-dark) !important;
+  }
+
+  /* Білий бокс для заголовка списку виноробень - як в grapes.html */
+  .wineries-header-wrapper {
+    background: rgba(255, 255, 255, 0.98) !important;
+    border-radius: var(--radius);
+    padding: 25px !important;
+    margin: 30px 0 20px 0 !important;
+    border: 2px solid var(--wine-gold) !important;
+    box-shadow: 0 10px 30px rgba(92, 61, 46, 0.2) !important;
+    position: relative;
+    z-index: 10;
+    backdrop-filter: blur(10px);
+  }
+
+  .wineries-header-wrapper h3 {
+    margin: 0 !important;
+    color: var(--wine-brown) !important;
+    font-size: 1.8rem !important;
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* Оновлюємо список виноробень */
+  .winery-item { 
+    display:flex; 
+    gap:20px; 
+    padding:20px; 
+    background:rgba(255, 255, 255, 0.98) !important; 
+    border-radius:var(--radius); 
+    margin-bottom:15px; 
+    align-items:center;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 2px solid rgba(212, 165, 116, 0.3) !important;
+    box-shadow: 0 4px 12px rgba(92, 61, 46, 0.1) !important;
+  }
+
+  .winery-item:hover {
+    background:rgba(255, 255, 255, 1) !important;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(92, 61, 46, 0.2) !important;
+    border-color: var(--wine-gold) !important;
+  }
+
+  /* ОДНАКОВІ РОЗМІРИ ДЛЯ ВСІХ ЗОБРАЖЕНЬ */
+  .winery-image { 
+    width: 180px !important; 
+    height: 180px !important;
+    object-fit: cover !important; 
+    border-radius: 10px !important;
+    flex-shrink: 0 !important;
+    border: 2px solid rgba(212, 165, 116, 0.3) !important;
+  }
+
+  .winery-info { 
+    flex:1; 
+  }
+
+  .winery-item h4 {
+    color: var(--wine-brown) !important;
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 1.4rem;
+  }
+
+  .winery-item p {
+    color: var(--text-dark) !important;
+    margin-bottom: 15px;
+    line-height: 1.6;
+  }
+
+  /* Оновлюємо типи виноробень */
+  .winery-type { 
+    display:inline-block; 
+    padding:5px 12px; 
+    border-radius:12px; 
+    font-size:12px; 
+    margin-right:8px;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .type-large { 
+    background:rgba(123,14,30,0.1) !important; 
+    color: #7b0e1e !important; 
+    border: 1px solid rgba(123,14,30,0.3) !important;
+  }
+
+  .type-craft { 
+    background:rgba(180, 101, 29, 0.1) !important; 
+    color: var(--wine-terracotta) !important;
+    border: 1px solid rgba(180, 101, 29, 0.3) !important;
+  }
+
+  .type-family { 
+    background:rgba(0,128,0,0.1) !important; 
+    color: #228B22 !important;
+    border: 1px solid rgba(0,128,0,0.3) !important;
+  }
+
+  .type-tasting {
+    background:rgba(0,150,255,0.1) !important;
+    color: #0096FF !important;
+    border: 1px solid rgba(0,150,255,0.3) !important;
+  }
+
+  .type-hotel {
+    background:rgba(147,112,219,0.1) !important;
+    color: #9370DB !important;
+    border: 1px solid rgba(147,112,219,0.3) !important;
+  }
+
+  /* Оновлюємо модальні вікна */
+  .modal {
+    position: fixed;
+    inset: 0;
+    display: none; /* Залишаємо display:none, щоб JavaScript працював */
+    align-items: center;
+    justify-content: center;
+    background: rgba(92, 61, 46, 0.9);
+    backdrop-filter: blur(10px);
+    z-index: 120;
+    padding: 20px;
+  }
+
+  .modal .box {
+    width: min(900px, 96%);
+    max-height: 86vh;
+    overflow: auto;
+    background: var(--panel-light);
+    border-radius: 16px;
+    padding: 32px;
+    border: 2px solid var(--wine-gold);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  }
+
+  .modal .close {
+    display: inline-block;
+    float: right;
+    text-decoration: none;
+    font-size: 28px;
+    color: var(--wine-brown);
+    padding: 4px 12px;
+    transition: color 0.3s;
+    font-weight: bold;
+  }
+
+  .modal .close:hover {
+    color: var(--wine-accent);
+  }
+
+  /* Оновлюємо заголовки в модальних вікнах */
+  .modal h2, .modal h3 {
+    color: var(--wine-brown) !important;
+  }
+
+  .modal p, .modal li, .modal div {
+    color: var(--text-dark) !important;
+  }
+
+  /* Для мобільних пристроїв */
+  @media (max-width: 768px) {
+    .main-header-wrapper, .wineries-header-wrapper {
+      padding: 20px !important;
+      margin: 0 0 15px 0 !important;
+    }
+    
+    .map-controls, .route-controls {
+      padding: 15px !important;
+    }
+    
+    .map-btn {
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+    
+    .winery-item {
+      flex-direction: column;
+      text-align: center;
+      padding: 15px;
+    }
+    
+    .winery-image {
+      width: 100% !important;
+      height: 200px !important;
+    }
+    
+    .map-legend {
+      position: relative;
+      bottom: auto;
+      right: auto;
+      margin-top: 15px;
+      max-width: 100%;
+    }
+    
+    .wineries-header-wrapper h3 {
+      font-size: 1.5rem !important;
+      text-align: center;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .winery-image {
+      width: 100% !important;
+      height: 150px !important;
+    }
+    
+    .winery-item {
+      gap: 15px;
+    }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="logo"><a href="index.html">Виноробство України</a></div>
+    <nav>
+      <a href="index.html">Головна</a>
+      <a href="regions.html">Регіони</a>
+      <a href="grapes.html">Сорти</a>
+      <a href="routes.html">Маршрути</a>
+      <a href="map.html" class="active">Карта</a>
+      <a href="craft-wines.html">Крафтові вина</a>
+      <a href="about.html">Про сайт</a>
+      <a href="profile.html"><i class="fas fa-user-circle"></i> Кабінет</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="main-header-wrapper">
+        <h1><i class="fas fa-map-marked-alt"></i> Інтерактивна карта винних об'єктів України</h1>
+        <p class="subtitle">Всі винні маєтки, дегустаційні зали, виноробні регіони на одній карті. Натискайте на маркери для детальної інформації.</p>
+    </div>
+    
+    <div class="map-controls">
+      <div class="map-btn active" data-filter="all">Всі об'єкти</div>
+      <div class="map-btn" data-filter="large">Крупні виноробні</div>
+      <div class="map-btn" data-filter="craft">Крафтові виноробні</div>
+      <div class="map-btn" data-filter="family">Сімейні виноробні</div>
+      <div class="map-btn" data-filter="tasting">Дегустаційні зали</div>
+      <div class="map-btn" data-filter="hotel">Готелі при виноробнях</div>
+      <div class="map-btn" data-filter="route">Маршрути</div>
+    </div>
+    
+    <!-- Контроль маршрутів -->
+    <div class="route-controls">
+      <h3><i class="fas fa-route"></i> Відображення маршрутів</h3>
+      <select class="route-select" id="route-select">
+        <option value="">Виберіть маршрут для відображення</option>
+        <option value="odesa-tour">Одеський винний тур "Шлях до моря"</option>
+        <option value="zakarpattya-tour">Закарпатська винна стежка</option>
+        <option value="podillya-tour">Подільський гастро-винний уїкенд</option>
+        <option value="bessarabia-tour">Бессарабське винне коло</option>
+        <option value="lviv-tour">Львівсько-винний експрес</option>
+        <option value="kyiv-tour">Винна дегустація під Києвом</option>
+      </select>
+      <button class="route-btn" id="show-route-btn">
+        <i class="fas fa-map-marked"></i> Показати маршрут
+      </button>
+      <button class="route-btn" id="clear-route-btn" style="background: rgba(255,255,255,0.1); margin-left: 10px;">
+        <i class="fas fa-times"></i> Очистити маршрут
+      </button>
+    </div>
+    
+    <div id="map" class="card"></div>
+    
+    <!-- Легенда карти -->
+    <div class="map-legend">
+      <h4 style="margin-top:0;margin-bottom:10px;"><i class="fas fa-key"></i> Легенда</h4>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #ff4444;"></div>
+        <span>Крупні виноробні</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #ffcc00;"></div>
+        <span>Крафтові виноробні</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #00cc66;"></div>
+        <span>Сімейні виноробні</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #0099ff;"></div>
+        <span>Дегустаційні зали</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #9966ff;"></div>
+        <span>Готелі</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #ff00ff; border: 2px dashed white;"></div>
+        <span>Маршрути</span>
+      </div>
+    </div>
+    
+    <div class="wineries-list">
+  <div class="wineries-header-wrapper">
+    <h3><i class="fas fa-list"></i> Список винних об'єктів на карті</h3>
+  </div>
+  
+  <div class="winery-item" data-id="shabo" data-lat="46.2781" data-lng="30.4028" data-type="large hotel tasting">
+        <img src="mar_shabo.jfif" alt="SHABO" class="winery-image">
+        <div class="winery-info">
+          <h4>SHABO Wine Culture Center</h4>
+          <div>
+            <span class="winery-type type-large">Крупна виноробня</span>
+            <span class="winery-type type-hotel">Готель</span>
+            <span class="winery-type type-tasting">Дегустації</span>
+          </div>
+          <p>Одеська область, с. Шабо. Один із найбільших виноробних комплексів України. Пропонує екскурсії, дегустації, ресторан, готель, майстер-класи.</p>
+          <a href="#winery-shabo" class="pill" style="margin-top:5px">Детальніше</a>
+        </div>
+      </div>
+      
+      <div class="winery-item" data-id="koblevo" data-lat="46.6643" data-lng="31.3178" data-type="large tasting">
+        <img src="mar_koblevo.jpg" alt="Коблево" class="winery-image">
+        <div class="winery-info">
+          <h4>Виноробня "Коблево"</h4>
+          <span class="winery-type type-large">Крупна виноробня</span>
+          <span class="winery-type type-tasting">Дегустації</span>
+          <p>Миколаївська область, смт Коблево. Відомий курорт і винзавод. Пляжний відпочинок поєднується з винними дегустаціями.</p>
+          <a href="#winery-koblevo" class="pill" style="margin-top:5px">Детальніше</a>
+        </div>
+      </div>
+      
+      <div class="winery-item" data-id="beykush" data-lat="46.7" data-lng="30.9" data-type="craft hotel tasting">
+        <img src="mar_beykush.jpg" alt="Beykush" class="winery-image">
+        <div class="winery-info">
+          <h4>Beykush Winery</h4>
+          <span class="winery-type type-craft">Крафтова виноробня</span>
+          <span class="winery-type type-hotel">Готель</span>
+          <span class="winery-type type-tasting">Дегустації</span>
+          <p>Миколаївська область, с. Коблево. Крафтова виноробня з індивідуальним підходом. Невеликі партії якісного вина, еко-туризм.</p>
+          <a href="#winery-beykush" class="pill" style="margin-top:5px">Детальніше</a>
+        </div>
+      </div>
+      
+      <div class="winery-item" data-id="chizay" data-lat="48.6208" data-lng="22.2879" data-type="family tasting">
+        <img src="mar_chateau.jpg" alt="Chateau Chizay" class="winery-image">
+        <div class="winery-info">
+          <h4>Chateau Chizay</h4>
+          <span class="winery-type type-family">Сімейна виноробня</span>
+          <span class="winery-type type-tasting">Дегустації</span>
+          <p>Закарпатська область, с. Берегове. Сімейна виноробня в Закарпатті. Відомі десертні та солодкі вина. Винний фестиваль у вересні.</p>
+          <a href="#winery-chizay" class="pill" style="margin-top:5px">Детальніше</a>
+        </div>
+      </div>
+      
+      <div class="winery-item" data-id="kalyus" data-lat="49.2312" data-lng="28.4723" data-type="craft family">
+        <img src="mar_kalyus.jfif" alt="Kalyus Winery" class="winery-image">
+        <div class="winery-info">
+          <h4>Kalyus Winery</h4>
+          <span class="winery-type type-craft">Крафтова виноробня</span>
+          <span class="winery-type type-family">Сімейна виноробня</span>
+          <p>Вінницька область, с. Калинівка. Крафтова виноробня Поділля. Спеціалізація на автохтонних сортах.</p>
+          <a href="#winery-kalyus" class="pill" style="margin-top:5px">Детальніше</a>
+        </div>
+      </div>
+      
+      <div class="winery-item" data-id="biologist" data-lat="50.4501" data-lng="30.5234" data-type="craft tasting">
+        <img src="mar_biologist.jfif" alt="Biologist Craft Winery" class="winery-image">
+        <div class="winery-info">
+          <h4>Biologist Craft Winery</h4>
+          <span class="winery-type type-craft">Крафтова виноробня</span>
+          <span class="winery-type type-tasting">Дегустації</span>
+          <p>Київська область, с. Петропавлівська Борщагівка. Крафтова виноробня під Києвом. Експериментальні вина, науковий підхід.</p>
+          <a href="#winery-biologist" class="pill" style="margin-top:5px">Детальніше</a>
+        </div>
+      </div>
+      
+      <div class="winery-item" data-id="villa-tinta" data-lat="46.5" data-lng="30.7" data-type="craft hotel">
+        <img src="mar_villa.png" alt="Villa Tinta" class="winery-image">
+        <div class="winery-info">
+          <h4>Villa Tinta</h4>
+          <span class="winery-type type-craft">Крафтова виноробня</span>
+          <span class="winery-type type-hotel">Готель</span>
+          <p>Одеська область. Невелика виноробня з власним готелем. Індивідуальні дегустації.</p>
+          <a href="#winery-villa-tinta" class="pill" style="margin-top:5px">Детальніше</a>
+        </div>
+      </div>
+      
+      <div class="winery-item" data-id="chateau-edem" data-lat="49.8" data-lng="24.0" data-type="craft family">
+        <img src="mar_eden.jpg" alt="Château Edem" class="winery-image">
+        <div class="winery-info">
+          <h4>Château Edem</h4>
+          <span class="winery-type type-craft">Крафтова виноробня</span>
+          <span class="winery-type type-family">Сімейна виноробня</span>
+          <p>Львівська область. Винна майстерня у Львівській області. Французькі технології, витончені вина.</p>
+          <a href="#winery-chateau-edem" class="pill" style="margin-top:5px">Детальніше</a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Модальні вікна для детальної інформації -->
+    <div id="winery-shabo" class="modal">
+      <div class="box card">
+        <a class="close" href="#">&times;</a>
+        <h2>SHABO Wine Culture Center</h2>
+        <img src="mar_shabo.jfif" alt="SHABO" style="width:100%;border-radius:10px;margin:15px 0">
+        
+        <div class="grid" style="grid-template-columns:repeat(2,1fr);margin:15px 0">
+          <div><strong>Розташування:</strong> Одеська область, с. Шабо</div>
+          <div><strong>Засновано:</strong> 2003 рік</div>
+          <div><strong>Площа виноградників:</strong> 400 га</div>
+          <div><strong>Щорічне виробництво:</strong> 1.5 млн літрів</div>
+          <div><strong>Сорти:</strong> Шардоне, Каберне, Мерло, Сапераві</div>
+          <div><strong>Вартість екскурсії:</strong> від 300 грн</div>
+        </div>
+        
+        <h3>Послуги та активності</h3>
+        <ul>
+          <li>Екскурсії по виноробні (тривалість 1.5-2 години)</li>
+          <li>Дегустації 5, 8 або 12 вин (з сомельє)</li>
+          <li>Майстер-класи з винного этикету</li>
+          <li>Ресторан української та європейської кухні</li>
+          <li>Готель на території комплексу (20 номерів)</li>
+          <li>Конференц-зали для подій</li>
+          <li>Винний магазин з продукцією власного виробництва</li>
+        </ul>
+        
+        <h3>Як дістатися</h3>
+        <p><strong>З Одеси:</strong> Автомобілем по трасі Одеса-Рені (60 км, ~1 година)<br>
+        <strong>Громадський транспорт:</strong> Маршрутки з автостанції "Привоз"<br>
+        <strong>Координати для навігатора:</strong> 46.2781° пн.ш., 30.4028° сх.д.</p>
+        
+        <h3>Контакти</h3>
+        <p>Телефон: +380 (48) 700-00-00<br>
+        Email: info@shabo.ua<br>
+        Сайт: www.shabo.ua<br>
+        Графік роботи: 9:00-18:00 щодня</p>
+      </div>
+    </div>
+    
+    <div id="winery-koblevo" class="modal">
+      <div class="box card">
+        <a class="close" href="#">&times;</a>
+        <h2>Виноробня "Коблево"</h2>
+        <img src="mar_koblevo.jpg" alt="Коблево" style="width:100%;border-radius:10px;margin:15px 0">
+        
+        <div class="grid" style="grid-template-columns:repeat(2,1fr);margin:15px 0">
+          <div><strong>Розташування:</strong> Миколаївська область, смт Коблево</div>
+          <div><strong>Засновано:</strong> 1970 рік</div>
+          <div><strong>Площа виноградників:</strong> 250 га</div>
+          <div><strong>Щорічне виробництво:</strong> 1 млн літрів</div>
+          <div><strong>Сорти:</strong> Каберне, Мерло, Шардоне, Рислінг</div>
+          <div><strong>Вартість екскурсії:</strong> від 250 грн</div>
+        </div>
+        
+        <h3>Особливості</h3>
+        <p>Коблево — це не лише виноробня, а й популярний курорт на узбережжі Чорного моря. Поєднання пляжного відпочинку з винними дегустаціями робить це місце унікальним.</p>
+        
+        <h3>Туристичні пропозиції</h3>
+        <ul>
+          <li>Екскурсії по виноробні та винним підвалам</li>
+          <li>Дегустації 6-8 вин з закусками</li>
+          <li>Поєднання з пляжним відпочинком</li>
+          <li>Можливість придбати вино власного виробництва</li>
+        </ul>
+        
+        <h3>Сезонність</h3>
+        <p><strong>Високий сезон:</strong> червень-вересень (пляжний сезон)<br>
+        <strong>Винні тури:</strong> травень-жовтень<br>
+        <strong>Найкращий час для дегустацій:</strong> вересень-жовтень (період збору урожаю)</p>
+      </div>
+    </div>
+    
+    <!-- Додаткові модальні вікна для інших виноробень -->
+    <div id="winery-beykush" class="modal">
+      <div class="box card">
+        <a class="close" href="#">&times;</a>
+        <h2>Винарня «Бейкуш» / Beykush Winery</h2>
+        <img src="mar_beykush.jpg" alt="Beykush Winery" style="width:100%;border-radius:10px;margin:15px 0">
+        
+        <div class="grid" style="grid-template-columns:repeat(2,1fr);margin:15px 0">
+          <div><strong>Розташування:</strong> Миколаївська область, с. Чорноморка, мис Бейкуш</div>
+          <div><strong>Засновано:</strong> 2010 рік</div>
+          <div><strong>Площа виноградників:</strong> 11 га</div>
+          <div><strong>Щорічне виробництво:</strong> крафтове, обмежені партії</div>
+          <div><strong>Сорти винограду:</strong> Шардоне, Піно Ґріджіо, Рислінг, Совіньйон Блан, Ркацителі, Піно Нуар, Мерло, Сапераві, Каберне Совіньйон, Каберне Фран та експериментальні</div>
+          <div><strong>Вартість екскурсії:</strong> за попереднім записом</div>
+        </div>
+        
+        <h3>Особливості виноробні</h3>
+        <ul>
+          <li>Виноградники розташовані між Березанським і Бейкуським лиманами</li>
+          <li>Використовуються французькі та італійські клони винограду</li>
+          <li>Спеціалізація на нестандартних блендах та експериментальних винах</li>
+          <li>Символіка бренду — птахи Північного Причорномор'я</li>
+          <li>Назва «Бейкуш» має тюркське походження та означає «сова» або «король птахів»</li>
+        </ul>
+        
+        <h3>Основні лінійки вин</h3>
+        <ul>
+          <li><strong>«Артанія»</strong> — вина господарства (бленди)</li>
+          <li><strong>«Бейкуш»</strong> — вина з окремих сортів</li>
+          <li><strong>«Фантазія»</strong> — експериментальні вина</li>
+          <li><strong>«Супер Бейкуш»</strong> — витримані та авторські вина</li>
+        </ul>
+        
+        <h3>Послуги та активності</h3>
+        <ul>
+          <li>Дегустації вин</li>
+          <li>Авторські винні сетапи</li>
+          <li>Винні події та презентації</li>
+          <li>Продаж вина безпосередньо від виробника</li>
+        </ul>
+        
+        <h3>Як дістатися</h3>
+        <p><strong>З Миколаєва:</strong> автомобілем у напрямку Очакова<br>
+        <strong>Локація:</strong> мис Бейкуш між двома лиманами</p>
+      </div>
+    </div>
+    
+    <div id="winery-chizay" class="modal">
+      <div class="box card">
+        <a class="close" href="#">&times;</a>
+        <h2>Шато Чизай / Chateau Chizay</h2>
+        <img src="mar_chateau.jpg" alt="Chateau Chizay" style="width:100%;border-radius:10px;margin:15px 0">
+        
+        <div class="grid" style="grid-template-columns:repeat(2,1fr);margin:15px 0">
+          <div><strong>Розташування:</strong> Закарпатська область, м. Берегове</div>
+          <div><strong>Засновано:</strong> 1995 рік</div>
+          <div><strong>Площа виноградників:</strong> 272 га</div>
+          <div><strong>Щорічне виробництво:</strong> промислове, провідний виробник регіону</div>
+          <div><strong>Сорти винограду:</strong> Фурмінт, Черсегі, Трамінер, Ізабела, Блауфранкіш, Каберне Совіньйон, Мерло</div>
+          <div><strong>Експорт:</strong> 21 країна світу</div>
+        </div>
+        
+        <h3>Особливості виноробні</h3>
+        <ul>
+          <li>Одна з найвідоміших виноробень незалежної України</li>
+          <li>Повний цикл виробництва з винограду власного врожаю</li>
+          <li>Виноградники у передгір'ї Карпат на вулканічних ґрунтах</li>
+          <li>Без штучного поливу, значна частина робіт — вручну</li>
+          <li>Активна міжнародна діяльність та експорт</li>
+          <li>Один із лідерів винного туризму України</li>
+        </ul>
+        
+        <h3>Вина та колекції</h3>
+        <ul>
+          <li>Тихі білі та червоні вина</li>
+          <li>Преміальні витримані вина у французьких дубових бариках</li>
+          <li>Carpathian Sekt — перше в Україні моносортове ігристе</li>
+          <li>Furmint Orange — помаранчеве вино</li>
+          <li>Колекція Founder's Reserve</li>
+          <li>Теруарні вина з філософією low intervention</li>
+        </ul>
+        
+        <h3>Послуги та активності</h3>
+        <ul>
+          <li>Щоденні екскурсії виноробнею</li>
+          <li>Дегустації (у тому числі безалкогольні)</li>
+          <li>Винні тури</li>
+          <li>Дитячі квести</li>
+          <li>Музей винороба Чиза</li>
+          <li>Освітні програми Chateau Chizay Academy</li>
+          <li>Винні фестивалі та події (Wine Run, Свято молодого вина)</li>
+        </ul>
+        
+        <h3>Нагороди</h3>
+        <p>Медалі конкурсів Decanter, London Wine Competition, Concours Mondial de Bruxelles, Mundus Vini, Japan Wine Challenge. Багаторазовий лідер Wine & Spirits Ukraine Awards.</p>
+        
+        <h3>Як дістатися</h3>
+        <p><strong>Берегове:</strong> у межах міста<br>
+        <strong>З Ужгорода:</strong> автомобілем або поїздом<br>
+        <strong>Туристична доступність:</strong> висока</p>
+      </div>
+    </div>
+    
+    <div id="winery-kalyus" class="modal">
+      <div class="box card">
+        <a class="close" href="#">&times;</a>
+        <h2>KALYUS WINERY</h2>
+        <img src="mar_kalyus.jfif" alt="Kalyus Winery" style="width:100%;border-radius:10px;margin:15px 0">
+        
+        <div class="grid" style="grid-template-columns:repeat(2,1fr);margin:15px 0">
+          <div><strong>Розташування:</strong> Україна, берег річки Дністер</div>
+          <div><strong>Засновано:</strong> бренд — 2019 рік (перші вина з 2015 року)</div>
+          <div><strong>Площа виноградників:</strong> невелика крафтова виноробня</div>
+          <div><strong>Щорічне виробництво:</strong> обмежені авторські партії</div>
+          <div><strong>Сорти винограду:</strong> Каберне Кортіс, Сапераві, Зайбер, Аліберне, Шардоне, Рислінг, Совіньйон Блан</div>
+          <div><strong>Вартість дегустації:</strong> за попереднім записом</div>
+        </div>
+        
+        <h3>Особливості виноробні</h3>
+        <ul>
+          <li>Сімейний авторський проєкт</li>
+          <li>Повний цикл виробництва з власного винограду</li>
+          <li>Орієнтація на якість сировини та чистоту технологій</li>
+          <li>Сучасне обладнання та дотримання європейських санітарних стандартів</li>
+          <li>Творчий підхід і невеликі партії кожного вина</li>
+          <li>Виноградники розташовані в унікальній природній зоні біля Дністра</li>
+        </ul>
+        
+        <h3>Продукція</h3>
+        <ul>
+          <li>Aliberne — червоне сухе</li>
+          <li>Зайбер — червоне сухе</li>
+          <li>Chardonnay — біле сухе</li>
+          <li>Riesling — біле сухе</li>
+          <li>Sauvignon Blanc — біле сухе</li>
+          <li>Cabernet Cortis — червоне сухе</li>
+          <li>Saperavi — червоне сухе</li>
+        </ul>
+        
+        <h3>Нагороди</h3>
+        <p>Вино «Cabernet Cortis» — «Краще червоне сухе вино України» (конкурс «Сорт і теруар. Мікровиноробство»)</p>
+        
+        <h3>Послуги та активності</h3>
+        <p>Дегустації вина на березі Дністра (групи до 8 осіб, тривалість ~2 години):</p>
+        <ul>
+          <li>екскурсія виноградником</li>
+          <li>дегустація 6 вин</li>
+          <li>легкі закуски (фермерські сири, крафтові м'ясні делікатеси, сезонні фрукти)</li>
+          <li>розповідь про технології виробництва та історію виноробні</li>
+          <li>спілкування з виноробами, відповіді на запитання</li>
+        </ul>
+        
+        <h3>Філософія виноробні</h3>
+        <p>Якість винограду — основа вина. Точне дотримання технології та чистоти. Ручна праця й увага до кожного грона. Любов до справи, атмосфера гостинності та душевності.</p>
+        
+        <h3>Як дістатися</h3>
+        <p><strong>Локація:</strong> берег Дністра<br>
+        <strong>Відвідування:</strong> лише за попереднім записом</p>
+      </div>
+    </div>
+    
+    <div id="winery-biologist" class="modal">
+      <div class="box card">
+        <a class="close" href="#">&times;</a>
+        <h2>Biologist craft winery</h2>
+        <img src="mar_biologist.jfif" alt="Biologist Craft Winery" style="width:100%;border-radius:10px;margin:15px 0">
+        
+        <div class="grid" style="grid-template-columns:repeat(2,1fr);margin:15px 0">
+          <div><strong>Розташування:</strong> Київська область, с. Лісники, вул. Гаєва, 7</div>
+          <div><strong>Засновано:</strong> 2020 рік</div>
+          <div><strong>Власник:</strong> Ігор Петренко</div>
+          <div><strong>Щорічне виробництво:</strong> близько 10 000 пляшок</div>
+          <div><strong>Сорти винограду:</strong> Аліготе, Ркацителі, Шардоне, Піно Нуар, Піно Меньє, Мерло, Каберне, Одеський Чорний</div>
+          <div><strong>Вартість дегустації:</strong> за попереднім записом</div>
+        </div>
+        
+        <h3>Філософія виноробні</h3>
+        <ul>
+          <li>Максимальна якість при натуральному підході до виноробства</li>
+          <li>Робота з мінімальним втручанням</li>
+          <li>Постійні експерименти з блендами та стилями</li>
+          <li>Поєднання класичних і сучасних технологій</li>
+          <li>Виноробня позиціонує себе як «науковий центр експериментів і досліджень»</li>
+        </ul>
+        
+        <h3>Вина Biologist craft winery</h3>
+        <ul>
+          <li>Аліготе — біле</li>
+          <li>Шардоне Orange — помаранчеве</li>
+          <li>Розе Піно Меньє — рожеве</li>
+          <li>Одеський Чорний — червоне</li>
+          <li>Мерло — червоне</li>
+          <li>Піно Нуар — червоне</li>
+          <li>Ркацителі Orange — помаранчеве</li>
+        </ul>
+        
+        <h3>Технологічні особливості</h3>
+        <ul>
+          <li>Використання штамових і диких дріжджів</li>
+          <li>Окрема вінтифікація одного сорту різними методами</li>
+          <li>Виробництво Orange Wine (Amber Wine)</li>
+          <li>Експерименти з Pét-Nat</li>
+          <li>Плани виробництва вин у стилі Amarone</li>
+          <li>Виноробня оснащена «розумним холодильником» для точного контролю температури</li>
+        </ul>
+        
+        <h3>Виноградники</h3>
+        <ul>
+          <li>Орендовані виноградники в Одеській області поступово переводяться на органічні методи</li>
+          <li>Середній вік лоз — 14–19 років</li>
+          <li>Власний виноградник у Лісниках створений після ґрунтового аналізу</li>
+          <li>Виноград транспортується в рефрижераторі, час «від лози до преса» — 12–24 години</li>
+        </ul>
+        
+        <h3>Контакти</h3>
+        <p>Телефон: +38 050 050 15 08<br>
+        Email: prwinelab@gmail.com<br>
+        Сайт: biologist.com.ua<br>
+        Адреса: с. Лісники, вул. Гаєва, 7, Київська область</p>
+      </div>
+    </div>
+    
+    <div id="winery-villa-tinta" class="modal">
+      <div class="box card">
+        <a class="close" href="#">&times;</a>
+        <h2>Вілла Тінта / Villa Tinta</h2>
+        <img src="mar_villa.png" alt="Villa Tinta" style="width:100%;border-radius:10px;margin:15px 0">
+        
+        <div class="grid" style="grid-template-columns:repeat(2,1fr);margin:15px 0">
+          <div><strong>Розташування:</strong> Одеська область, Болградський район, с. Оксамитне</div>
+          <div><strong>Засновано:</strong> 1998 рік</div>
+          <div><strong>Історична локація:</strong> територія колишнього винного шато графа Давидова (понад 120 років тому)</div>
+          <div><strong>Площа виноградників:</strong> 550 га</div>
+          <div><strong>Щорічне виробництво:</strong> один із найбільших виробників вина та винограду в Україні</div>
+          <div><strong>Сорти винограду:</strong> Мускат, Одеський Чорний, Каберне Совіньйон та інші</div>
+        </div>
+        
+        <h3>Особливості виноробні</h3>
+        <ul>
+          <li>Власні великі масиви виноградників</li>
+          <li>Виноградники адаптовані до місцевого мікроклімату півдня Одещини</li>
+          <li>Поєднання історичних традицій і сучасних технологій</li>
+          <li>Контроль якості на всіх етапах виробництва</li>
+          <li>Один із лідерів галузі за площею виноградників</li>
+        </ul>
+        
+        <h3>Бренд Villa Tinta</h3>
+        <ul>
+          <li>Вина з яскраво вираженим теруарним характером</li>
+          <li>Використання добірного винограду з унікальних ґрунтів</li>
+          <li>Робота під контролем досвідчених виноробів</li>
+          <li>Постійне вдосконалення рецептур і технологій</li>
+          <li>Орієнтація на стабільну якість і впізнаваний стиль</li>
+        </ul>
+        
+        <h3>Продукція</h3>
+        <ul>
+          <li>Сухі, напівсухі та ароматні вина</li>
+          <li>Вина з сортів Мускат, Одеський Чорний, Каберне Совіньйон</li>
+          <li>Колекційні та класичні лінійки бренду Villa Tinta</li>
+        </ul>
+        
+        <h3>Послуги та активності</h3>
+        <ul>
+          <li>Фірмовий магазин при виноробні</li>
+          <li>Продаж продукції безпосередньо від виробника</li>
+          <li>Консультації щодо вибору вин</li>
+        </ul>
+        
+        <h3>Як дістатися</h3>
+        <p><strong>Одеська область:</strong> Болградський район<br>
+        <strong>Локація:</strong> с. Оксамитне</p>
+      </div>
+    </div>
+    
+    <div id="winery-chateau-edem" class="modal">
+      <div class="box card">
+        <a class="close" href="#">&times;</a>
+        <h2>Chateau Edem / Edem Resort Wine</h2>
+        <img src="mar_eden.jpg" alt="Château Edem" style="width:100%;border-radius:10px;margin:15px 0">
+        
+        <div class="grid" style="grid-template-columns:repeat(2,1fr);margin:15px 0">
+          <div><strong>Розташування:</strong> Львівська область, Перемишлянський район, с. Стрілки</div>
+          <div><strong>Засновано:</strong> 2016 рік</div>
+          <div><strong>Площа виноградників:</strong> 2,5 га</div>
+          <div><strong>Щорічне виробництво:</strong> крафтове, обмежені партії</div>
+          <div><strong>Сорти винограду:</strong> Соляріс, Мускаріс, Каберне Кортіс, Совіньє Ґрі, Йоханнітер, Піно Нуар</div>
+          <div><strong>Вартість екскурсії:</strong> за попереднім записом</div>
+        </div>
+        
+        <h3>Послуги та активності</h3>
+        <ul>
+          <li>Екскурсії виноградником та виноробнею</li>
+          <li>Дегустації вин і міцних напоїв власного виробництва</li>
+          <li>Участь у традиційному зборі винограду (щороку восени)</li>
+          <li>Сніданки після збору винограду за середньовічною традицією</li>
+          <li>Відпочинок у SPA-комплексі Edem Resort</li>
+          <li>Поєднання винних дегустацій з гастрономією ресторану комплексу</li>
+        </ul>
+        
+        <h3>Продукція</h3>
+        <ul>
+          <li><strong>Вина:</strong> Muscaris, Muscaris semi-dry, Solaris, Solaris & Muscaris (50/50), Souvignier Gris, Cabernet Cortis red, Cabernet Cortis rosé semi-dry</li>
+          <li><strong>Граппа:</strong> Grappa Muscaris, Grappa Solaris, Grappa Souvignier Gris</li>
+          <li><strong>Кальвадос:</strong> A la calvados</li>
+          <li>Витримка червоних вин — у бочках з французького дуба</li>
+        </ul>
+        
+        <h3>Нагороди</h3>
+        <p>Понад 13 міжнародних нагород (бронзові, срібні та золота медаль). Uwines Awards, Wine & Spirits Awards, «Винний гід України». Золота медаль Odessa Wine Week 2021 за вино Solaris 2019.</p>
+        
+        <h3>Як дістатися</h3>
+        <p><strong>Зі Львова:</strong> автомобілем (~25 км, близько 40 хвилин)<br>
+        <strong>Громадський транспорт:</strong> маршрутки до Перемишлян із пересадкою<br>
+        <strong>Локація:</strong> територія Edem Resort Medical & SPA</p>
+        
+        <h3>Контакти</h3>
+        <p>Сайт: edemresort.com<br>
+        Графік роботи: за попереднім записом</p>
+      </div>
+    </div>
+    
+  </main>
+
+  <footer>...!</footer>
+
+  <!-- Leaflet JS та плагін для маршрутів -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+  
+  <script>
+    // JavaScript для відкриття/закриття модальних вікон
+    document.querySelectorAll('a[href^="#winery-"]').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const modalId = this.getAttribute('href').substring(1);
+        const modal = document.getElementById(modalId);
+        if (modal) {
+          modal.style.display = 'block';
+        }
+      });
+    });
+
+    // Закриття модальних вікон
+    document.querySelectorAll('.modal .close').forEach(closeBtn => {
+      closeBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        this.closest('.modal').style.display = 'none';
+      });
+    });
+
+    // Закриття модального вікна при кліку поза ним
+    window.addEventListener('click', function(e) {
+      if (e.target.classList.contains('modal')) {
+        e.target.style.display = 'none';
+      }
+    });
+
+    let map;
+    let markers = [];
+    let currentRoute = null;
+    
+    function initMap() {
+      // Створюємо карту
+      map = L.map('map').setView([48.5, 31.2], 6);
+      
+      // Додаємо тайли OpenStreetMap
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 18,
+      }).addTo(map);
+      
+      // Додаємо темну тему для карти
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+        maxZoom: 18,
+      }).addTo(map);
+      
+      // Визначаємо виноробні
+      const wineries = [
+        {
+          id: 'shabo',
+          name: 'SHABO Wine Culture Center',
+          position: [46.2781, 30.4028],
+          type: ['large', 'hotel', 'tasting'],
+          color: '#ff4444',
+          icon: 'wine-bottle'
+        },
+        {
+          id: 'koblevo',
+          name: 'Виноробня "Коблево"',
+          position: [46.6643, 31.3178],
+          type: ['large', 'tasting'],
+          color: '#ff4444',
+          icon: 'wine-glass-alt'
+        },
+        {
+          id: 'beykush',
+          name: 'Beykush Winery',
+          position: [46.7, 30.9],
+          type: ['craft', 'hotel', 'tasting'],
+          color: '#ffcc00',
+          icon: 'wine-bottle'
+        },
+        {
+          id: 'chizay',
+          name: 'Chateau Chizay',
+          position: [48.6208, 22.2879],
+          type: ['family', 'tasting'],
+          color: '#00cc66',
+          icon: 'home'
+        },
+        {
+          id: 'kalyus',
+          name: 'Kalyus Winery',
+          position: [49.2312, 28.4723],
+          type: ['craft', 'family'],
+          color: '#ffcc00',
+          icon: 'seedling'
+        },
+        {
+          id: 'biologist',
+          name: 'Biologist Craft Winery',
+          position: [50.4501, 30.5234],
+          type: ['craft', 'tasting'],
+          color: '#ffcc00',
+          icon: 'flask'
+        },
+        {
+          id: 'villa-tinta',
+          name: 'Villa Tinta',
+          position: [46.5, 30.7],
+          type: ['craft', 'hotel'],
+          color: '#ffcc00',
+          icon: 'hotel'
+        },
+        {
+          id: 'chateau-edem',
+          name: 'Château Edem',
+          position: [49.8, 24.0],
+          type: ['craft', 'family'],
+          color: '#ffcc00',
+          icon: 'wine-bottle'
+        }
+      ];
+      
+      // Створюємо маркери для кожної виноробні
+      wineries.forEach(winery => {
+        // Створюємо кастомну іконку
+        const icon = L.divIcon({
+          html: `<div style="background-color:${winery.color}; width:20px; height:20px; border-radius:50%; border:3px solid white; display:flex; align-items:center; justify-content:center; color:white; font-size:10px;">
+                  <i class="fas fa-${winery.icon}"></i>
+                </div>`,
+          className: 'custom-marker',
+          iconSize: [26, 26],
+          iconAnchor: [13, 13]
+        });
+        
+        // Створюємо маркер
+        const marker = L.marker(winery.position, { 
+          icon: icon,
+          title: winery.name
+        }).addTo(map);
+        
+        // Додаємо попап з інформацією
+        const popupContent = `
+          <div style="color:#333; max-width:250px;">
+            <h3 style="margin-top:0;color:#7a1c35;">${winery.name}</h3>
+            <p><strong>Тип:</strong> ${winery.type.join(', ')}</p>
+            <p><a href="#winery-${winery.id}" style="color:#7a1c35;font-weight:bold;text-decoration:none;">Детальніше...</a></p>
+          </div>
+        `;
+        
+        marker.bindPopup(popupContent);
+        
+        // Зберігаємо маркер у масиві
+        markers.push({
+          marker: marker,
+          winery: winery
+        });
+      });
+      
+      // Додаємо обробник подій для елементів списку
+      document.querySelectorAll('.winery-item').forEach(item => {
+        item.addEventListener('click', function() {
+          const lat = parseFloat(this.getAttribute('data-lat'));
+          const lng = parseFloat(this.getAttribute('data-lng'));
+          const wineryId = this.getAttribute('data-id');
+          
+          // Центруємо карту на виноробні
+          map.setView([lat, lng], 12);
+          
+          // Знаходимо і відкриваємо відповідний маркер
+          const markerObj = markers.find(m => m.winery.id === wineryId);
+          if (markerObj) {
+            markerObj.marker.openPopup();
+          }
+        });
+      });
+      
+      // Додаємо кнопки контролю масштабу
+      L.control.zoom({
+        position: 'topright'
+      }).addTo(map);
+    }
+    
+    // Функція для відображення маршруту
+    function showRoute(routeId) {
+      // Спочатку очищаємо попередній маршрут
+      clearRoute();
+      
+      // Визначаємо точки маршрутів
+      const routes = {
+        'odesa-tour': {
+          name: 'Одеський винний тур "Шлях до моря"',
+          waypoints: [
+            L.latLng(46.4857, 30.7436), // Одеса
+            L.latLng(46.2781, 30.4028), // SHABO
+            L.latLng(46.7, 30.9), // Beykush
+            L.latLng(46.6643, 31.3178), // Коблево
+            L.latLng(46.4857, 30.7436) // Повернення в Одесу
+          ],
+          color: '#ff00ff'
+        },
+        'zakarpattya-tour': {
+          name: 'Закарпатська винна стежка',
+          waypoints: [
+            L.latLng(48.6208, 22.2879), // Chateau Chizay
+            L.latLng(48.4411, 22.7175), // Мукачево
+            L.latLng(48.6244, 22.2950), // Берегове
+            L.latLng(48.9000, 24.7167) // Івано-Франківськ
+          ],
+          color: '#00ffff'
+        },
+        'podillya-tour': {
+          name: 'Подільський гастро-винний уїкенд',
+          waypoints: [
+            L.latLng(49.2312, 28.4723), // Kalyus Winery
+            L.latLng(49.2333, 28.4833), // Вінниця
+            L.latLng(48.5833, 27.0000), // Хмельницький
+            L.latLng(48.9167, 24.7167) // Кам'янець-Подільський
+          ],
+          color: '#ffff00'
+        },
+        'bessarabia-tour': {
+          name: 'Бессарабське винне коло',
+          waypoints: [
+            L.latLng(46.4857, 30.7436), // Одеса
+            L.latLng(46.2781, 30.4028), // SHABO
+            L.latLng(46.6643, 31.3178), // Коблево
+            L.latLng(46.7, 30.9), // Beykush
+            L.latLng(46.5, 30.7), // Villa Tinta
+            L.latLng(46.4857, 30.7436) // Повернення в Одесу
+          ],
+          color: '#00ff00'
+        },
+        'lviv-tour': {
+          name: 'Львівсько-винний експрес',
+          waypoints: [
+            L.latLng(49.8425, 24.0322), // Львів
+            L.latLng(49.8, 24.0), // Château Edem
+            L.latLng(49.4333, 24.7333), // Івано-Франківськ
+            L.latLng(49.8425, 24.0322) // Повернення до Львова
+          ],
+          color: '#ff9900'
+        },
+        'kyiv-tour': {
+          name: 'Винна дегустація під Києвом',
+          waypoints: [
+            L.latLng(50.4501, 30.5234), // Київ
+            L.latLng(50.4501, 30.5234), // Biologist Craft Winery
+            L.latLng(50.4501, 30.5234) // Повернення до Києва
+          ],
+          color: '#9966ff'
+        }
+      };
+      
+      const route = routes[routeId];
+      if (!route) return;
+      
+      // Створюємо маршрут
+      currentRoute = L.Routing.control({
+        waypoints: route.waypoints,
+        routeWhileDragging: false,
+        lineOptions: {
+          styles: [
+            {
+              color: route.color,
+              opacity: 0.8,
+              weight: 5,
+              dashArray: '10, 10'
+            }
+          ]
+        },
+        createMarker: function(i, waypoint, n) {
+          // Не створюємо маркери для проміжних точок
+          return null;
+        },
+        show: true,
+        fitSelectedRoutes: true,
+        addWaypoints: false,
+        draggableWaypoints: false
+      }).addTo(map);
+      
+      // Додаємо інформацію про маршрут
+      const routeInfo = L.popup()
+        .setLatLng(route.waypoints[0])
+        .setContent(`
+          <div style="color:#333; max-width:250px;">
+            <h3 style="margin-top:0;color:#7a1c35;">${route.name}</h3>
+            <p>Маршрут відображено на карті</p>
+            <p><strong>Кількість точок:</strong> ${route.waypoints.length}</p>
+            <p><em>Натисніть на лінію маршруту для деталей</em></p>
+          </div>
+        `)
+        .openOn(map);
+    }
+    
+    // Функція для очищення маршруту
+    function clearRoute() {
+      if (currentRoute) {
+        map.removeControl(currentRoute);
+        currentRoute = null;
+      }
+    }
+    
+    // Фільтрація
+    document.querySelectorAll('.map-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        // Видаляємо активний клас з усіх кнопок
+        document.querySelectorAll('.map-btn').forEach(b => b.classList.remove('active'));
+        // Додаємо активний клас до натиснутої кнопки
+        this.classList.add('active');
+        
+        const filter = this.getAttribute('data-filter');
+        
+        // Фільтруємо маркери на карті
+        markers.forEach(item => {
+          if (filter === 'all' || item.winery.type.includes(filter)) {
+            item.marker.addTo(map);
+          } else {
+            map.removeLayer(item.marker);
+          }
+        });
+        
+        // Також фільтруємо список
+        document.querySelectorAll('.winery-item').forEach(item => {
+          const itemTypes = item.getAttribute('data-type');
+          if (filter === 'all' || itemTypes.includes(filter)) {
+            item.style.display = 'flex';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+        
+        // Якщо обрано фільтр "маршрути", показуємо всі об'єкти
+        if (filter === 'route') {
+          markers.forEach(item => {
+            item.marker.addTo(map);
+          });
+          
+          document.querySelectorAll('.winery-item').forEach(item => {
+            item.style.display = 'flex';
+          });
+        }
+      });
+    });
+    
+    // Обробка відображення маршрутів
+    document.getElementById('show-route-btn').addEventListener('click', function() {
+      const routeSelect = document.getElementById('route-select');
+      const selectedRoute = routeSelect.value;
+      
+      if (selectedRoute) {
+        showRoute(selectedRoute);
+        
+        // Змінюємо фільтр на "маршрути"
+        document.querySelectorAll('.map-btn').forEach(b => b.classList.remove('active'));
+        document.querySelector('.map-btn[data-filter="route"]').classList.add('active');
+      } else {
+        alert('Будь ласка, оберіть маршрут для відображення');
+      }
+    });
+    
+    document.getElementById('clear-route-btn').addEventListener('click', function() {
+      clearRoute();
+      document.getElementById('route-select').value = '';
+    });
+    
+    // Ініціалізація карти при завантаженні сторінки
+    document.addEventListener('DOMContentLoaded', function() {
+      initMap();
+    });
+  </script>
+</body>
+</html>

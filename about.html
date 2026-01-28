@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Про сайт — Виноробство та винний туризм України</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            /* Основний фон */
+            background-image: url('вкладка про сайт фон.jpg') !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-attachment: fixed !important;
+            background-repeat: no-repeat !important;
+            
+            /* Інші властивості */
+            position: relative !important;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Розмитий шар поверх фону */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(248, 245, 240, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: -1;
+        }
+
+        /* Основний контент - розтягується для розміщення футера внизу */
+        main.container {
+            flex: 1;
+            padding: 20px;
+        }
+
+        /* Білий контейнер для заголовка */
+        .main-header-wrapper {
+            background: rgba(255, 255, 255, 0.98) !important;
+            border-radius: var(--radius);
+            padding: 30px !important;
+            margin: 0 0 25px 0 !important;
+            border: 2px solid var(--wine-gold) !important;
+            box-shadow: 0 10px 30px rgba(92, 61, 46, 0.2) !important;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        .main-header-wrapper h1 {
+            margin-bottom: 10px !important;
+            border-bottom: none !important;
+            padding-bottom: 0 !important;
+            color: var(--wine-brown) !important;
+        }
+
+        .main-header-wrapper .subtitle {
+            color: var(--text-dark) !important;
+            font-size: 1.1rem;
+            margin: 0;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+        
+        /* Білі бокси для всіх секцій */
+        .section-card {
+            background: rgba(255, 255, 255, 0.98) !important;
+            border-radius: var(--radius);
+            padding: 35px !important;
+            margin: 25px 0 !important;
+            border: 2px solid rgba(212, 165, 116, 0.4) !important;
+            box-shadow: 0 10px 30px rgba(92, 61, 46, 0.15) !important;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+
+        .section-card h2, .section-card h3, .section-card h4 {
+            color: var(--wine-brown) !important;
+            text-align: center;
+            margin-top: 0;
+        }
+        
+        .about-hero {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .about-hero h1 {
+            color: var(--wine-brown);
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .about-hero p {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .feature-card {
+            background: white !important;
+            padding: 30px;
+            border-radius: var(--radius);
+            border: 2px solid rgba(212, 165, 116, 0.3) !important;
+            transition: all 0.3s;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(92, 61, 46, 0.1) !important;
+        }
+        
+        .feature-card:hover {
+            border-color: var(--wine-gold) !important;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(92, 61, 46, 0.2) !important;
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--wine-terracotta);
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            color: var(--wine-accent) !important;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .feature-card p, .feature-card li {
+            color: var(--text-dark) !important;
+            line-height: 1.6;
+        }
+        
+        .feature-card ul {
+            text-align: left;
+            padding-left: 20px;
+            margin: 15px 0;
+        }
+        
+        .feature-card li {
+            margin-bottom: 8px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 25px;
+            background: rgba(212, 165, 116, 0.1) !important;
+            border-radius: var(--radius);
+            border: 2px solid rgba(212, 165, 116, 0.2) !important;
+            transition: all 0.3s;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-3px);
+            border-color: var(--wine-gold) !important;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--wine-brown);
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            color: var(--text-medium);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .timeline-wrapper {
+            margin: 30px 0;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--wine-gold);
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            margin-bottom: 40px;
+            position: relative;
+            width: 50%;
+            padding: 25px;
+            background: white !important;
+            border-radius: var(--radius);
+            border: 2px solid rgba(212, 165, 116, 0.3) !important;
+            box-shadow: 0 4px 12px rgba(92, 61, 46, 0.1) !important;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            margin-left: 0;
+            margin-right: auto;
+            padding-right: 50px;
+            text-align: right;
+        }
+        
+        .timeline-item:nth-child(even) {
+            margin-left: auto;
+            margin-right: 0;
+            padding-left: 50px;
+            text-align: left;
+        }
+        
+        .timeline-date {
+            color: var(--wine-terracotta);
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .timeline-item h3 {
+            color: var(--wine-accent) !important;
+            margin-bottom: 10px;
+        }
+        
+        .timeline-item p {
+            color: var(--text-dark) !important;
+            line-height: 1.6;
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        
+        .tech-item {
+            background: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            border: 2px solid var(--wine-gold);
+            color: var(--wine-brown);
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .tech-item:hover {
+            background: var(--wine-gold);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .author-card {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .author-card h3 {
+            margin-bottom: 20px;
+        }
+        
+        .author-name {
+            font-size: 1.3rem;
+            color: var(--wine-brown);
+            margin: 15px 0;
+            font-weight: 600;
+        }
+        
+        .author-info p {
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .supervisors {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(212, 165, 116, 0.3);
+        }
+        
+        .supervisors h4 {
+            color: var(--wine-accent);
+            margin-bottom: 15px;
+        }
+        
+        /* Стиль для футера */
+        footer {
+            text-align: center;
+            color: var(--muted-brown);
+            padding: 30px 0;
+            font-size: 15px;
+            border-top: 2px solid rgba(212, 165, 116, 0.3);
+            background: rgba(255, 250, 240, 0.9);
+            margin-top: 40px;
+            width: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .main-header-wrapper {
+                padding: 25px 20px !important;
+            }
+            
+            .section-card {
+                padding: 25px 20px !important;
+            }
+            
+            .about-hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .about-hero p {
+                font-size: 1.1rem;
+            }
+            
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 60px;
+                padding-right: 20px;
+                text-align: left;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+            }
+            
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                margin: 0 0 30px 0;
+                padding: 20px 20px 20px 60px;
+                text-align: left;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .tech-stack {
+                gap: 10px;
+            }
+            
+            .tech-item {
+                padding: 10px 18px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .about-hero p {
+                font-size: 1rem;
+            }
+            
+            .section-card {
+                padding: 20px 15px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo"><a href="index.html">Виноробство України</a></div>
+        <nav>
+            <a href="index.html">Головна</a>
+            <a href="regions.html">Регіони</a>
+            <a href="grapes.html">Сорти</a>
+            <a href="routes.html">Маршрути</a>
+            <a href="map.html">Карта</a>
+            <a href="craft-wines.html">Крафтові вина</a>
+            <a href="about.html" class="active">Про сайт</a>
+            <a href="profile.html"><i class="fas fa-user-circle"></i> Кабінет</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- Заголовок -->
+        <div class="main-header-wrapper">
+            <h1><i class="fas fa-info-circle"></i> Про цей веб-проєкт</h1>
+            <p class="subtitle">Інтерактивна платформа для дослідження українського виноробства та планування винного туризму</p>
+        </div>
+
+        <!-- Герой секція -->
+        <div class="section-card about-hero">
+            <p>Тут зібрано все, що потрібно знати про винні регіони України, сорти винограду, туристичні маршрути та крафтові виноробні. Проєкт поєднує культурні, історичні та економічні аспекти виноробства з сучасними веб-технологіями.</p>
+        </div>
+
+        <!-- Статистика -->
+        <div class="section-card">
+            <h2></i> Статистика проєкту</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Винних регіонів</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Сортів винограду</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">Виноробень</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Туристичних маршрутів</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Основні цілі проєкту -->
+        <div class="section-card">
+            <h2></i> Основні цілі проєкту</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3>Мета</h3>
+                    <p>Розробити інтерактивну веб-платформу, яка популяризує українське виноробство та забезпечує користувачів повною інформацією для планування винного туризму.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Актуальність</h3>
+                    <p>В Україні стрімко зростає інтерес до гастрономічного та винного туризму. Проєкт забезпечує доступ до актуальної інформації та сприяє розвитку туристичної інфраструктури.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <h3>Завдання</h3>
+                    <ul>
+                        <li>Зібрати та систематизувати інформацію про винні регіони</li>
+                        <li>Створити інтерактивну карту виноградників</li>
+                        <li>Розробити модуль планування маршрутів</li>
+                        <li>Реалізувати систему "бажаних" турів</li>
+                        <li>Представити інформацію про крафтові вина</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Технології проєкту -->
+        <div class="section-card">
+            <h2></i> Технології проєкту</h2>
+            <p style="text-align: center; margin-bottom: 25px; color: var(--text-dark);">Проєкт розроблено з використанням сучасних веб-технологій:</p>
+            
+            <div class="tech-stack">
+                <div class="tech-item">HTML5</div>
+                <div class="tech-item">CSS3</div>
+                <div class="tech-item">JavaScript</div>
+                <div class="tech-item">Leaflet.js</div>
+                <div class="tech-item">SVG</div>
+                <div class="tech-item">LocalStorage</div>
+            </div>
+        </div>
+
+        <!-- Історія розробки -->
+        <div class="section-card timeline-wrapper">
+            <h2></i> Історія розробки</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">Вересень 2025</div>
+                    <h3>Початок роботи</h3>
+                    <p>Визначення теми, збір інформації, створення структури сайту</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Жовтень 2025</div>
+                    <h3>Дизайн та верстка</h3>
+                    <p>Розробка інтерфейсу, створення макетів, підбір кольорової гами</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Листопад 2025</div>
+                    <h3>Інтерактивність</h3>
+                    <p>Додавання інтерактивних карт, фільтрів, модальних вікон</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Грудень 2025</div>
+                    <h3>Тестування</h3>
+                    <p>Перевірка функціоналу, адаптивності, виправлення помилок</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Січень 2026</div>
+                    <h3>Завершення</h3>
+                    <p>Фінальні доробки, наповнення контентом, підготовка документації</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Авторка проєкту -->
+        <div class="section-card author-card">
+            <h3></i> Авторка проєкту</h3>
+            <div class="author-info">
+                <p class="author-name">Гудим Єва Олександрівна</p>
+                <p>Учениця Дніпровського наукового ліцею інформаційних технологій</p>
+                <p>Випускна кваліфікаційна робота 2025-2026 навчального року</p>
+                
+                <div class="supervisors">
+                    <h4>Керівники:</h4>
+                    <p>Лавренюк Ірина Валеріївна<br>Лисичарова Галина Олександрівна</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        © 2025–2026 — Виноробство та винний туризм України • Випускна робота Гудим Єви Олександрівни
+    </footer>
+</body>
+</html>

@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Авторизація — Винний туризм України</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+            max-width: 300px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: none;
+        }
+        
+        .notification.success {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+        }
+        
+        .notification.error {
+            background: linear-gradient(135deg, #c0392b, #e74c3c);
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--wine-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo"><a href="index.html">Виноробство України</a></div>
+        <nav>
+            <a href="index.html">Головна</a>
+            <a href="regions.html">Регіони</a>
+            <a href="grapes.html">Сорти</a>
+            <a href="routes.html">Маршрути</a>
+            <a href="map.html">Карта</a>
+            <a href="craft-wines.html">Крафтові вина</a>
+            <a href="about.html">Про сайт</a>
+            <a href="auth.html" class="active"><i class="fas fa-user"></i> Вхід</a>
+        </nav>
+    </header>
+
+    <main class="auth-container">
+        <!-- Сповіщення -->
+        <div id="notification" class="notification"></div>
+        
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1><i class="fas fa-user-circle"></i> Особистий кабінет</h1>
+                <p>Увійдіть або зареєструйтесь для доступу до повного функціоналу</p>
+            </div>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Вхід</button>
+                <button class="auth-tab" data-tab="register">Реєстрація</button>
+            </div>
+            
+            <!-- Форма входу -->
+            <form id="login-form" class="auth-form active">
+                <div class="form-group">
+                    <label for="login-email"><i class="fas fa-envelope"></i> Електронна пошта</label>
+                    <input type="email" id="login-email" class="form-control" placeholder="your@email.com" required>
+                    <div class="form-error" id="login-email-error"></div>
+                </div>
+                
+                <div class="form-group password-toggle">
+                    <label for="login-password"><i class="fas fa-lock"></i> Пароль</label>
+                    <input type="password" id="login-password" class="form-control" placeholder="••••••••" required>
+                    <button type="button" class="toggle-btn" data-toggle="login-password">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <div class="form-error" id="login-password-error"></div>
+                </div>
+                
+                <div class="form-check">
+                    <input type="checkbox" id="remember-me">
+                    <label for="remember-me">Запам'ятати мене</label>
+                </div>
+                
+                <button type="submit" class="auth-btn">
+                    <i class="fas fa-sign-in-alt"></i> Увійти
+                </button>
+            </form>
+            
+            <!-- Форма реєстрації -->
+            <form id="register-form" class="auth-form">
+                <div class="form-group">
+                    <label for="register-name"><i class="fas fa-user"></i> Ім'я та прізвище</label>
+                    <input type="text" id="register-name" class="form-control" placeholder="Іван Іванов" required>
+                    <div class="form-error" id="register-name-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-email"><i class="fas fa-envelope"></i> Електронна пошта</label>
+                    <input type="email" id="register-email" class="form-control" placeholder="your@email.com" required>
+                    <div class="form-error" id="register-email-error"></div>
+                </div>
+                
+                <div class="form-group password-toggle">
+                    <label for="register-password"><i class="fas fa-lock"></i> Пароль</label>
+                    <input type="password" id="register-password" class="form-control" placeholder="••••••••" required>
+                    <button type="button" class="toggle-btn" data-toggle="register-password">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <div class="form-error" id="register-password-error"></div>
+                </div>
+                
+                <div class="form-group password-toggle">
+                    <label for="register-confirm"><i class="fas fa-lock"></i> Підтвердіть пароль</label>
+                    <input type="password" id="register-confirm" class="form-control" placeholder="••••••••" required>
+                    <button type="button" class="toggle-btn" data-toggle="register-confirm">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <div class="form-error" id="register-confirm-error"></div>
+                </div>
+                
+                <div class="form-check">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">Реєстрацію підтверджую</a></label>
+                </div>
+                
+                <button type="submit" class="auth-btn">
+                    <i class="fas fa-user-plus"></i> Зареєструватись
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        © 2025–2026 — Виноробство та винний туризм України • Випускна робота Гудим Єви Олександрівни
+    </footer>
+
+    <script>
+    	
+        // ========== БАЗА ДАНИХ КОРИСТУВАЧІВ ==========
+        class UserDatabase {
+            constructor() {
+                this.users = this.loadUsers();
+                this.currentUser = this.loadCurrentUser();
+            }
+            
+            // Завантаження користувачів з LocalStorage
+            loadUsers() {
+                try {
+                    const users = localStorage.getItem('wineTourismUsers');
+                    return users ? JSON.parse(users) : [];
+                } catch (error) {
+                    console.error('Помилка завантаження користувачів:', error);
+                    return [];
+                }
+            }
+            
+            // Завантаження поточного користувача
+            loadCurrentUser() {
+                try {
+                    const user = localStorage.getItem('currentUser');
+                    return user ? JSON.parse(user) : null;
+                } catch (error) {
+                    console.error('Помилка завантаження користувача:', error);
+                    return null;
+                }
+            }
+            
+            // Збереження користувачів
+            saveUsers() {
+                try {
+                    localStorage.setItem('wineTourismUsers', JSON.stringify(this.users));
+                } catch (error) {
+                    console.error('Помилка збереження користувачів:', error);
+                }
+            }
+            
+            // Збереження поточного користувача
+            saveCurrentUser() {
+                try {
+                    localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+                } catch (error) {
+                    console.error('Помилка збереження користувача:', error);
+                }
+            }
+            
+            // Реєстрація нового користувача
+            register(name, email, password) {
+                // Перевірка наявності користувача
+                if (this.users.some(user => user.email === email)) {
+                    return { 
+                        success: false, 
+                        message: 'Користувач з такою поштою вже існує' 
+                    };
+                }
+                
+                // Хешування пароля (спрощена імітація)
+                const hashedPassword = this.hashPassword(password);
+                
+                // Створення нового користувача
+                const newUser = {
+                    id: Date.now().toString(),
+                    name: name.trim(),
+                    email: email.toLowerCase().trim(),
+                    password: hashedPassword,
+                    registeredAt: new Date().toISOString(),
+                    lastLogin: new Date().toISOString(),
+                    wishlist: [],
+                    bookedTours: [],
+                    preferences: {
+                        region: '',
+                        wineType: '',
+                        budget: ''
+                    },
+                    avatarColor: this.generateAvatarColor(),
+                    avatarLetter: name.trim().charAt(0).toUpperCase()
+                };
+                
+                // Додавання до бази даних
+                this.users.push(newUser);
+                this.currentUser = newUser;
+                
+                // Збереження
+                this.saveUsers();
+                this.saveCurrentUser();
+                
+                return { 
+                    success: true, 
+                    message: 'Реєстрація успішна!', 
+                    user: newUser 
+                };
+            }
+            
+            // Вхід користувача
+            login(email, password) {
+                const user = this.users.find(user => 
+                    user.email === email.toLowerCase().trim()
+                );
+                
+                if (!user) {
+                    return { 
+                        success: false, 
+                        message: 'Користувача з такою поштою не знайдено' 
+                    };
+                }
+                
+                // Перевірка пароля (спрощена)
+                const hashedPassword = this.hashPassword(password);
+                if (user.password !== hashedPassword) {
+                    return { 
+                        success: false, 
+                        message: 'Неправильний пароль' 
+                    };
+                }
+                
+                // Оновлення даних про останній вхід
+                user.lastLogin = new Date().toISOString();
+                this.currentUser = user;
+                
+                // Збереження
+                this.saveUsers();
+                this.saveCurrentUser();
+                
+                return { 
+                    success: true, 
+                    message: 'Вхід успішний!', 
+                    user: user 
+                };
+            }
+            
+            // Вихід користувача
+            logout() {
+                this.currentUser = null;
+                this.saveCurrentUser();
+                return { success: true, message: 'Ви вийшли з системи' };
+            }
+            
+            // Оновлення профілю
+            updateProfile(userId, updates) {
+                const userIndex = this.users.findIndex(user => user.id === userId);
+                
+                if (userIndex === -1) {
+                    return { success: false, message: 'Користувача не знайдено' };
+                }
+                
+                // Оновлення даних
+                this.users[userIndex] = { ...this.users[userIndex], ...updates };
+                
+                // Оновлення поточного користувача, якщо це він
+                if (this.currentUser && this.currentUser.id === userId) {
+                    this.currentUser = this.users[userIndex];
+                    this.saveCurrentUser();
+                }
+                
+                this.saveUsers();
+                
+                return { 
+                    success: true, 
+                    message: 'Профіль оновлено', 
+                    user: this.users[userIndex] 
+                };
+            }
+            
+            // Додавання до бажаного
+            addToWishlist(userId, tourId, tourData) {
+                const userIndex = this.users.findIndex(user => user.id === userId);
+                
+                if (userIndex === -1) {
+                    return { success: false, message: 'Користувача не знайдено' };
+                }
+                
+                // Перевірка наявності вже в бажаному
+                const exists = this.users[userIndex].wishlist.some(item => item.id === tourId);
+                
+                if (exists) {
+                    return { 
+                        success: false, 
+                        message: 'Цей тур вже у вашому списку бажаного' 
+                    };
+                }
+                
+                // Додавання
+                this.users[userIndex].wishlist.push({
+                    id: tourId,
+                    ...tourData,
+                    addedAt: new Date().toISOString()
+                });
+                
+                // Оновлення поточного користувача
+                if (this.currentUser && this.currentUser.id === userId) {
+                    this.currentUser.wishlist = this.users[userIndex].wishlist;
+                    this.saveCurrentUser();
+                }
+                
+                this.saveUsers();
+                
+                return { 
+                    success: true, 
+                    message: 'Тур додано до бажаного' 
+                };
+            }
+            
+            // Видалення з бажаного
+            removeFromWishlist(userId, tourId) {
+                const userIndex = this.users.findIndex(user => user.id === userId);
+                
+                if (userIndex === -1) {
+                    return { success: false, message: 'Користувача не знайдено' };
+                }
+                
+                // Видалення
+                this.users[userIndex].wishlist = this.users[userIndex].wishlist.filter(
+                    item => item.id !== tourId
+                );
+                
+                // Оновлення поточного користувача
+                if (this.currentUser && this.currentUser.id === userId) {
+                    this.currentUser.wishlist = this.users[userIndex].wishlist;
+                    this.saveCurrentUser();
+                }
+                
+                this.saveUsers();
+                
+                return { 
+                    success: true, 
+                    message: 'Тур видалено з бажаного' 
+                };
+            }
+            
+            // Спрощене хешування пароля (для демонстрації)
+            hashPassword(password) {
+                // У реальному додатку використовуйте bcrypt або іншу бібліотеку
+                return btoa(password + 'wine_tourism_salt');
+            }
+            
+            // Генерація кольору для аватара
+            generateAvatarColor() {
+                const colors = [
+                    '#8b4513', '#a0522d', '#d4a574', '#b5651d',
+                    '#9D4EDD', '#FF6B6B', '#06D6A0', '#118AB2'
+                ];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+            
+            // Перевірка чи користувач авторизований
+            isAuthenticated() {
+                return this.currentUser !== null;
+            }
+            
+            // Отримання поточного користувача
+            getCurrentUser() {
+                return this.currentUser;
+            }
+        }
+        
+        // Ініціалізація бази даних
+        const userDB = new UserDatabase();
+        
+        // ========== ІНІЦІАЛІЗАЦІЯ СТОРІНКИ ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            // Перевірка, чи користувач вже авторизований
+            if (userDB.isAuthenticated() && window.location.pathname.includes('auth.html')) {
+                showNotification('Ви вже авторизовані!', 'success');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+                return;
+            }
+            
+            // Налаштування перемикання вкладок
+            setupTabs();
+            
+            // Налаштування перемикання видимості пароля
+            setupPasswordToggle();
+            
+            // Налаштування форми входу
+            setupLoginForm();
+            
+            // Налаштування форми реєстрації
+            setupRegisterForm();
+            
+            // Додавання реального валідації
+            setupRealTimeValidation();
+        });
+        
+        // ========== ФУНКЦІЇ ДЛЯ РОБОТИ ЗІ СТОРІНКОЮ ==========
+        
+        function setupTabs() {
+            document.querySelectorAll('.auth-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Активуємо відповідну вкладку
+                    document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Показуємо відповідну форму
+                    document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
+                    document.getElementById(`${tabId}-form`).classList.add('active');
+                });
+            });
+        }
+        
+        function setupPasswordToggle() {
+            document.querySelectorAll('.toggle-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-toggle');
+                    const input = document.getElementById(targetId);
+                    const icon = this.querySelector('i');
+                    
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        icon.classList.remove('fa-eye');
+                        icon.classList.add('fa-eye-slash');
+                    } else {
+                        input.type = 'password';
+                        icon.classList.remove('fa-eye-slash');
+                        icon.classList.add('fa-eye');
+                    }
+                });
+            });
+        }
+        
+        function setupLoginForm() {
+            const loginForm = document.getElementById('login-form');
+            
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('login-email').value.trim();
+                const password = document.getElementById('login-password').value;
+                
+                // Валідація
+                if (!validateEmail(email)) {
+                    showFormError('login-email-error', 'Будь ласка, введіть коректну email адресу');
+                    return;
+                }
+                
+                if (password.length < 6) {
+                    showFormError('login-password-error', 'Пароль має містити мінімум 6 символів');
+                    return;
+                }
+                
+                // Спроба входу
+                const result = userDB.login(email, password);
+                
+                if (result.success) {
+                    showNotification('Вхід успішний! Перенаправляємо...', 'success');
+                    
+                    // Запам'ятовування користувача, якщо обрано опцію
+                    const rememberMe = document.getElementById('remember-me').checked;
+                    if (rememberMe) {
+                        localStorage.setItem('rememberedUser', email);
+                    }
+                    
+                    // Перенаправлення
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
+                } else {
+                    showFormError('login-password-error', result.message);
+                }
+            });
+        }
+        
+        function setupRegisterForm() {
+            const registerForm = document.getElementById('register-form');
+            
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('register-name').value.trim();
+                const email = document.getElementById('register-email').value.trim();
+                const password = document.getElementById('register-password').value;
+                const confirm = document.getElementById('register-confirm').value;
+                
+                // Валідація
+                if (!validateName(name)) {
+                    showFormError('register-name-error', 'Ім\'я має містити мінімум 2 символи');
+                    return;
+                }
+                
+                if (!validateEmail(email)) {
+                    showFormError('register-email-error', 'Будь ласка, введіть коректну email адресу');
+                    return;
+                }
+                
+                if (!validatePassword(password)) {
+                    showFormError('register-password-error', 'Пароль має містити мінімум 6 символів');
+                    return;
+                }
+                
+                if (password !== confirm) {
+                    showFormError('register-confirm-error', 'Паролі не співпадають');
+                    return;
+                }
+                
+                if (!document.getElementById('terms').checked) {
+                    showFormError('register-confirm-error', 'Необхідно підтвердити реєстрацію');
+                    return;
+                }
+                
+                // Реєстрація
+                const result = userDB.register(name, email, password);
+                
+                if (result.success) {
+                    showNotification('Реєстрація успішна! Перенаправляємо...', 'success');
+                    
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
+                } else {
+                    showFormError('register-email-error', result.message);
+                }
+            });
+        }
+        
+        function setupRealTimeValidation() {
+            // Email в реальному часі
+            document.getElementById('register-email').addEventListener('blur', function() {
+                const email = this.value.trim();
+                if (email && !validateEmail(email)) {
+                    showFormError('register-email-error', 'Будь ласка, введіть коректну email адресу');
+                } else {
+                    hideFormError('register-email-error');
+                }
+            });
+            
+            // Пароль в реальному часі
+            document.getElementById('register-password').addEventListener('input', function() {
+                if (this.value.length > 0 && this.value.length < 6) {
+                    showFormError('register-password-error', 'Пароль має містити принаймні 6 символів');
+                } else {
+                    hideFormError('register-password-error');
+                }
+            });
+            
+            // Підтвердження пароля в реальному часі
+            document.getElementById('register-confirm').addEventListener('input', function() {
+                const password = document.getElementById('register-password').value;
+                
+                if (this.value !== password) {
+                    showFormError('register-confirm-error', 'Паролі не співпадають');
+                } else {
+                    hideFormError('register-confirm-error');
+                }
+            });
+        }
+        
+        // ========== ДОПОМІЖНІ ФУНКЦІЇ ==========
+        
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+        
+        function validateName(name) {
+            return name.length >= 2;
+        }
+        
+        function validatePassword(password) {
+            return password.length >= 6;
+        }
+        
+        function showFormError(elementId, message) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.style.display = 'block';
+        }
+        
+        function hideFormError(elementId) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'none';
+        }
+        
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.style.display = 'block';
+            
+            // Автоматичне приховування через 3 секунди
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+        
+        // ========== ГЛОБАЛЬНІ ФУНКЦІЇ ==========
+        
+        // Функція для виходу (можна викликати з будь-якої сторінки)
+        window.logoutUser = function() {
+            userDB.logout();
+            showNotification('Ви вийшли з системи', 'success');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1000);
+        };
+        
+        // Функція для перевірки авторизації на будь-якій сторінці
+        window.checkAuth = function() {
+            return userDB.isAuthenticated();
+        };
+        
+        // Функція для отримання поточного користувача
+        window.getCurrentUser = function() {
+            return userDB.getCurrentUser();
+        };
+        
+        // Функція для додавання до бажаного
+        window.addToWishlist = function(tourId, tourData) {
+            if (!userDB.isAuthenticated()) {
+                showNotification('Будь ласка, увійдіть в систему', 'error');
+                return false;
+            }
+            
+            const result = userDB.addToWishlist(
+                userDB.currentUser.id,
+                tourId,
+                tourData
+            );
+            
+            if (result.success) {
+                showNotification(result.message, 'success');
+            } else {
+                showNotification(result.message, 'error');
+            }
+            
+            return result.success;
+        };
+        
+        // Функція для видалення з бажаного
+        window.removeFromWishlist = function(tourId) {
+            if (!userDB.isAuthenticated()) {
+                return false;
+            }
+            
+            return userDB.removeFromWishlist(userDB.currentUser.id, tourId);
+        };
+        
+        // Функція для отримання списку бажаного
+        window.getWishlist = function() {
+            if (!userDB.isAuthenticated()) {
+                return [];
+            }
+            
+            return userDB.currentUser.wishlist || [];
+        };
+    </script>
+</body>
+</html>
