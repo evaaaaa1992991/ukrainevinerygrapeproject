@@ -191,13 +191,6 @@
     font-size: 14px;
     color: var(--text-dark) !important;
   }
-    .legend-color {
-      width: 15px;
-      height: 15px;
-      border-radius: 50%;
-      margin-right: 10px;
-      border: 2px solid white;
-    }
 
   /* Білий бокс для заголовка списку виноробень - як в grapes.html */
   .wineries-header-wrapper {
@@ -1009,7 +1002,7 @@
       }
     });
 
-let map;
+    let map;
     let markers = [];
     let currentRoute = null;
     
@@ -1022,8 +1015,9 @@ let map;
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         maxZoom: 18,
       }).addTo(map);
-    // Додаємо темну тему для карти
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      
+      // Додаємо темну тему для карти
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
         maxZoom: 18,
       }).addTo(map);
@@ -1351,6 +1345,7 @@ document.addEventListener('DOMContentLoaded', initMap);
 </body>
 
 </html>
+
 
 
 
