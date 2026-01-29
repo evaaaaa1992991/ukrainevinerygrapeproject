@@ -1012,10 +1012,6 @@
     let map;
     let markers = [];
     let currentRoute = null;
-    
-    function initMap() {
-      // Створюємо карту
-      map = L.map('map').setView([48.5, 31.2], 6);
       
       // Додаємо тайли OpenStreetMap
         // Функція для ініціалізації карти
@@ -1027,11 +1023,10 @@
                 const map = L.map('producers-map').setView([49.0, 31.5], 6);
                 
                 // Додаємо тайли
-               L.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors, Wikimedia',
+               L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors',
     maxZoom: 18
 }).addTo(map);
-      document.addEventListener('DOMContentLoaded', initializeMap);
       // Визначаємо виноробні
       const wineries = [
         {
@@ -1351,6 +1346,7 @@
 </body>
 
 </html>
+
 
 
 
