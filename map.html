@@ -1010,23 +1010,19 @@
     });
 
     let map;
-    let markers = [];
-    let currentRoute = null;
-      
-      // Додаємо тайли OpenStreetMap
-        // Функція для ініціалізації карти
-        function initializeMap() {
-            const mapContainer = document.getElementById('producers-map');
-            
-            if (mapContainer) {
-                // Створюємо карту
-                const map = L.map('producers-map').setView([49.0, 31.5], 6);
-                
-                // Додаємо тайли
-               L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors',
-    maxZoom: 18
-}).addTo(map);
+let markers = [];
+let currentRoute = null;
+
+function initializeMap() {
+  map = L.map('map').setView([48.3794, 31.1656], 6); // Україна
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+}
+
+// ініціалізуємо карту після завантаження DOM
+document.addEventListener('DOMContentLoaded', initializeMap);
       // Визначаємо виноробні
       const wineries = [
         {
@@ -1346,6 +1342,7 @@
 </body>
 
 </html>
+
 
 
 
