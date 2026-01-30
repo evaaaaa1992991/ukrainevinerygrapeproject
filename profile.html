@@ -351,7 +351,14 @@
                         <i class="fas fa-sign-out-alt"></i> Вийти
                     </button>
                 </div>
-                
+<button 
+    type="button" 
+    class="logout-btn"
+    style="background: rgba(231, 76, 60, 0.08);"
+    onclick="deleteAccount()"
+>
+    <i class="fas fa-user-slash"></i> Видалити акаунт
+</button>
                 <div class="profile-content">
                     <!-- Вкладка Огляд -->
                     <div id="overview-tab" class="tab-content active">
@@ -591,7 +598,30 @@
             localStorage.removeItem('currentUser');
             window.location.href = 'index.html';
         }
-        
+        function deleteAccount() {
+    const confirmDelete = confirm(
+        'Ви впевнені, що хочете повністю видалити акаунт?\n\n' +
+        'Усі дані (профіль, бажане, налаштування) буде втрачено без можливості відновлення.'
+    );
+
+    if (!confirmDelete) return;
+
+    let users = JSON.parse(localStorage.getItem('wineTourismUsers')) || [];
+
+    // видаляємо користувача 
+    users = users.filter(u => u.id !== currentUser.id);
+
+    // зберігаємо оновлений список
+    localStorage.setItem('wineTourismUsers', JSON.stringify(users));
+
+    // прибираємо поточного 
+    localStorage.removeItem('currentUser');
+
+    alert('Ваш акаунт успішно видалено.');
+
+    // перекидаємо на головну 
+    window.location.href = 'index.html';
+    }
         function showNotification(message, type = 'info') {
             // Створюємо елемент сповіщення
             const notification = document.createElement('div');
@@ -655,3 +685,4 @@
 </body>
 
 </html>
+
