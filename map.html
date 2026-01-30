@@ -191,6 +191,7 @@
     font-size: 14px;
     color: var(--text-dark) !important;
   }
+  .legend-color { width: 15px; height: 15px; border-radius: 50%; margin-right: 10px; border: 2px solid white; }
 
   /* Білий бокс для заголовка списку виноробень - як в grapes.html */
   .wineries-header-wrapper {
@@ -409,20 +410,22 @@
     <div class="logo"><a href="index.html">Виноробство України</a></div>
     <nav>
       <a href="index.html">Головна</a>
+      <a href="about.html">Про сайт</a>
       <a href="regions.html">Регіони</a>
-      <a href="grapes.html">Сорти</a>
+
       <a href="routes.html">Маршрути</a>
       <a href="map.html" class="active">Карта</a>
+      <a href="grapes.html">Сорти</a>
       <a href="craft-wines.html">Крафтові вина</a>
-      <a href="about.html">Про сайт</a>
+
       <a href="profile.html"><i class="fas fa-user-circle"></i> Кабінет</a>
     </nav>
   </header>
 
   <main class="container">
     <div class="main-header-wrapper">
-        <h1><i class="fas fa-map-marked-alt"></i> Інтерактивна карта винних об'єктів України</h1>
-        <p class="subtitle">Всі винні маєтки, дегустаційні зали, виноробні регіони на одній карті. Натискайте на маркери для детальної інформації.</p>
+        <h1><i class="fas fa-map-marked-alt"></i> Інтерактивна карта винних об'єктів</h1>
+        <p class="subtitle">Винні маєтки, дегустаційні зали, які входять до запропонованих турів на сторінці "Маршрути". Натискайте на маркери для детальної інформації виноробень та прокладіть бажаний маршрут.</p>
     </div>
     
     <div class="map-controls">
@@ -431,8 +434,6 @@
       <div class="map-btn" data-filter="craft">Крафтові виноробні</div>
       <div class="map-btn" data-filter="family">Сімейні виноробні</div>
       <div class="map-btn" data-filter="tasting">Дегустаційні зали</div>
-      <div class="map-btn" data-filter="hotel">Готелі при виноробнях</div>
-      <div class="map-btn" data-filter="route">Маршрути</div>
     </div>
     
     <!-- Контроль маршрутів -->
@@ -448,7 +449,7 @@
         <option value="kyiv-tour">Винна дегустація під Києвом</option>
       </select>
       <button class="route-btn" id="show-route-btn">
-        <i class="fas fa-map-marked"></i> Показати маршрут
+        <i></i> Показати маршрут
       </button>
       <button class="route-btn" id="clear-route-btn" style="background: rgba(255,255,255,0.1); margin-left: 10px;">
         <i class="fas fa-times"></i> Очистити маршрут
@@ -459,7 +460,7 @@
     
     <!-- Легенда карти -->
     <div class="map-legend">
-      <h4 style="margin-top:0;margin-bottom:10px;"><i class="fas fa-key"></i> Легенда</h4>
+      <h4 style="margin-top:0;margin-bottom:10px;"><i class="fas fa-key"></i> Умовні позначення об'єктів</h4>
       <div class="legend-item">
         <div class="legend-color" style="background-color: #ff4444;"></div>
         <span>Крупні виноробні</span>
@@ -471,18 +472,6 @@
       <div class="legend-item">
         <div class="legend-color" style="background-color: #00cc66;"></div>
         <span>Сімейні виноробні</span>
-      </div>
-      <div class="legend-item">
-        <div class="legend-color" style="background-color: #0099ff;"></div>
-        <span>Дегустаційні зали</span>
-      </div>
-      <div class="legend-item">
-        <div class="legend-color" style="background-color: #9966ff;"></div>
-        <span>Готелі</span>
-      </div>
-      <div class="legend-item">
-        <div class="legend-color" style="background-color: #ff00ff; border: 2px dashed white;"></div>
-        <span>Маршрути</span>
       </div>
     </div>
     
@@ -1353,6 +1342,7 @@
   </script>
 </body>
 </html>
+
 
 
 
