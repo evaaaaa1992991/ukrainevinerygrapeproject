@@ -889,7 +889,10 @@
                     <div class="wine-card" data-id="${wine.id}" data-region="${wine.region}" data-type="${wine.type}" data-price="${wine.price}">
                         <div class="wine-badge ${badgeClass}">${badgeText}</div>
                         <img src="${wine.image}" alt="${wine.name}" class="wine-image">
-                        <h3 style="margin: 0 0 10px 0; color: var(--wine-brown);">${wine.name}</h3>
+                        <a href="${wine.url}" target="_blank" class="wine-title-link">
+                        <h3 class="wine-title-en">${wine.name}</h3>
+                        <div class="wine-title-ua">${wine.nameUa}</div>
+                        </a>
                         <p style="margin: 0 0 10px 0; color: var(--text-medium); font-size: 14px;">
                             <i class="fas fa-home"></i> ${wine.producer} • ${wine.region}
                         </p>
@@ -1318,6 +1321,7 @@
 </body>
 
 </html>
+
 
 
 
