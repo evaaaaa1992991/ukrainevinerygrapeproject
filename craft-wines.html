@@ -57,6 +57,27 @@
     color: var(--text-medium);
     line-height: 1.6;
 }
+        .age-warning {
+    background: rgba(180, 101, 29, 0.08);
+    border: 2px solid rgba(180, 101, 29, 0.4);
+    border-radius: 16px;
+    padding: 20px 30px;
+    margin: 25px 0 40px 0;
+    text-align: center;
+}
+
+.age-warning i {
+    color: var(--wine-brown);
+    font-size: 1.6rem;
+    margin-right: 10px;
+}
+
+.age-warning p {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--text-dark);
+    font-weight: 600;
+}
         .hero-section {
             background: linear-gradient(135deg, rgba(212, 165, 116, 0.1), rgba(139, 69, 19, 0.05));
             border-radius: 20px;
@@ -375,7 +396,12 @@
             <a href="profile.html"><i class="fas fa-user-circle"></i> Кабінет</a>
         </nav>
     </header>
-
+<div class="age-warning">
+    <p>
+        <i class="fas fa-exclamation-triangle"></i>
+        Вживання алкоголю шкодить Вашому здоров’ю та забороняється особам до 18-ти років.
+    </p>
+</div>
     <main class="container">
         <div class="hero-section">
             <div class="section-box">
@@ -1248,4 +1274,5 @@
 </body>
 
 </html>
+
 
