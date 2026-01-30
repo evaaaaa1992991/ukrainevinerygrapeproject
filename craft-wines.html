@@ -614,7 +614,8 @@
         nameUa: "Бейкуш Соляріс",
         url: "https://beykush.com/?srsltid=AfmBOoqFJoI6TNraIWHGjZpzfLK9N8PtASlpN7OxTPcEQlDikCIR_7hl",
         producer: "Beykush Winery",
-        region: "Причорномор'я, с. Осетрівка, Миколаївська область",
+        region: "Причорномор'я",
+        location:  "с. Осетрівка, Миколаївська область",
         type: "white",
         price: 350,
         rating: 4.7,
@@ -631,7 +632,8 @@
         nameUa: "Шато Чизай Фурмінт",
         url: "https://chizay.com/?srsltid=AfmBOorGdGnQid2Pv2_xN8mkToajoX44DBh5JR_x5YQDYw9Eh0lkdhOF",
         producer: "Chateau Chizay",
-        region: "Закарпаття, м. Берегово, Урочище Чизай, 1, Закарпатська область",
+        region: "Закарпаття",
+        location:  "м. Берегово, Урочище Чизай, 1, Закарпатська область",
         type: "white",
         price: 750,
         rating: 4.6,
@@ -648,7 +650,8 @@
         nameUa: "Калюс Каберне Кортіс",
         url: "https://newfood.ua/2022/10/27/kalyus-winery-stvoriuie-vyno-iz-naydavnishykh-vynohradnykh-sortiv-na-berezi-dnistra/",
         producer: "Kalyus Winery",
-        region: "Поділля, с. Рудківці, Хмельницька область",
+        region: "Поділля",
+        location:  "с. Рудківці, Хмельницька область",
         type: "red",
         price: 450,
         rating: 4.8,
@@ -665,7 +668,8 @@
         nameUa: "Біологіст Аліготе",
         url: "https://www.biologist.com.ua/en/",
         producer: "Biologist Craft Winery",
-        region: "Центральна Україна, с. Лісники, вулиця Гайова, Київська область",
+        region: "Центральна Україна",
+        location:  "с. Лісники, вулиця Гайова, Київська область",
         type: "white",
         price: 420,
         rating: 4.5,
@@ -682,7 +686,8 @@
         nameUa: "Вілла Тінта Мускат",
         url: "https://villatinta.com.ua/istoriya/",
         producer: "Villa Tinta",
-        region: "Бессарабія, с. Оксамитне, Одеська область",
+        region: "Бессарабія",
+        location:  "с. Оксамитне, Одеська область",
         type: "white",
         price: 270,
         rating: 4.4,
@@ -699,7 +704,8 @@
         nameUa: "Шато Едем Соляріс",
         url: "https://landlord.ua/news/halytskyi-vynorobnyi-rai-chateau-edem/",
         producer: "Château Edem",
-        region: "Західна Україна, с. Стрілки, Львівська область",
+        region: "Західна Україна",
+        location:  "с. Стрілки, Львівська область",
         type: "white",
         price: 380,
         rating: 4.7,
@@ -716,7 +722,8 @@
         nameUa: "Бейкуш Сапераві Ілюзія",
         url: "https://beykush.com/?srsltid=AfmBOoqFJoI6TNraIWHGjZpzfLK9N8PtASlpN7OxTPcEQlDikCIR_7hl",
         producer: "Beykush Winery",
-        region: "Причорномор'я, с. Осетрівка, Миколаївська область",
+        region: "Причорномор'я",
+        location:  "с. Осетрівка, Миколаївська область",
         type: "red",
         price: 180,
         rating: 4.9,
@@ -733,7 +740,8 @@
         nameUa: "Шато Чизай Фурмінт Помаранчеве",
         url: "https://chizay.com/?srsltid=AfmBOorGdGnQid2Pv2_xN8mkToajoX44DBh5JR_x5YQDYw9Eh0lkdhOF",
         producer: "Chateau Chizay",
-        region: "Закарпаття, м. Берегово, Урочище Чизай, 1, Закарпатська область",
+        region: "Закарпаття",
+        location:  "м. Берегово, Урочище Чизай, 1, Закарпатська область",
         type: "orange",
         price: 500,
         rating: 4.6,
@@ -886,7 +894,7 @@
                 }
                 
                 return `
-                    <div class="wine-card" data-id="${wine.id}" data-region="${wine.region}" data-type="${wine.type}" data-price="${wine.price}">
+                    <div class="wine-card" data-id="${wine.id}" data-region="${wine.region}, ${wine.location}" data-type="${wine.type}" data-price="${wine.price}">
                         <div class="wine-badge ${badgeClass}">${badgeText}</div>
                         <img src="${wine.image}" alt="${wine.name}" class="wine-image">
                         <a href="${wine.url}" target="_blank" class="wine-title-link">
@@ -894,7 +902,7 @@
                         <div class="wine-title-ua">${wine.nameUa}</div>
                         </a>
                         <p style="margin: 0 0 10px 0; color: var(--text-medium); font-size: 14px;">
-                            <i class="fas fa-home"></i> ${wine.producer} • ${wine.region}
+                            <i class="fas fa-home"></i> ${wine.producer} • ${wine.region}, ${wine.location}
                         </p>
                         <p style="margin: 0 0 15px 0; color: var(--text-dark); font-size: 15px; line-height: 1.5;">
                             ${wine.description}
@@ -1047,7 +1055,7 @@
                     labels: ['Закарпаття', 'Поділля', 'Причорномор\'я', 'Бессарабія', 'Західна', 'Центральна'],
                     datasets: [{
                         label: 'Середня ціна (грн)',
-                        data: [720, 900, 850, 600, 780, 680],
+                        data: [180, 450, 350, 380, 750, 500, 420, 270],
                         backgroundColor: [
                             'rgba(212, 165, 116, 0.7)',
                             'rgba(139, 69, 19, 0.7)',
@@ -1118,7 +1126,7 @@
             const growthChart = new Chart(growthCtx, {
                 type: 'line',
                 data: {
-                    labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
+                    labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026'],
                     datasets: [{
                         label: 'Кількість виробників',
                         data: [2, 3, 4, 6, 8, 10, 12, 14, 16, 17],
@@ -1321,6 +1329,7 @@
 </body>
 
 </html>
+
 
 
 
