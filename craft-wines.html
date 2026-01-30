@@ -205,7 +205,29 @@
             font-size: 14px;
             color: var(--wine-accent);
         }
-        
+        .wine-title-link {
+    text-decoration: none;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.wine-title-en {
+    margin: 0;
+    color: var(--wine-brown);
+    font-size: 1.25rem;
+}
+
+.wine-title-ua {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--wine-terracotta);
+    transition: color 0.2s ease;
+}
+
+.wine-title-link:hover .wine-title-ua {
+    color: var(--wine-gold);
+    text-decoration: underline;
+}
         .charts-section {
             margin: 50px 0;
         }
@@ -1296,6 +1318,7 @@
 </body>
 
 </html>
+
 
 
 
