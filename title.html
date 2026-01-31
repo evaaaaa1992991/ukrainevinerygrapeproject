@@ -11,98 +11,83 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Georgia', serif;
+            font-family: 'Arial', sans-serif;
             background: url('vinogradniki_shato_chizaj_vvecheri-1024x585.jpg') no-repeat center center fixed;
             background-size: cover;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #5c3d2e;
+            color: #4b2e2e;
             padding: 20px;
         }
-        
+
         .container {
-            background-color: rgba(255, 248, 240, 0.92);
+            background-color: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             padding: 40px;
             max-width: 900px;
             width: 90%;
-            box-shadow: 0 10px 30px rgba(92, 61, 46, 0.3);
-            border: 2px solid #8b7355;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            border: 2px solid #c29c78;
         }
-        
-        .details-panel {
-            background: rgba(255, 248, 240, 0.98);
-            border-radius: 15px;
-            padding: 30px;
-            border: 1px solid #d4a574;
-            animation: slideIn 0.5s ease;
-        }
-        
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .details-panel h3 {
-            color: #8b4513;
-            margin-bottom: 25px;
+
+        .main-title {
             text-align: center;
-            font-size: 1.8rem;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #d4a574;
         }
-        
+
+        .main-title h1 {
+            font-size: 2.5rem;
+            color: #7a3e1e;
+            margin-bottom: 10px;
+        }
+
+        .main-title h2 {
+            font-size: 1.5rem;
+            color: #a0522d;
+            font-weight: normal;
+        }
+
         .info-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
+            gap: 20px;
+            margin-top: 30px;
         }
-        
+
         .info-item {
             padding: 15px;
-            background: white;
+            background: #fff;
             border-radius: 10px;
             border-left: 4px solid #d4a574;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-        
+
         .info-item strong {
-            color: #8b4513;
             display: block;
             margin-bottom: 5px;
+            color: #7a3e1e;
             font-size: 1.1rem;
         }
-        
-        .continue-btn {
-            display: block;
-            margin: 40px auto 0;
-            padding: 15px 40px;
-            background: linear-gradient(135deg, #8b7355, #a0522d);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            text-decoration: none;
-            text-align: center;
-            max-width: 300px;
-            box-shadow: 0 5px 15px rgba(139, 115, 85, 0.4);
-            transition: all 0.3s;
-        }
-        
-        .continue-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(139, 115, 85, 0.6);
-            background: linear-gradient(135deg, #a0522d, #8b7355);
+
+        .info-item span {
+            color: #4b2e2e;
         }
 
         @media (max-width: 768px) {
             .container {
                 padding: 25px;
+            }
+            .main-title h1 {
+                font-size: 2rem;
+            }
+            .main-title h2 {
+                font-size: 1.2rem;
             }
             .info-grid {
                 grid-template-columns: 1fr;
@@ -112,40 +97,37 @@
 </head>
 <body>
     <div class="container">
-        <div class="details-panel">
-            <h3>Випускна кваліфікаційна робота</h3>
-            
-            <div class="info-grid">
-                <div class="info-item">
-                    <strong>Тема роботи:</strong>
-                    <span>"Інтерактивний додаток виноробства та винного туризму в Україні"</span>
-                </div>
-                
-                <div class="info-item">
-                    <strong>Автор:</strong>
-                    <span>Гудим Єва Олександрівна</span>
-                </div>
-                
-                <div class="info-item">
-                    <strong>Наукові керівники:</strong>
-                    <span>Лавренюк Ірина Валеріївна<br>Лисичарова Галина Олександрівна</span>
-                </div>
-                
-                <div class="info-item">
-                    <strong>Навчальний рік:</strong>
-                    <span>2025–2026</span>
-                </div>
+        <div class="main-title">
+            <h1>Дніпровський науковий ліцей інформаційних технологій</h1>
+            <h2>Дніпровської міської ради</h2>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-item">
+                <strong>Випускна кваліфікаційна робота:</strong>
+                <span>"Інтерактивний додаток виноробства та винного туризму в Україні"</span>
             </div>
-            
+
+            <div class="info-item">
+                <strong>Автор:</strong>
+                <span>Гудим Єва Олександрівна</span>
+            </div>
+
+            <div class="info-item">
+                <strong>Наукові керівники:</strong>
+                <span>Лавренюк Ірина Валеріївна<br>Лисичарова Галина Олександрівна</span>
+            </div>
+
+            <div class="info-item">
+                <strong>Навчальний рік:</strong>
+                <span>2025–2026</span>
+            </div>
+
             <div class="info-item" style="grid-column: 1 / -1;">
                 <strong>Анотація:</strong>
                 <span>Інтерактивна веб-платформа для популяризації українського виноробства та планування винного туризму. Містить інформацію про винні регіони, сорти винограду, туристичні маршрути та крафтові виноробні.</span>
             </div>
         </div>
-        
-        <a href="index.html" class="continue-btn">
-            Перейти до сайту <i class="fas fa-arrow-right"></i>
-        </a>
     </div>
 </body>
 </html>
