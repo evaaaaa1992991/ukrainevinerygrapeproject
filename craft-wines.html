@@ -448,9 +448,9 @@
                     <select id="region-filter" class="filter-select">
                         <option value="all">Усі регіони</option>
                         <option value="zak">Закарпаття</option>
-                        <option value="west">Західна Україна</option>
+                        <option value="west">Захід України</option>
                         <option value="pod">Поділля</option>
-                        <option value="cent">Центральна Україна</option>
+                        <option value="cent">Центр України</option>
                         <option value="bes">Бессарабія</option>
                         <option value="prich">Причорномор'я</option>
                     </select>
@@ -669,7 +669,7 @@
         nameUa: "Біологіст Аліготе",
         url: "https://www.biologist.com.ua/en/",
         producer: "Biologist Craft Winery",
-        region: "Центральна Україна",
+        region: "Центр України",
         location:  "с. Лісники, вулиця Гайова, Київська область",
         type: "white",
         price: 420,
@@ -705,7 +705,7 @@
         nameUa: "Шато Едем Соляріс",
         url: "https://landlord.ua/news/halytskyi-vynorobnyi-rai-chateau-edem/",
         producer: "Château Edem",
-        region: "Західна Україна",
+        region: "Захід України",
         location:  "с. Стрілки, Львівська область",
         type: "white",
         price: 380,
@@ -803,7 +803,7 @@
                 id: 4,
                 name: "Biologist Craft Winery",
                 url: "https://www.biologist.com.ua/en/",
-                region: "Центральна Україна",
+                region: "Центр України",
                 location: "с. Лісники, вулиця Гайова, Київська область",
                 founded: 2020,
                 winesCount: 10,
@@ -831,7 +831,7 @@
                 id: 6,
                 name: "Château Edem",
                 url: "https://landlord.ua/news/halytskyi-vynorobnyi-rai-chateau-edem/",
-                region: "Західна Україна",
+                region: "Захід України",
                 location: "с. Стрілки, Львівська область",
                 founded: 2016,
                 winesCount: 8,
@@ -1035,7 +1035,7 @@
             const regionsChart = new Chart(regionsCtx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Бессарабія', 'Закарпаття', 'Поділля', 'Західна Україна', 'Центральна', 'Причорномор\'я'],
+                    labels: ['Бессарабія', 'Закарпаття', 'Поділля', 'Захід України', 'Центр України', 'Причорномор\'я'],
                     datasets: [{
                         data: [3, 2, 1, 1, 1, 2],
                         backgroundColor: [
@@ -1068,7 +1068,7 @@
             const pricesChart = new Chart(pricesCtx, {
                 type: 'bar',
                 data: {
-                    labels: ['Закарпаття', 'Поділля', 'Причорномор\'я', 'Бессарабія', 'Західна', 'Центральна'],
+                    labels: ['Закарпаття', 'Поділля', 'Причорномор\'я', 'Бессарабія', 'Захід', 'Центр'],
                     datasets: [{
                         label: 'Середня ціна (грн)',
                         data: [180, 450, 350, 380, 750, 500, 420, 270],
@@ -1231,9 +1231,9 @@
                     filteredWines = filteredWines.filter(wine => {
                         const regionMap = {
                             'zak': 'Закарпаття',
-                            'west': 'Західна Україна',
+                            'west': 'Захід України',
                             'pod': 'Поділля',
-                            'cent': 'Центральна Україна',
+                            'cent': 'Центр України',
                             'bes': 'Бессарабія',
                             'prich': 'Причорномор\'я'
                         };
@@ -1345,6 +1345,7 @@
 </body>
 
 </html>
+
 
 
 
