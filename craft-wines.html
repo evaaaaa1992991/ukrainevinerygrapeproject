@@ -981,14 +981,15 @@
                     <div class="producer-card">
                         <div class="producer-header">
                             <img src="${producer.logo}" alt="${producer.name}" class="producer-logo">
-                            <div class="producer-info">
-                            <a href="${wine.url}" target="_blank" class="wine-title-link">
-                            <h3 class="wine-title-en">${wine.name}</h3>
-                            </a>
-                                 <p style="margin: 0; color: var(--text-medium);">
-                                    <i class="fas fa-map-marker-alt"></i> ${producer.region} • Засновано: ${producer.founded}
-                                </p>
-                            </div>
+<div class="producer-info">
+    <a href="${producer.url}" target="_blank" class="wine-title-link">
+        <h3 class="wine-title-en">${producer.name}</h3>
+    </a>
+    <p style="margin: 0; color: var(--text-medium);">
+        <i class="fas fa-map-marker-alt"></i>
+        ${producer.region} • Засновано: ${producer.founded}
+    </p>
+</div>
                         </div>
                         
                         <p style="margin: 0 0 20px 0; color: var(--text-dark); line-height: 1.6;">
@@ -1337,6 +1338,7 @@
 </body>
 
 </html>
+
 
 
 
