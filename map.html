@@ -307,6 +307,7 @@
   /* Оновлюємо модальні вікна */
   .modal {
     position: fixed;
+    
     inset: 0;
     display: none; /* Залишаємо display:none, щоб JavaScript працював */
     align-items: center;
@@ -318,6 +319,10 @@
   }
 
   .modal .box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
     width: min(900px, 96%);
     max-height: 86vh;
     overflow: auto;
@@ -327,7 +332,9 @@
     border: 2px solid var(--wine-gold);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   }
-
+  .modal.active {
+  display: flex; /* 👈 ОЦЕ КЛЮЧ */
+  }
   .modal .close {
     display: inline-block;
     float: right;
@@ -988,7 +995,7 @@
         const modalId = this.getAttribute('href').substring(1);
         const modal = document.getElementById(modalId);
         if (modal) {
-          modal.style.display = 'block';
+          modal.classList.add('active');
         }
       });
     });
@@ -1341,4 +1348,5 @@
   </script>
 </body>
 </html>
+
 
