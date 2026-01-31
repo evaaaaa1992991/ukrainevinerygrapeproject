@@ -976,8 +976,10 @@
                         <div class="producer-header">
                             <img src="${producer.logo}" alt="${producer.name}" class="producer-logo">
                             <div class="producer-info">
-                                <h3>${producer.name}</h3>
-                                <p style="margin: 0; color: var(--text-medium);">
+                                <a href="${producer.url}" target="_blank" class="producer-title-link">
+                                <h3 class="producer-title">${producer.name}</h3>
+                                 </a>
+                                 <p style="margin: 0; color: var(--text-medium);">
                                     <i class="fas fa-map-marker-alt"></i> ${producer.region} • Засновано: ${producer.founded}
                                 </p>
                             </div>
@@ -1329,6 +1331,7 @@
 </body>
 
 </html>
+
 
 
 
