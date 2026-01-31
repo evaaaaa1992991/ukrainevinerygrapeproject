@@ -982,16 +982,6 @@
   
   <script>
     // JavaScript для відкриття/закриття модальних вікон
-    document.querySelectorAll('a[href^="#winery-"]').forEach(link => {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const modalId = this.getAttribute('href').substring(1);
-        const modal = document.getElementById(modalId);
-        if (modal) {
-         modal.classList.add('active');
-        }
-      });
-    });
 
     // Закриття модальних вікон
     document.querySelectorAll('.modal .close').forEach(closeBtn => {
@@ -1119,7 +1109,7 @@
             <p>
             <a href="#"
             class="open-modal"
-          data-modal="${winery.id}"
+          data-modal="$winery-{winery.id}"
            style="color:#7a1c35;font-weight:bold;text-decoration:none;">
            Детальніше...
           </a>
@@ -1382,9 +1372,49 @@
     });
   });
 </script>
+<script>
+  document.addEventListener('click', function (e) {
+    const btn = e.target.closest('.open-modal');
+    if (!btn) return;
 
+    e.preventDefault();
+
+    let modalId = btn.dataset.modal;
+
+    // якщо прийшло "shabo" → робимо "winery-shabo"
+    if (!modalId.startsWith('winery-')) {
+      modalId = 'winery-' + modalId;
+    }
+
+    const modal = document.getElementById(modalId);
+
+    if (modal) {
+      modal.classList.add('active');
+    } else {
+      console.warn('❌ Modal not found:', modalId);
+    }
+  });
+
+  // Закриття по кнопці ✕
+  document.querySelectorAll('.modal .close').forEach(btn => {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      this.closest('.modal').classList.remove('active');
+    });
+  });
+
+  // Закриття по кліку на фон
+  document.querySelectorAll('.modal').forEach(modal => {
+    modal.addEventListener('click', e => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+      }
+    });
+  });
+</script>
 </body>
 </html>
+
 
 
 
