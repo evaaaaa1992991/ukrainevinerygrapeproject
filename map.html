@@ -308,7 +308,7 @@
   .modal {
     position: fixed;
     inset: 0;
-    display: flex; /* Залишаємо display:none, щоб JavaScript працював */
+    display: none; /* Залишаємо display:none, щоб JavaScript працював */
     align-items: center;
     justify-content: center;
     background: rgba(92, 61, 46, 0.9);
@@ -339,6 +339,9 @@
     font-weight: bold;
   }
 
+  .modal.active {
+  display: flex;
+  }
   .modal .close:hover {
     color: var(--wine-accent);
   }
@@ -985,7 +988,7 @@
         const modalId = this.getAttribute('href').substring(1);
         const modal = document.getElementById(modalId);
         if (modal) {
-          modal.style.display = 'block';
+         modal.classList.add('active');
         }
       });
     });
@@ -1340,6 +1343,7 @@
   </script>
 </body>
 </html>
+
 
 
 
