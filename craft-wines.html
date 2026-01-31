@@ -976,9 +976,9 @@
                         <div class="producer-header">
                             <img src="${producer.logo}" alt="${producer.name}" class="producer-logo">
                             <div class="producer-info">
-                                <a href="${producer.url}" target="_blank" class="producer-title-link">
-                                <h3 class="producer-title">${producer.name}</h3>
-                                 </a>
+                            <a href="${wine.url}" target="_blank" class="wine-title-link">
+                            <h3 class="wine-title-en">${wine.name}</h3>
+                            </a>
                                  <p style="margin: 0; color: var(--text-medium);">
                                     <i class="fas fa-map-marker-alt"></i> ${producer.region} • Засновано: ${producer.founded}
                                 </p>
@@ -1128,7 +1128,7 @@
             const growthChart = new Chart(growthCtx, {
                 type: 'line',
                 data: {
-                    labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026'],
+                    labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
                     datasets: [{
                         label: 'Кількість виробників',
                         data: [2, 3, 4, 6, 8, 10, 12, 14, 16, 17],
@@ -1331,6 +1331,7 @@
 </body>
 
 </html>
+
 
 
 
