@@ -59,7 +59,19 @@ body::before {
     margin: 0;
     line-height: 1.5;
 }
-    .route-card { position: relative; overflow: hidden; } 
+    .grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+  gap: 20px;
+  align-items: stretch;
+}
+
+
+.route-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
     .route-image { width: 100%; height: 200px; object-fit: cover; border-radius: 12px 12px 0 0; }
     .route-duration {
       position: absolute;
@@ -1050,38 +1062,27 @@ body::before {
     
     // Функція для фільтрації турів
     function filterTours(filter) {
-      const routeCards = document.querySelectorAll('.route-card');
-      const wishlist = getWishlist();
-      const wishlistIds = wishlist.map(item => item.id);
-      
-      routeCards.forEach(card => {
-        const tourId = card.getAttribute('data-id');
-        const duration = parseInt(card.getAttribute('data-duration'));
-        const isInWishlist = wishlistIds.includes(tourId);
-        
-        let showCard = true;
-        
-        switch(filter) {
-          case 'short':
-            showCard = duration <= 2;
-            break;
-          case 'medium':
-            showCard = duration >= 3 && duration <= 4;
-            break;
-          case 'long':
-            showCard = duration >= 5;
-            break;
-          case 'wishlist':
-            showCard = isInWishlist && isAuthenticated();
-            break;
-          case 'all':
-          default:
-            showCard = true;
-        }
-        
-        card.style.display = showCard ? 'flex' : 'none';
-      });
-    }
+  const cards = document.querySelectorAll('.route-card');
+  const wishlistStats = document.getElementById('wishlist-stats');
+  
+  // Показываем статистику только в режиме "Моє бажане"
+  wishlistStats.style.display = (filter === 'wishlist') ? 'grid' : 'none';
+
+  cards.forEach(card => {
+    const duration = parseInt(card.getAttribute('data-duration'));
+    const tourId = card.getAttribute('data-id');
+    let isVisible = false;
+
+    if (filter === 'all') isVisible = true;
+    else if (filter === 'short' && duration <= 2) isVisible = true;
+    else if (filter === 'medium' && duration > 2 && duration <= 4) isVisible = true;
+    else if (filter === 'long' && duration >= 5) isVisible = true;
+    else if (filter === 'wishlist' && isInWishlist(tourId)) isVisible = true;
+
+    // Ключевой момент: используем 'flex', а не 'block'
+    card.style.display = isVisible ? 'flex' : 'none';
+  });
+}
     
     // Функція для показу сповіщень
     function showNotification(message, type = 'info') {
@@ -1350,6 +1351,7 @@ body::before {
 </body>
 
 </html>
+
 
 
 
