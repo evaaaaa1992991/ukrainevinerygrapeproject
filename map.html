@@ -1344,41 +1344,7 @@ document.querySelectorAll('a[href^="#winery-"]').forEach(link => {
     });
   </script>
 <script>
-  document.addEventListener('click', function (e) {
-    const btn = e.target.closest('.open-modal');
-    if (!btn) return;
-
-    e.preventDefault();
-
-    const modalId = btn.dataset.modal;
-    const modal = document.getElementById(modalId);
-
-    if (modal) {
-      modal.classList.add('active');
-    } else {
-      console.warn('Modal not found:', modalId);
-    }
-  });
-
-  // Закриття
-  document.querySelectorAll('.modal .close').forEach(btn => {
-    btn.addEventListener('click', function (e) {
-      e.preventDefault();
-      this.closest('.modal').classList.remove('active');
-    });
-  });
-
-  // Клік по фону
-  document.querySelectorAll('.modal').forEach(modal => {
-    modal.addEventListener('click', e => {
-      if (e.target === modal) {
-        modal.classList.remove('active');
-      }
-    });
-  });
-</script>
-<script>
-  document.addEventListener('click', function (e) {
+document.addEventListener('click', function (e) {
     const btn = e.target.closest('.open-modal');
     if (!btn) return;
 
@@ -1400,6 +1366,26 @@ document.querySelectorAll('a[href^="#winery-"]').forEach(link => {
     }
   });
 
+  // Закриття
+  document.querySelectorAll('.modal .close').forEach(btn => {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      this.closest('.modal').classList.remove('active');
+    });
+  });
+
+  // Клік по фону
+  document.querySelectorAll('.modal').forEach(modal => {
+    modal.addEventListener('click', e => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+      }
+    });
+  });
+</script>
+<script>
+  
+
   // Закриття по кнопці ✕
   document.querySelectorAll('.modal .close').forEach(btn => {
     btn.addEventListener('click', function (e) {
@@ -1419,6 +1405,7 @@ document.querySelectorAll('a[href^="#winery-"]').forEach(link => {
 </script>
 </body>
 </html>
+
 
 
 
