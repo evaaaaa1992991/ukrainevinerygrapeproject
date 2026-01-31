@@ -482,7 +482,7 @@
     <div class="wineries-list">
   <div class="wineries-header-wrapper">
     <h3><i class="fas fa-list"></i> Список винних об'єктів на карті</h3>
-  </div>
+    </div>
   
   <div class="winery-item" data-id="shabo" data-lat="46.2781" data-lng="30.4028" data-type="large hotel tasting">
         <img src="mar_shabo.jfif" alt="SHABO" class="winery-image">
@@ -494,7 +494,7 @@
             <span class="winery-type type-tasting">Дегустації</span>
           </div>
           <p>Одеська область, с. Шабо. Один із найбільших виноробних комплексів України. Пропонує екскурсії, дегустації, ресторан, готель, майстер-класи.</p>
-          <a href="#winery-shabo" class="pill">Детальніше</a>
+          <a href="#winery-shabo" class="pill" style="margin-top:5px">Детальніше</a>
         </div>
       </div>
       
@@ -505,7 +505,7 @@
           <span class="winery-type type-large">Крупна виноробня</span>
           <span class="winery-type type-tasting">Дегустації</span>
           <p>Миколаївська область, смт Коблево. Відомий курорт і винзавод. Пляжний відпочинок поєднується з винними дегустаціями.</p>
-           <a href="#winery-koblevo" class="pill">Детальніше</a>
+          <a href="#winery-koblevo" class="pill" style="margin-top:5px">Детальніше</a>
         </div>
       </div>
       
@@ -517,7 +517,7 @@
           <span class="winery-type type-hotel">Готель</span>
           <span class="winery-type type-tasting">Дегустації</span>
           <p>Миколаївська область, с. Коблево. Крафтова виноробня з індивідуальним підходом. Невеликі партії якісного вина, еко-туризм.</p>
-          <a href="#winery-beykush" class="pill">Детальніше</a>
+          <a href="#winery-beykush" class="pill" style="margin-top:5px">Детальніше</a>
         </div>
       </div>
       
@@ -528,7 +528,7 @@
           <span class="winery-type type-family">Сімейна виноробня</span>
           <span class="winery-type type-tasting">Дегустації</span>
           <p>Закарпатська область, с. Берегове. Сімейна виноробня в Закарпатті. Відомі десертні та солодкі вина. Винний фестиваль у вересні.</p>
-          <a href="#winery-chizay" class="pill">Детальніше</a>
+          <a href="#winery-chizay" class="pill" style="margin-top:5px">Детальніше</a>
         </div>
       </div>
       
@@ -539,7 +539,7 @@
           <span class="winery-type type-craft">Крафтова виноробня</span>
           <span class="winery-type type-family">Сімейна виноробня</span>
           <p>Вінницька область, с. Калинівка. Крафтова виноробня Поділля. Спеціалізація на автохтонних сортах.</p>
-          <a href="#winery-kalyus" class="pill">Детальніше</a>
+          <a href="#winery-kalyus" class="pill" style="margin-top:5px">Детальніше</a>
         </div>
       </div>
       
@@ -550,7 +550,7 @@
           <span class="winery-type type-craft">Крафтова виноробня</span>
           <span class="winery-type type-tasting">Дегустації</span>
           <p>Київська область, с. Петропавлівська Борщагівка. Крафтова виноробня під Києвом. Експериментальні вина, науковий підхід.</p>
-          <a href="#winery-biologist" class="pill">Детальніше</a>
+          <a href="#winery-biologist" class="pill" style="margin-top:5px">Детальніше</a>
         </div>
       </div>
       
@@ -561,7 +561,7 @@
           <span class="winery-type type-craft">Крафтова виноробня</span>
           <span class="winery-type type-hotel">Готель</span>
           <p>Одеська область. Невелика виноробня з власним готелем. Індивідуальні дегустації.</p>
-          <a href="#winery-villa-tinta" class="pill">Детальніше</a>
+          <a href="#winery-villa-tinta" class="pill" style="margin-top:5px">Детальніше</a>
         </div>
       </div>
       
@@ -572,15 +572,15 @@
           <span class="winery-type type-craft">Крафтова виноробня</span>
           <span class="winery-type type-family">Сімейна виноробня</span>
           <p>Львівська область. Винна майстерня у Львівській області. Французькі технології, витончені вина.</p>
-          <a href="#winery-chateau-edem" class="pill">Детальніше</a>
+          <a href="#winery-chateau-edem" class="pill" style="margin-top:5px">Детальніше</a>
         </div>
       </div>
     </div>
     
     <!-- Модальні вікна для детальної інформації -->
     <div id="winery-shabo" class="modal">
-      <div class="content">
-        <span class="close">&times;</span>
+      <div class="box card">
+        <a class="close" href="#">&times;</a>
         <h2>SHABO Wine Culture Center</h2>
         <img src="mar_shabo.jfif" alt="SHABO" style="width:100%;border-radius:10px;margin:15px 0">
         
@@ -982,14 +982,17 @@
   
   <script>
     // JavaScript для відкриття/закриття модальних вікон
-document.querySelectorAll('a[href^="#winery-"]').forEach(link => {
-    link.addEventListener('click', function(e) {
-      e.preventDefault();
-      const modalId = this.getAttribute('href').substring(1);
-      const modal = document.getElementById(modalId);
-      if (modal) modal.classList.add('active');
+    document.querySelectorAll('a[href^="#winery-"]').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const modalId = this.getAttribute('href').substring(1);
+        const modal = document.getElementById(modalId);
+        if (modal) {
+          modal.style.display = 'block';
+        }
+      });
     });
-  });
+
     // Закриття модальних вікон
     document.querySelectorAll('.modal .close').forEach(closeBtn => {
       closeBtn.addEventListener('click', function(e) {
@@ -1014,11 +1017,16 @@ document.querySelectorAll('a[href^="#winery-"]').forEach(link => {
       map = L.map('map').setView([48.5, 31.2], 6);
       
       // Додаємо тайли OpenStreetMap
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '© OpenStreetMap contributors',
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         maxZoom: 18,
       }).addTo(map);
-
+      
+      // Додаємо темну тему для карти
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+        maxZoom: 18,
+      }).addTo(map);
       
       // Визначаємо виноробні
       const wineries = [
@@ -1111,14 +1119,7 @@ document.querySelectorAll('a[href^="#winery-"]').forEach(link => {
           <div style="color:#333; max-width:250px;">
             <h3 style="margin-top:0;color:#7a1c35;">${winery.name}</h3>
             <p><strong>Тип:</strong> ${winery.type.join(', ')}</p>
-            <p>
-            <a href="#"
-            class="open-modal"
-          data-modal="$winery-{winery.id}"
-           style="color:#7a1c35;font-weight:bold;text-decoration:none;">
-           Детальніше...
-          </a>
-          </p>
+            <p><a href="#winery-${winery.id}" style="color:#7a1c35;font-weight:bold;text-decoration:none;">Детальніше...</a></p>
           </div>
         `;
         
@@ -1191,7 +1192,7 @@ document.querySelectorAll('a[href^="#winery-"]').forEach(link => {
             L.latLng(48.5833, 27.0000), // Хмельницький
             L.latLng(48.9167, 24.7167) // Кам'янець-Подільський
           ],
-          color: '#9966ff'
+          color: '#ffff00'
         },
         'bessarabia-tour': {
           name: 'Бессарабське винне коло',
@@ -1343,100 +1344,5 @@ document.querySelectorAll('a[href^="#winery-"]').forEach(link => {
       initMap();
     });
   </script>
-<script>
-document.addEventListener('click', function (e) {
-    const btn = e.target.closest('.open-modal');
-    if (!btn) return;
-
-    e.preventDefault();
-
-    let modalId = btn.dataset.modal;
-
-    // якщо прийшло "shabo" → робимо "winery-shabo"
-    if (!modalId.startsWith('winery-')) {
-      modalId = 'winery-' + modalId;
-    }
-
-    const modal = document.getElementById(modalId);
-
-    if (modal) {
-      modal.classList.add('active');
-    } else {
-      console.warn('❌ Modal not found:', modalId);
-    }
-  });
-
-  // Закриття
-  document.querySelectorAll('.modal .close').forEach(btn => {
-    btn.addEventListener('click', function (e) {
-      e.preventDefault();
-      this.closest('.modal').classList.remove('active');
-    });
-  });
-
-  // Клік по фону
-  document.querySelectorAll('.modal').forEach(modal => {
-    modal.addEventListener('click', e => {
-      if (e.target === modal) {
-        modal.classList.remove('active');
-      }
-    });
-  });
-</script>
-<script>
-  
-
-  // Закриття по кнопці ✕
-  document.querySelectorAll('.modal .close').forEach(btn => {
-    btn.addEventListener('click', function (e) {
-      e.preventDefault();
-      this.closest('.modal').classList.remove('active');
-    });
-  });
-
-  // Закриття по кліку на фон
-  document.querySelectorAll('.modal').forEach(modal => {
-    modal.addEventListener('click', e => {
-      if (e.target === modal) {
-        modal.classList.remove('active');
-      }
-    });
-  });
-</script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
