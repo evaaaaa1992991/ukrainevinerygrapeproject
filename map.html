@@ -494,7 +494,7 @@
             <span class="winery-type type-tasting">Дегустації</span>
           </div>
           <p>Одеська область, с. Шабо. Один із найбільших виноробних комплексів України. Пропонує екскурсії, дегустації, ресторан, готель, майстер-класи.</p>
-          <a href="#" class="open-modal" data-modal="winery-shabo">Детальніше</a>
+          <a href="#winery-shabo" class="pill">Детальніше</a>
         </div>
       </div>
       
@@ -505,7 +505,7 @@
           <span class="winery-type type-large">Крупна виноробня</span>
           <span class="winery-type type-tasting">Дегустації</span>
           <p>Миколаївська область, смт Коблево. Відомий курорт і винзавод. Пляжний відпочинок поєднується з винними дегустаціями.</p>
-           <a href="#" class="pill open-modal" data-modal="winery-koblevo">Детальніше</a>
+           <a href="#winery-koblevo" class="pill">Детальніше</a>
         </div>
       </div>
       
@@ -517,7 +517,7 @@
           <span class="winery-type type-hotel">Готель</span>
           <span class="winery-type type-tasting">Дегустації</span>
           <p>Миколаївська область, с. Коблево. Крафтова виноробня з індивідуальним підходом. Невеликі партії якісного вина, еко-туризм.</p>
-          <a href="#" class="pill open-modal" data-modal="winery-beykush">Детальніше</a>
+          <a href="#winery-beykush" class="pill">Детальніше</a>
         </div>
       </div>
       
@@ -528,7 +528,7 @@
           <span class="winery-type type-family">Сімейна виноробня</span>
           <span class="winery-type type-tasting">Дегустації</span>
           <p>Закарпатська область, с. Берегове. Сімейна виноробня в Закарпатті. Відомі десертні та солодкі вина. Винний фестиваль у вересні.</p>
-          <a href="#" class="pill open-modal" data-modal="winery-chizay">Детальніше</a>
+          <a href="#winery-chizay" class="pill">Детальніше</a>
         </div>
       </div>
       
@@ -539,7 +539,7 @@
           <span class="winery-type type-craft">Крафтова виноробня</span>
           <span class="winery-type type-family">Сімейна виноробня</span>
           <p>Вінницька область, с. Калинівка. Крафтова виноробня Поділля. Спеціалізація на автохтонних сортах.</p>
-          <a href="#" class="pill open-modal" data-modal="winery-kalyus">Детальніше</a>
+          <a href="#winery-kalyus" class="pill">Детальніше</a>
         </div>
       </div>
       
@@ -550,7 +550,7 @@
           <span class="winery-type type-craft">Крафтова виноробня</span>
           <span class="winery-type type-tasting">Дегустації</span>
           <p>Київська область, с. Петропавлівська Борщагівка. Крафтова виноробня під Києвом. Експериментальні вина, науковий підхід.</p>
-          <a href="#" class="pill open-modal" data-modal="winery-biologist">Детальніше</a>
+          <a href="#winery-biologist" class="pill">Детальніше</a>
         </div>
       </div>
       
@@ -561,7 +561,7 @@
           <span class="winery-type type-craft">Крафтова виноробня</span>
           <span class="winery-type type-hotel">Готель</span>
           <p>Одеська область. Невелика виноробня з власним готелем. Індивідуальні дегустації.</p>
-          <a href="#" class="pill open-modal" data-modal="winery-villa-tinta">Детальніше</a>
+          <a href="#winery-villa-tinta" class="pill">Детальніше</a>
         </div>
       </div>
       
@@ -572,7 +572,7 @@
           <span class="winery-type type-craft">Крафтова виноробня</span>
           <span class="winery-type type-family">Сімейна виноробня</span>
           <p>Львівська область. Винна майстерня у Львівській області. Французькі технології, витончені вина.</p>
-          <a href="#" class="pill open-modal" data-modal="winery-chateau-edem">Детальніше</a>
+          <a href="#winery-chateau-edem" class="pill">Детальніше</a>
         </div>
       </div>
     </div>
@@ -982,7 +982,14 @@
   
   <script>
     // JavaScript для відкриття/закриття модальних вікон
-
+document.querySelectorAll('a[href^="#winery-"]').forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const modalId = this.getAttribute('href').substring(1);
+      const modal = document.getElementById(modalId);
+      if (modal) modal.classList.add('active');
+    });
+  });
     // Закриття модальних вікон
     document.querySelectorAll('.modal .close').forEach(closeBtn => {
       closeBtn.addEventListener('click', function(e) {
@@ -1011,8 +1018,6 @@
                     attribution: '© OpenStreetMap contributors',
         maxZoom: 18,
       }).addTo(map);
-      
-      // Додаємо темну тему для карти
 
       
       // Визначаємо виноробні
@@ -1414,6 +1419,7 @@
 </script>
 </body>
 </html>
+
 
 
 
