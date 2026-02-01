@@ -9,21 +9,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.css">
     <style>
         body {
-    /* Основний фон */
     background-image: url('depositphotos_101032930-stock-photo-wine-bottles-on-the-wooden.jpg') !important;
     background-size: cover !important;
     background-position: center !important;
     background-attachment: fixed !important;
     background-repeat: no-repeat !important;
-    
-    /* Інші властивості */
     position: relative !important;
     min-height: 100vh;
     margin: 0;
     padding: 0;
   }
 
-  /* Розмитий шар поверх фону - як в grapes.html */
   body::before {
     content: '';
     position: fixed;
@@ -31,9 +27,9 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(248, 245, 240, 0.5); /* Прозоріший для кращого фону */
-    backdrop-filter: blur(8px); /* Сильніше розмиття */
-    -webkit-backdrop-filter: blur(8px); /* Для Safari */
+    background: rgba(248, 245, 240, 0.5); 
+    backdrop-filter: blur(8px); 
+    -webkit-backdrop-filter: blur(8px); 
     z-index: -1;
   }
   .section-box {
@@ -512,16 +508,13 @@
             </div>
         </div>
 
-        <!-- Список крафтових вин -->
         <div class="section-box">
             <h2><i class="fas fa-chart-bar"></i>Популярні крафтові вина</h2>
             <h3><i></i>Список особливих крафтових вин, які мають власні досягнення. Натисніть на назву вина, щоб перейти до покупки на сайті компанії!</h3>
         </div>
         <div class="wines-grid" id="wines-container">
-            <!-- Картки вин будуть додані через JavaScript -->
         </div>
 
-        <!-- Графіки та статистика -->
         <div class="charts-section">
             <div class="section-box">
                 <h2><i class="fas fa-chart-bar"></i>Статистика ринку крафтових вин</h2>
@@ -552,7 +545,6 @@
             </div>
         </div>
 
-        <!-- Таблиця порівняння цін -->
         <div class="price-comparison">
             <h2><i class="fas fa-balance-scale"></i> Порівняння цін на крафтові вина</h2>
             
@@ -568,30 +560,25 @@
                     </tr>
                 </thead>
                 <tbody id="comparison-table-body">
-                    <!-- Рядки будуть додані через JavaScript -->
                 </tbody>
             </table>
         </div>
 
-        <!-- Карта виробників -->
         <div class="map-section">
             <div class="section-box">
                 <h2><i class="fas fa-map-marked-alt"></i> Карта крафтових виробників</h2>
                 <p>Розташування основних крафтових виноробень України</p>
             </div>
             <div class="map-container" id="producers-map">
-                <!-- Карта буде вставлена через JavaScript -->
             </div>
         </div>
 
-        <!-- Детальна інформація про виробників -->
         <div class="section-box">
             <h2><i class="fas fa-industry"></i> Крафтові виробники України</h2>
             <h3><i></i>Дізнайтеся більше про унікальні виноробні. Натисність на назву компанії для переходу до їх сайту!</h3>
         </div>
         
         <div id="producers-container">
-            <!-- Картки виробників будуть додані через JavaScript -->
         </div>
 
     </main>
@@ -600,15 +587,12 @@
         © 2025–2026 — Крафтові вина України • Випускна робота Гудим Єви Олександрівни
     </footer>
 
-    <!-- Chart.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     
-    <!-- Leaflet для карти -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script>
-        // Дані про крафтові вина
         const craftWinesData = [
     {
         id: 1,
@@ -756,7 +740,6 @@
     }
         ];
 
-        // Дані про виробників
         const producersData = [
             {
                 id: 1,
@@ -844,28 +827,15 @@
             }
         ];
 
-        // Ініціалізація при завантаженні сторінки
         document.addEventListener('DOMContentLoaded', function() {
-            // Завантажуємо карти вин
             loadWines();
-            
-            // Завантажуємо таблицю порівняння
             loadComparisonTable();
-            
-            // Завантажуємо виробників
             loadProducers();
-            
-            // Ініціалізуємо графіки
             initializeCharts();
-            
-            // Ініціалізуємо карту
             initializeMap();
-            
-            // Додаємо обробники подій для фільтрів
             setupFilters();
         });
 
-        // Функція для завантаження карток вин
         function loadWines(filteredWines = craftWinesData) {
             const winesContainer = document.getElementById('wines-container');
             
@@ -881,7 +851,6 @@
             }
             
             const winesHTML = filteredWines.map(wine => {
-                // Визначаємо бейдж за типом вина
                 let badgeClass = '';
                 let badgeText = '';
                 switch(wine.type) {
@@ -957,12 +926,10 @@
             winesContainer.innerHTML = winesHTML;
         }
 
-        // Функція для завантаження таблиці порівняння
         function loadComparisonTable() {
             const tableBody = document.getElementById('comparison-table-body');
             
             const rowsHTML = craftWinesData.map(wine => {
-                // Генеруємо зірочки для рейтингу
                 const stars = '★'.repeat(Math.floor(wine.rating)) + '☆'.repeat(5 - Math.floor(wine.rating));
                 
                 return `
@@ -980,7 +947,6 @@
             tableBody.innerHTML = rowsHTML;
         }
 
-        // Функція для завантаження виробників
         function loadProducers() {
             const producersContainer = document.getElementById('producers-container');
             
@@ -989,15 +955,15 @@
                     <div class="producer-card">
                         <div class="producer-header">
                             <img src="${producer.logo}" alt="${producer.name}" class="producer-logo">
-<div class="producer-info">
-    <a href="${producer.url}" target="_blank" class="wine-title-link">
-        <h3 class="wine-title-en">${producer.name}</h3>
-    </a>
-    <p style="margin: 0; color: var(--text-medium);">
-        <i class="fas fa-map-marker-alt"></i>
-        ${producer.region}, ${producer.location} • Засновано: ${producer.founded}
-    </p>
-</div>
+                            <div class="producer-info">
+                                <a href="${producer.url}" target="_blank" class="wine-title-link">
+                                <h3 class="wine-title-en">${producer.name}</h3>
+                            </a>
+                            <p style="margin: 0; color: var(--text-medium);">
+                            <i class="fas fa-map-marker-alt"></i>
+                            ${producer.region}, ${producer.location} • Засновано: ${producer.founded}
+                        </p>
+                        </div>
                         </div>
                         
                         <p style="margin: 0 0 20px 0; color: var(--text-dark); line-height: 1.6;">
@@ -1029,9 +995,7 @@
             producersContainer.innerHTML = producersHTML;
         }
 
-        // Функція для ініціалізації графіків
         function initializeCharts() {
-            // Графік розподілу по регіонам
             const regionsCtx = document.getElementById('regionsChart').getContext('2d');
             const regionsChart = new Chart(regionsCtx, {
                 type: 'doughnut',
@@ -1064,7 +1028,6 @@
                 }
             });
 
-            // Графік середніх цін
             const pricesCtx = document.getElementById('pricesChart').getContext('2d');
             const pricesChart = new Chart(pricesCtx, {
                 type: 'bar',
@@ -1111,7 +1074,6 @@
                 }
             });
 
-            // Графік типів вин
             const typesCtx = document.getElementById('typesChart').getContext('2d');
             const typesChart = new Chart(typesCtx, {
                 type: 'pie',
@@ -1138,7 +1100,6 @@
                 }
             });
 
-            // Графік росту
             const growthCtx = document.getElementById('growthChart').getContext('2d');
             const growthChart = new Chart(growthCtx, {
                 type: 'line',
@@ -1175,20 +1136,15 @@
             });
         }
 
-        // Функція для ініціалізації карти
         function initializeMap() {
             const mapContainer = document.getElementById('producers-map');
             
             if (mapContainer) {
-                // Створюємо карту
                 const map = L.map('producers-map').setView([49.0, 31.5], 6);
-                
-                // Додаємо тайли
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(map);
                 
-                // Додаємо маркери для виробників
                 producersData.forEach(producer => {
                     if (producer.location && producer.location.length === 2) {
                         const marker = L.marker(producer.location).addTo(map);
@@ -1203,7 +1159,6 @@
                     }
                 });
                 
-                // Додаємо контур України
                 L.geoJSON({
                     type: "FeatureCollection",
                     features: []
@@ -1211,14 +1166,12 @@
             }
         }
 
-        // Функція для налаштування фільтрів
         function setupFilters() {
             const regionFilter = document.getElementById('region-filter');
             const typeFilter = document.getElementById('type-filter');
             const priceFilter = document.getElementById('price-filter');
             const sortFilter = document.getElementById('sort-filter');
-            
-            // Функція для фільтрації вин
+
             function filterWines() {
                 const regionValue = regionFilter.value;
                 const typeValue = typeFilter.value;
@@ -1227,7 +1180,6 @@
                 
                 let filteredWines = [...craftWinesData];
                 
-                // Фільтрація за регіоном
                 if (regionValue !== 'all') {
                     filteredWines = filteredWines.filter(wine => {
                         const regionMap = {
@@ -1242,12 +1194,10 @@
                     });
                 }
                 
-                // Фільтрація за типом
                 if (typeValue !== 'all') {
                     filteredWines = filteredWines.filter(wine => wine.type === typeValue);
                 }
                 
-                // Фільтрація за ціною
                 if (priceValue !== 'all') {
                     filteredWines = filteredWines.filter(wine => {
                         switch(priceValue) {
@@ -1260,7 +1210,6 @@
                     });
                 }
                 
-                // Сортування
                 switch(sortValue) {
                     case 'price_asc':
                         filteredWines.sort((a, b) => a.price - b.price);
@@ -1275,24 +1224,18 @@
                         filteredWines.sort((a, b) => b.year - a.year);
                         break;
                     default:
-                        // За популярністю (за рейтингом)
                         filteredWines.sort((a, b) => b.rating - a.rating);
                 }
-                
-                // Завантажуємо відфільтровані вина
                 loadWines(filteredWines);
             }
             
-            // Додаємо обробники подій для фільтрів
             [regionFilter, typeFilter, priceFilter, sortFilter].forEach(filter => {
                 filter.addEventListener('change', filterWines);
             });
-            
-            // Ініціалізуємо з початковими даними
+
             filterWines();
         }
 
-        // Функція для пошуку вин
         function searchWines(query) {
             query = query.toLowerCase();
             const filteredWines = craftWinesData.filter(wine => 
@@ -1303,12 +1246,9 @@
             );
             
             loadWines(filteredWines);
-            
-            // Оновлюємо статистику
             updateSearchStats(filteredWines.length);
         }
 
-        // Функція для оновлення статистики пошуку
         function updateSearchStats(count) {
             const statsElement = document.querySelector('.producer-stats .stat-box:first-child .stat-value');
             if (statsElement) {
@@ -1316,7 +1256,6 @@
             }
         }
 
-        // Додаємо пошук при введенні тексту
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.createElement('input');
             searchInput.type = 'text';
@@ -1336,7 +1275,6 @@
                 searchWines(e.target.value);
             });
             
-            // Вставляємо поле пошуку після фільтрів
             const filterSection = document.querySelector('.filter-section');
             if (filterSection) {
                 filterSection.parentNode.insertBefore(searchInput, filterSection.nextSibling);
@@ -1346,6 +1284,7 @@
 </body>
 
 </html>
+
 
 
 
