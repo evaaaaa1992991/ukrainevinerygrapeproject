@@ -131,7 +131,6 @@ body::before {
       background: var(--wine-brown);
     }
     
-    /* Сповіщення */
     .notification {
       position: fixed;
       top: 20px;
@@ -169,7 +168,6 @@ body::before {
       to { transform: translateX(100%); opacity: 0; }
     }
     
-    /* Статистика */
     .wishlist-stats {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -210,7 +208,6 @@ body::before {
       font-size: 1.1rem;
     }
     
-    /* Фільтри */
     .routes-filter {
       display: flex;
       gap: 12px;
@@ -247,7 +244,6 @@ body::before {
       transform: translateY(-2px);
     }
 
-    /* Додаткові стилі для форми бронювання */
     .booking-modal {
       display: none;
       position: fixed;
@@ -297,10 +293,8 @@ body::before {
     <p class="subtitle">Туристичні маршрути, за якими можна організувати чудовий виннний тур!. Додавайте бажані тури до "Бажаного".</p>
     </div>
 
-    <!-- Сповіщення -->
     <div id="notification" class="notification"></div>
 
-    <!-- Статистика бажаного -->
     <div class="wishlist-stats" id="wishlist-stats" style="display: none;">
       <div class="stat-card">
         <i class="fas fa-heart"></i>
@@ -324,7 +318,6 @@ body::before {
       </div>
     </div>
 
-    <!-- Фільтри -->
     <div class="routes-filter">
       <div class="filter-btn active" data-filter="all">
         </i> Усі маршрути
@@ -344,7 +337,6 @@ body::before {
     </div>
 
     <div class="grid" style="margin-top:20px" id="routes-container">
-      <!-- Тур 1 -->
       <div class="card route-card" data-id="1" data-duration="3" data-price="8500" data-region="Бессарабія">
         <button class="wishlist-btn" data-route="1"><i class="far fa-heart"></i></button>
         <img src="одес.jpg" alt="Одеса" class="route-image">
@@ -369,7 +361,6 @@ body::before {
         </div>
       </div>
 
-      <!-- Тур 2 -->
       <div class="card route-card" data-id="2" data-duration="4" data-price="12000" data-region="Закарпаття">
         <button class="wishlist-btn" data-route="2"><i class="far fa-heart"></i></button>
         <img src="зак2.jpg" alt="Закарпаття" class="route-image">
@@ -394,7 +385,6 @@ body::before {
         </div>
       </div>
 
-      <!-- Тур 3 -->
       <div class="card route-card" data-id="3" data-duration="2" data-price="5500" data-region="Поділля">
         <button class="wishlist-btn" data-route="3"><i class="far fa-heart"></i></button>
         <img src="под2.jpg" alt="Поділля" class="route-image">
@@ -419,7 +409,6 @@ body::before {
         </div>
       </div>
 
-      <!-- Тур 4 -->
       <div class="card route-card" data-id="4" data-duration="5" data-price="15000" data-region="Бессарабія">
         <button class="wishlist-btn" data-route="4"><i class="far fa-heart"></i></button>
         <img src="бес2.jpg" alt="Бессарабія" class="route-image">
@@ -444,7 +433,6 @@ body::before {
         </div>
       </div>
 
-      <!-- Тур 5 -->
       <div class="card route-card" data-id="5" data-duration="3" data-price="7800" data-region="Західна Україна">
         <button class="wishlist-btn" data-route="5"><i class="far fa-heart"></i></button>
         <img src="льв.jpg" alt="Львівщина" class="route-image">
@@ -469,7 +457,6 @@ body::before {
         </div>
       </div>
 
-      <!-- Тур 6 -->
       <div class="card route-card" data-id="6" data-duration="1" data-price="2500" data-region="Центральна Україна">
         <button class="wishlist-btn" data-route="6"><i class="far fa-heart"></i></button>
         <img src="київ.jpg" alt="Київщина" class="route-image">
@@ -489,77 +476,15 @@ body::before {
           <div style="display:flex;gap:10px;margin-top:15px">
             <a class="pill" href="map.html#route-kyiv">Маршрут на карті</a>
             <a class="pill" href="#tour-kyiv-details">Деталі туру</a>
-            <a class="pill book-tour-btn" style="background:var(--wine-mid)" data-tour="6">Забронювати</a>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- Модальне вікно бронювання -->
-    <div class="booking-modal" id="booking-modal">
-      <div class="booking-form">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-          <h2 style="margin: 0; color: var(--wine-brown);">Бронювання туру</h2>
-          <button class="close-booking" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--wine-brown);">&times;</button>
-        </div>
         
-        <form id="tour-booking">
-          <div style="margin-bottom:15px">
-            <label style="color: var(--wine-brown); font-weight: 600;">Оберіть тур:</label>
-            <select id="booking-tour-select" style="width:100%;padding:12px;border-radius:8px;background:white;border:2px solid rgba(212, 165, 116, 0.5);color:var(--text-dark);margin-top:8px;font-size:16px;">
-              <option value="1">Одеський винний тур "Шлях до моря"</option>
-              <option value="2">Закарпатська винна стежка</option>
-              <option value="3">Подільський гастро-винний уїкенд</option>
-              <option value="4">Бессарабське винне коло</option>
-              <option value="5">Львівсько-винний експрес</option>
-              <option value="6">Винна дегустація під Києвом</option>
-            </select>
-          </div>
-          
-          <div style="margin-bottom:15px">
-            <label style="color: var(--wine-brown); font-weight: 600;">Дата початку:</label>
-            <input type="date" id="booking-date" style="width:100%;padding:12px;border-radius:8px;background:white;border:2px solid rgba(212, 165, 116, 0.5);color:var(--text-dark);margin-top:8px;font-size:16px;">
-          </div>
-          
-          <div style="margin-bottom:15px">
-            <label style="color: var(--wine-brown); font-weight: 600;">Кількість осіб:</label>
-            <input type="number" id="booking-people" min="1" max="10" value="2" style="width:100%;padding:12px;border-radius:8px;background:white;border:2px solid rgba(212, 165, 116, 0.5);color:var(--text-dark);margin-top:8px;font-size:16px;">
-          </div>
-          
-          <div style="margin-bottom:15px">
-            <label style="color: var(--wine-brown); font-weight: 600;">Ваше ім'я:</label>
-            <input type="text" id="booking-name" required style="width:100%;padding:12px;border-radius:8px;background:white;border:2px solid rgba(212, 165, 116, 0.5);color:var(--text-dark);margin-top:8px;font-size:16px;">
-          </div>
-          
-          <div style="margin-bottom:15px">
-            <label style="color: var(--wine-brown); font-weight: 600;">Телефон:</label>
-            <input type="tel" id="booking-phone" required style="width:100%;padding:12px;border-radius:8px;background:white;border:2px solid rgba(212, 165, 116, 0.5);color:var(--text-dark);margin-top:8px;font-size:16px;" placeholder="+380 XX XXX XX XX">
-          </div>
-          
-          <div style="margin-bottom:15px">
-            <label style="color: var(--wine-brown); font-weight: 600;">Email:</label>
-            <input type="email" id="booking-email" required style="width:100%;padding:12px;border-radius:8px;background:white;border:2px solid rgba(212, 165, 116, 0.5);color:var(--text-dark);margin-top:8px;font-size:16px;" placeholder="ваша@пошта.укр">
-          </div>
-          
-          <div style="margin-bottom:20px; padding:15px; background: rgba(212, 165, 116, 0.1); border-radius:8px;">
-            <label style="color: var(--wine-brown); font-weight: 600; display: flex; align-items: center; gap: 10px;">
-              <input type="checkbox" id="booking-terms" required style="width: 18px; height: 18px;">
-              Я погоджуюсь з обробкою персональних даних та умовами бронювання
-            </label>
-          </div>
-          
-          <button type="submit" style="width:100%;padding:15px;background:linear-gradient(135deg, var(--wine-gold), var(--wine-terracotta));color:white;border:none;border-radius:8px;font-weight:bold;cursor:pointer;font-size:16px;transition:all 0.3s;">
-            <i class="fas fa-paper-plane"></i> Надіслати заявку на бронювання
-          </button>
-          
-          <p style="text-align:center; margin-top:15px; color:var(--text-medium); font-size:14px;">
-            Наш менеджер зв'яжеться з вами протягом 24 годин для підтвердження бронювання
-          </p>
-        </form>
+
       </div>
     </div>
 
-    <!-- Детальна інформація про тури -->
     <div id="tour-odesa-details" class="modal">
       <div class="box card">
         <a class="close" href="#">&times;</a>
@@ -609,7 +534,6 @@ body::before {
         <strong>Автобусом:</strong> Щоденні рейси з автовокзалу (8 годин)</p>
       </div>
     </div>
-        <!-- Детальна інформація про тур "Закарпатська винна стежка" -->
     <div id="tour-zak-details" class="modal">
       <div class="box card">
         <a class="close" href="#">&times;</a>
@@ -666,7 +590,6 @@ body::before {
       </div>
     </div>
 
-    <!-- Детальна інформація про тур "Подільський гастро-винний уїкенд" -->
     <div id="tour-pod-details" class="modal">
       <div class="box card">
         <a class="close" href="#">&times;</a>
@@ -714,7 +637,6 @@ body::before {
       </div>
     </div>
 
-    <!-- Детальна інформація про тур "Бессарабське винне коло" -->
     <div id="tour-bes-details" class="modal">
       <div class="box card">
         <a class="close" href="#">&times;</a>
@@ -778,7 +700,6 @@ body::before {
       </div>
     </div>
 
-    <!-- Детальна інформація про тур "Львівсько-винний експрес" -->
     <div id="tour-lviv-details" class="modal">
       <div class="box card">
         <a class="close" href="#">&times;</a>
@@ -838,7 +759,6 @@ body::before {
       </div>
     </div>
 
-    <!-- Детальна інформація про тур "Винна дегустація під Києвом" -->
     <div id="tour-kyiv-details" class="modal">
       <div class="box card">
         <a class="close" href="#">&times;</a>
@@ -888,9 +808,7 @@ body::before {
   </footer>
 
   <script>
-    // ========== СИСТЕМА АВТЕНТИФІКАЦІЇ ТА БАЖАНОГО ==========
-    
-    // Функція для перевірки авторизації
+
     function isAuthenticated() {
       try {
         return localStorage.getItem('currentUser') !== null;
@@ -899,7 +817,6 @@ body::before {
       }
     }
     
-    // Функція для отримання поточного користувача
     function getCurrentUser() {
       try {
         return JSON.parse(localStorage.getItem('currentUser'));
@@ -908,19 +825,16 @@ body::before {
       }
     }
     
-    // Функція для отримання списку бажаного
     function getWishlist() {
       const user = getCurrentUser();
       return user ? (user.wishlist || []) : [];
     }
     
-    // Функція для перевірки чи тур вже в бажаному
     function isInWishlist(tourId) {
       const wishlist = getWishlist();
       return wishlist.some(item => item.id === tourId);
     }
     
-    // Функція для додавання туру до бажаного
     function addToWishlist(tourId, tourData) {
       if (!isAuthenticated()) {
         showNotification('Будь ласка, увійдіть в систему для додавання турів до бажаного', 'error');
@@ -936,13 +850,11 @@ body::before {
         return false;
       }
       
-      // Перевірка чи тур вже в бажаному
       if (isInWishlist(tourId)) {
         showNotification('Цей тур вже у вашому списку бажаного', 'info');
         return false;
       }
       
-      // Додавання туру до бажаного
       users[userIndex].wishlist = users[userIndex].wishlist || [];
       users[userIndex].wishlist.push({
         id: tourId,
@@ -950,7 +862,6 @@ body::before {
         addedAt: new Date().toISOString()
       });
       
-      // Оновлення поточного користувача
       currentUser.wishlist = users[userIndex].wishlist;
       localStorage.setItem('currentUser', JSON.stringify(currentUser));
       localStorage.setItem('wineTourismUsers', JSON.stringify(users));
@@ -962,7 +873,6 @@ body::before {
       return true;
     }
     
-    // Функція для видалення туру з бажаного
     function removeFromWishlist(tourId) {
       if (!isAuthenticated()) {
         return false;
@@ -976,10 +886,8 @@ body::before {
         return false;
       }
       
-      // Видалення туру з бажаного
       users[userIndex].wishlist = users[userIndex].wishlist.filter(item => item.id !== tourId);
       
-      // Оновлення поточного користувача
       currentUser.wishlist = users[userIndex].wishlist;
       localStorage.setItem('currentUser', JSON.stringify(currentUser));
       localStorage.setItem('wineTourismUsers', JSON.stringify(users));
@@ -991,7 +899,6 @@ body::before {
       return true;
     }
     
-    // Функція для оновлення кнопок "Бажане"
     function updateWishlistButtons() {
       const wishlistButtons = document.querySelectorAll('.wishlist-btn');
       wishlistButtons.forEach(btn => {
@@ -1008,7 +915,6 @@ body::before {
       });
     }
     
-    // Функція для оновлення статистики бажаного
     function updateWishlistStats() {
       const statsContainer = document.getElementById('wishlist-stats');
       const countElement = document.getElementById('wishlist-count');
@@ -1021,10 +927,8 @@ body::before {
       if (wishlist.length > 0 && isAuthenticated()) {
         statsContainer.style.display = 'grid';
         
-        // Кількість турів
         countElement.textContent = wishlist.length;
         
-        // Унікальні регіони
         const regions = new Set();
         wishlist.forEach(item => {
           const card = document.querySelector(`.route-card[data-id="${item.id}"]`);
@@ -1034,7 +938,6 @@ body::before {
         });
         regionsElement.textContent = regions.size;
         
-        // Загальна вартість
         let totalPrice = 0;
         wishlist.forEach(item => {
           const card = document.querySelector(`.route-card[data-id="${item.id}"]`);
@@ -1045,7 +948,6 @@ body::before {
         });
         totalElement.textContent = totalPrice.toLocaleString('uk-UA') + ' грн';
         
-        // Загальна кількість днів
         let totalDays = 0;
         wishlist.forEach(item => {
           const card = document.querySelector(`.route-card[data-id="${item.id}"]`);
@@ -1060,12 +962,10 @@ body::before {
       }
     }
     
-    // Функція для фільтрації турів
     function filterTours(filter) {
   const cards = document.querySelectorAll('.route-card');
   const wishlistStats = document.getElementById('wishlist-stats');
   
-  // Показываем статистику только в режиме "Моє бажане"
   wishlistStats.style.display = (filter === 'wishlist') ? 'grid' : 'none';
 
   cards.forEach(card => {
@@ -1079,19 +979,16 @@ body::before {
     else if (filter === 'long' && duration >= 5) isVisible = true;
     else if (filter === 'wishlist' && isInWishlist(tourId)) isVisible = true;
 
-    // Ключевой момент: используем 'flex', а не 'block'
     card.style.display = isVisible ? 'flex' : 'none';
   });
 }
     
-    // Функція для показу сповіщень
     function showNotification(message, type = 'info') {
       const notification = document.getElementById('notification');
       notification.textContent = message;
       notification.className = `notification ${type}`;
       notification.style.display = 'block';
       
-      // Автоматично ховаємо сповіщення через 3 секунди
       setTimeout(() => {
         notification.style.animation = 'slideOut 0.3s ease';
         setTimeout(() => {
@@ -1101,35 +998,6 @@ body::before {
       }, 3000);
     }
     
-    // Функція для бронювання туру
-    function bookTour(tourId) {
-      if (!isAuthenticated()) {
-        showNotification('Будь ласка, увійдіть в систему для бронювання турів', 'error');
-        setTimeout(() => {
-          window.location.href = 'auth.html';
-        }, 1500);
-        return;
-      }
-      
-      const currentUser = getCurrentUser();
-      const bookingModal = document.getElementById('booking-modal');
-      const bookingSelect = document.getElementById('booking-tour-select');
-      const bookingName = document.getElementById('booking-name');
-      const bookingEmail = document.getElementById('booking-email');
-      
-      // Заповнюємо форму даними
-      if (bookingSelect) {
-        bookingSelect.value = tourId;
-      }
-      
-      if (currentUser && bookingName && bookingEmail) {
-        bookingName.value = currentUser.name || '';
-        bookingEmail.value = currentUser.email || '';
-      }
-      
-      // Показуємо модальне вікно
-      bookingModal.classList.add('active');
-    }
     
     // ========== ДАНІ ПРО ТУРИ ==========
     const toursData = {
@@ -1195,13 +1063,10 @@ body::before {
       }
     };
     
-    // ========== ІНІЦІАЛІЗАЦІЯ ПРИ ЗАВАНТАЖЕННІ СТОРІНКИ ==========
     document.addEventListener('DOMContentLoaded', function() {
-      // Оновлюємо кнопки та статистику
       updateWishlistButtons();
       updateWishlistStats();
       
-      // Додаємо повідомлення про необхідність авторизації
       if (!isAuthenticated()) {
         const routesContainer = document.getElementById('routes-container');
         const infoMessage = document.createElement('div');
@@ -1227,7 +1092,6 @@ body::before {
         }
       }
       
-      // Обробники кнопок "Бажане"
       document.querySelectorAll('.wishlist-btn').forEach(btn => {
         btn.addEventListener('click', function(e) {
           e.preventDefault();
@@ -1259,12 +1123,9 @@ body::before {
         });
       });
       
-      // Обробники фільтрів
       document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', function() {
-          // Видаляємо активний клас з усіх кнопок
           document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-          // Додаємо активний клас до натиснутої кнопки
           this.classList.add('active');
           
           const filter = this.getAttribute('data-filter');
@@ -1272,73 +1133,6 @@ body::before {
         });
       });
       
-      // Обробники кнопок бронювання
-      document.querySelectorAll('.book-tour-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-          e.preventDefault();
-          const tourId = this.getAttribute('data-tour');
-          bookTour(tourId);
-        });
-      });
-      
-      // Закриття модального вікна бронювання
-      document.querySelector('.close-booking').addEventListener('click', function() {
-        document.getElementById('booking-modal').classList.remove('active');
-      });
-      
-      // Закриття модального вікна при кліку на фон
-      document.getElementById('booking-modal').addEventListener('click', function(e) {
-        if (e.target === this) {
-          this.classList.remove('active');
-        }
-      });
-      
-      // Обробка форми бронювання
-      document.getElementById('tour-booking').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const tourId = document.getElementById('booking-tour-select').value;
-        const tourData = toursData[tourId];
-        
-        if (!isAuthenticated()) {
-          showNotification('Будь ласка, увійдіть в систему для бронювання', 'error');
-          return;
-        }
-        
-        if (tourData) {
-          // Зберігаємо бронювання
-          const users = JSON.parse(localStorage.getItem('wineTourismUsers')) || [];
-          const currentUser = getCurrentUser();
-          const userIndex = users.findIndex(user => user.id === currentUser.id);
-          
-          if (userIndex !== -1) {
-            users[userIndex].bookedTours = users[userIndex].bookedTours || [];
-            users[userIndex].bookedTours.push({
-              tourId: tourId,
-              title: tourData.title,
-              date: document.getElementById('booking-date').value,
-              people: document.getElementById('booking-people').value,
-              status: 'Очікує підтвердження',
-              bookedAt: new Date().toISOString()
-            });
-            
-            // Оновлюємо поточного користувача
-            currentUser.bookedTours = users[userIndex].bookedTours;
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            localStorage.setItem('wineTourismUsers', JSON.stringify(users));
-          }
-          
-          showNotification(`Заявка на бронювання туру "${tourData.title}" відправлена!`, 'success');
-          
-          // Очищаємо форму
-          this.reset();
-          
-          // Закриваємо модальне вікно
-          document.getElementById('booking-modal').classList.remove('active');
-        }
-      });
-      
-      // Додаємо обробники для детальних посилань
       document.querySelectorAll('a[href^="#tour-"]').forEach(link => {
         link.addEventListener('click', function(e) {
           e.preventDefault();
@@ -1351,6 +1145,7 @@ body::before {
 </body>
 
 </html>
+
 
 
 
