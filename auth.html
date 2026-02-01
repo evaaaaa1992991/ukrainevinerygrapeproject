@@ -250,7 +250,6 @@
             }
             
             register(name, email, password) {
-                // Перевірка наявності користувача
                 if (this.users.some(user => user.email === email)) {
                     return { 
                         success: false, 
@@ -534,7 +533,6 @@
                 const password = document.getElementById('register-password').value;
                 const confirm = document.getElementById('register-confirm').value;
                 
-                // Валідація
                 if (!validateName(name)) {
                     showFormError('register-name-error', 'Ім\'я має містити мінімум 2 символи');
                     return;
@@ -695,6 +693,7 @@
 </body>
 
 </html>
+
 
 
 
