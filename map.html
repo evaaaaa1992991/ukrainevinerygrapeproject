@@ -9,23 +9,17 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
   <style>
-  /* Загальні стилі для body - такий же фон як в grapes.html */
   body {
-    /* Основний фон */
     background-image: url('карта фон.jpg') !important;
     background-size: cover !important;
     background-position: center !important;
     background-attachment: fixed !important;
     background-repeat: no-repeat !important;
-    
-    /* Інші властивості */
     position: relative !important;
     min-height: 100vh;
     margin: 0;
     padding: 0;
   }
-
-  /* Розмитий шар поверх фону - як в grapes.html */
   body::before {
     content: '';
     position: fixed;
@@ -33,13 +27,12 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(248, 245, 240, 0.5); /* Прозоріший для кращого фону */
-    backdrop-filter: blur(8px); /* Сильніше розмиття */
-    -webkit-backdrop-filter: blur(8px); /* Для Safari */
+    background: rgba(248, 245, 240, 0.5); 
+    backdrop-filter: blur(8px); 
+    -webkit-backdrop-filter: blur(8px); 
     z-index: -1;
   }
 
-  /* Білий контейнер для заголовка - як в grapes.html */
   .main-header-wrapper {
     background: rgba(255, 255, 255, 0.98) !important;
     border-radius: var(--radius);
@@ -67,7 +60,6 @@
     font-weight: 500;
   }
 
-  /* Оновлюємо стилі для контролів карти */
   .map-controls {
     display:flex; 
     gap:12px; 
@@ -109,7 +101,6 @@
     background:linear-gradient(135deg, var(--wine-terracotta), var(--wine-gold)) !important;
   }
 
-  /* Оновлюємо стилі для контролів маршрутів */
   .route-controls {
     margin-top: 15px;
     padding: 25px;
@@ -152,7 +143,6 @@
     box-shadow: 0 6px 15px rgba(180, 101, 29, 0.3) !important;
   }
 
-  /* Оновлюємо карту */
   #map { 
     height:600px; 
     border-radius:12px; 
@@ -163,7 +153,6 @@
     box-shadow: 0 10px 30px rgba(92, 61, 46, 0.15) !important;
   }
 
-  /* Оновлюємо легенду карти */
   .map-legend {
     position: absolute;
     bottom: 20px;
@@ -193,7 +182,6 @@
   }
   .legend-color { width: 15px; height: 15px; border-radius: 50%; margin-right: 10px; border: 2px solid white; }
 
-  /* Білий бокс для заголовка списку виноробень - як в grapes.html */
   .wineries-header-wrapper {
     background: rgba(255, 255, 255, 0.98) !important;
     border-radius: var(--radius);
@@ -214,7 +202,6 @@
     padding-bottom: 0 !important;
   }
 
-  /* Оновлюємо список виноробень */
   .winery-item { 
     display:flex; 
     gap:20px; 
@@ -236,7 +223,6 @@
     border-color: var(--wine-gold) !important;
   }
 
-  /* ОДНАКОВІ РОЗМІРИ ДЛЯ ВСІХ ЗОБРАЖЕНЬ */
   .winery-image { 
     width: 180px !important; 
     height: 180px !important;
@@ -263,7 +249,6 @@
     line-height: 1.6;
   }
 
-  /* Оновлюємо типи виноробень */
   .winery-type { 
     display:inline-block; 
     padding:5px 12px; 
@@ -304,12 +289,11 @@
     border: 1px solid rgba(147,112,219,0.3) !important;
   }
 
-  /* Оновлюємо модальні вікна */
   .modal {
     position: fixed;
     
     inset: 0;
-    display: none; /* Залишаємо display:none, щоб JavaScript працював */
+    display: none; 
     align-items: center;
     justify-content: center;
     background: rgba(92, 61, 46, 0.9);
@@ -333,7 +317,7 @@
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   }
   .modal.active {
-  display: flex; /* 👈 ОЦЕ КЛЮЧ */
+  display: flex; 
   }
   .modal .close {
     display: inline-block;
@@ -353,7 +337,6 @@
     color: var(--wine-accent);
   }
 
-  /* Оновлюємо заголовки в модальних вікнах */
   .modal h2, .modal h3 {
     color: var(--wine-brown) !important;
   }
@@ -362,7 +345,6 @@
     color: var(--text-dark) !important;
   }
 
-  /* Для мобільних пристроїв */
   @media (max-width: 768px) {
     .main-header-wrapper, .wineries-header-wrapper {
       padding: 20px !important;
@@ -447,7 +429,6 @@
       <div class="map-btn" data-filter="hotel">Готелі при виноробнях</div>
     </div>
     
-    <!-- Контроль маршрутів -->
     <div class="route-controls">
       <h3><i class="fas fa-route"></i> Відображення маршрутів</h3>
       <select class="route-select" id="route-select">
@@ -469,7 +450,6 @@
     
     <div id="map" class="card"></div>
     
-    <!-- Легенда карти -->
     <div class="map-legend">
       <h4 style="margin-top:0;margin-bottom:10px;"><i class="fas fa-key"></i> Умовні позначення об'єктів</h4>
       <div class="legend-item">
@@ -584,7 +564,6 @@
       </div>
     </div>
     
-    <!-- Модальні вікна для детальної інформації -->
     <div id="winery-shabo" class="modal">
       <div class="box card">
         <a class="close" href="#">&times;</a>
@@ -657,7 +636,6 @@
       </div>
     </div>
     
-    <!-- Додаткові модальні вікна для інших виноробень -->
     <div id="winery-beykush" class="modal">
       <div class="box card">
         <a class="close" href="#">&times;</a>
@@ -983,12 +961,10 @@
 
   <footer>...!</footer>
 
-  <!-- Leaflet JS та плагін для маршрутів -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
   
   <script>
-    // JavaScript для відкриття/закриття модальних вікон
     document.querySelectorAll('a[href^="#winery-"]').forEach(link => {
       link.addEventListener('click', function(e) {
         e.preventDefault();
@@ -1000,7 +976,6 @@
       });
     });
 
-    // Закриття модальних вікон
     document.querySelectorAll('.modal .close').forEach(closeBtn => {
       closeBtn.addEventListener('click', function(e) {
         e.preventDefault();
@@ -1008,7 +983,6 @@
       });
     });
 
-    // Закриття модального вікна при кліку поза ним
     window.addEventListener('click', function(e) {
       if (e.target.classList.contains('modal')) {
         e.target.style.display = 'none';
@@ -1020,17 +994,12 @@
     let currentRoute = null;
     
     function initMap() {
-      // Створюємо карту
       map = L.map('map').setView([48.5, 31.2], 6);
-      
-      // Додаємо тайли OpenStreetMap
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(map);;
       
-      // Додаємо темну тему для карти
       
-      // Визначаємо виноробні
       const wineries = [
         {
           id: 'shabo',
@@ -1098,9 +1067,7 @@
         }
       ];
       
-      // Створюємо маркери для кожної виноробні
       wineries.forEach(winery => {
-        // Створюємо кастомну іконку
         const icon = L.divIcon({
           html: `<div style="background-color:${winery.color}; width:20px; height:20px; border-radius:50%; border:3px solid white; display:flex; align-items:center; justify-content:center; color:white; font-size:10px;">
                   <i class="fas fa-${winery.icon}"></i>
@@ -1110,13 +1077,11 @@
           iconAnchor: [13, 13]
         });
         
-        // Створюємо маркер
         const marker = L.marker(winery.position, { 
           icon: icon,
           title: winery.name
         }).addTo(map);
         
-        // Додаємо попап з інформацією
         const popupContent = `
           <div style="color:#333; max-width:250px;">
             <h3 style="margin-top:0;color:#7a1c35;">${winery.name}</h3>
@@ -1126,25 +1091,20 @@
         `;
         
         marker.bindPopup(popupContent);
-        
-        // Зберігаємо маркер у масиві
         markers.push({
           marker: marker,
           winery: winery
         });
       });
       
-      // Додаємо обробник подій для елементів списку
       document.querySelectorAll('.winery-item').forEach(item => {
         item.addEventListener('click', function() {
           const lat = parseFloat(this.getAttribute('data-lat'));
           const lng = parseFloat(this.getAttribute('data-lng'));
           const wineryId = this.getAttribute('data-id');
           
-          // Центруємо карту на виноробні
           map.setView([lat, lng], 12);
           
-          // Знаходимо і відкриваємо відповідний маркер
           const markerObj = markers.find(m => m.winery.id === wineryId);
           if (markerObj) {
             markerObj.marker.openPopup();
@@ -1152,78 +1112,74 @@
         });
       });
       
-      // Додаємо кнопки контролю масштабу
       L.control.zoom({
         position: 'topright'
       }).addTo(map);
     }
     
-    // Функція для відображення маршруту
     function showRoute(routeId) {
-      // Спочатку очищаємо попередній маршрут
       clearRoute();
       
-      // Визначаємо точки маршрутів
       const routes = {
         'odesa-tour': {
           name: 'Одеський винний тур "Шлях до моря"',
           waypoints: [
-            L.latLng(46.4857, 30.7436), // Одеса
-            L.latLng(46.2781, 30.4028), // SHABO
-            L.latLng(46.7, 30.9), // Beykush
-            L.latLng(46.6643, 31.3178), // Коблево
-            L.latLng(46.4857, 30.7436) // Повернення в Одесу
+            L.latLng(46.4857, 30.7436), 
+            L.latLng(46.2781, 30.4028), 
+            L.latLng(46.7, 30.9), 
+            L.latLng(46.6643, 31.3178), 
+            L.latLng(46.4857, 30.7436) 
           ],
           color: '#ff00ff'
         },
         'zakarpattya-tour': {
           name: 'Закарпатська винна стежка',
           waypoints: [
-            L.latLng(48.6208, 22.2879), // Chateau Chizay
-            L.latLng(48.4411, 22.7175), // Мукачево
-            L.latLng(48.6244, 22.2950), // Берегове
-            L.latLng(48.9000, 24.7167) // Івано-Франківськ
+            L.latLng(48.6208, 22.2879), 
+            L.latLng(48.4411, 22.7175), 
+            L.latLng(48.6244, 22.2950), 
+            L.latLng(48.9000, 24.7167) 
           ],
           color: '#00ffff'
         },
         'podillya-tour': {
           name: 'Подільський гастро-винний уїкенд',
           waypoints: [
-            L.latLng(49.2312, 28.4723), // Kalyus Winery
-            L.latLng(49.2333, 28.4833), // Вінниця
-            L.latLng(48.5833, 27.0000), // Хмельницький
-            L.latLng(48.9167, 24.7167) // Кам'янець-Подільський
+            L.latLng(49.2312, 28.4723), 
+            L.latLng(49.2333, 28.4833), 
+            L.latLng(48.5833, 27.0000), 
+            L.latLng(48.9167, 24.7167) 
           ],
           color: '#ffff00'
         },
         'bessarabia-tour': {
           name: 'Бессарабське винне коло',
           waypoints: [
-            L.latLng(46.4857, 30.7436), // Одеса
-            L.latLng(46.2781, 30.4028), // SHABO
-            L.latLng(46.6643, 31.3178), // Коблево
-            L.latLng(46.7, 30.9), // Beykush
-            L.latLng(46.5, 30.7), // Villa Tinta
-            L.latLng(46.4857, 30.7436) // Повернення в Одесу
+            L.latLng(46.4857, 30.7436), 
+            L.latLng(46.2781, 30.4028), 
+            L.latLng(46.6643, 31.3178), 
+            L.latLng(46.7, 30.9), 
+            L.latLng(46.5, 30.7), 
+            L.latLng(46.4857, 30.7436) 
           ],
           color: '#00ff00'
         },
         'lviv-tour': {
           name: 'Львівсько-винний експрес',
           waypoints: [
-            L.latLng(49.8425, 24.0322), // Львів
-            L.latLng(49.8, 24.0), // Château Edem
-            L.latLng(49.4333, 24.7333), // Івано-Франківськ
-            L.latLng(49.8425, 24.0322) // Повернення до Львова
+            L.latLng(49.8425, 24.0322), 
+            L.latLng(49.8, 24.0), 
+            L.latLng(49.4333, 24.7333), 
+            L.latLng(49.8425, 24.0322) 
           ],
           color: '#ff9900'
         },
         'kyiv-tour': {
           name: 'Винна дегустація під Києвом',
           waypoints: [
-            L.latLng(50.4501, 30.5234), // Київ
-            L.latLng(50.4501, 30.5234), // Biologist Craft Winery
-            L.latLng(50.4501, 30.5234) // Повернення до Києва
+            L.latLng(50.4501, 30.5234), 
+            L.latLng(50.4501, 30.5234), 
+            L.latLng(50.4501, 30.5234) 
           ],
           color: '#9966ff'
         }
@@ -1232,7 +1188,7 @@
       const route = routes[routeId];
       if (!route) return;
       
-      // Створюємо маршрут
+      
       currentRoute = L.Routing.control({
         waypoints: route.waypoints,
         routeWhileDragging: false,
@@ -1247,7 +1203,7 @@
           ]
         },
         createMarker: function(i, waypoint, n) {
-          // Не створюємо маркери для проміжних точок
+          
           return null;
         },
         show: true,
@@ -1256,7 +1212,6 @@
         draggableWaypoints: false
       }).addTo(map);
       
-      // Додаємо інформацію про маршрут
       const routeInfo = L.popup()
         .setLatLng(route.waypoints[0])
         .setContent(`
@@ -1270,7 +1225,6 @@
         .openOn(map);
     }
     
-    // Функція для очищення маршруту
     function clearRoute() {
       if (currentRoute) {
         map.removeControl(currentRoute);
@@ -1278,17 +1232,13 @@
       }
     }
     
-    // Фільтрація
     document.querySelectorAll('.map-btn').forEach(btn => {
       btn.addEventListener('click', function() {
-        // Видаляємо активний клас з усіх кнопок
         document.querySelectorAll('.map-btn').forEach(b => b.classList.remove('active'));
-        // Додаємо активний клас до натиснутої кнопки
         this.classList.add('active');
         
         const filter = this.getAttribute('data-filter');
         
-        // Фільтруємо маркери на карті
         markers.forEach(item => {
           if (filter === 'all' || item.winery.type.includes(filter)) {
             item.marker.addTo(map);
@@ -1297,7 +1247,6 @@
           }
         });
         
-        // Також фільтруємо список
         document.querySelectorAll('.winery-item').forEach(item => {
           const itemTypes = item.getAttribute('data-type');
           if (filter === 'all' || itemTypes.includes(filter)) {
@@ -1307,7 +1256,6 @@
           }
         });
         
-        // Якщо обрано фільтр "маршрути", показуємо всі об'єкти
         if (filter === 'route') {
           markers.forEach(item => {
             item.marker.addTo(map);
@@ -1320,7 +1268,6 @@
       });
     });
     
-    // Обробка відображення маршрутів
     document.getElementById('show-route-btn').addEventListener('click', function() {
       const routeSelect = document.getElementById('route-select');
       const selectedRoute = routeSelect.value;
@@ -1328,7 +1275,6 @@
       if (selectedRoute) {
         showRoute(selectedRoute);
         
-        // Змінюємо фільтр на "маршрути"
         document.querySelectorAll('.map-btn').forEach(b => b.classList.remove('active'));
         document.querySelector('.map-btn[data-filter="route"]').classList.add('active');
       } else {
@@ -1341,12 +1287,12 @@
       document.getElementById('route-select').value = '';
     });
     
-    // Ініціалізація карти при завантаженні сторінки
     document.addEventListener('DOMContentLoaded', function() {
       initMap();
     });
   </script>
 </body>
 </html>
+
 
 
