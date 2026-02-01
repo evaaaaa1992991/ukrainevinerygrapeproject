@@ -1,4 +1,4 @@
-/* style.css — світла колірна схема для винної платформи */
+
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=Inter:wght@300;400;600&display=swap');
 
 :root {
@@ -30,7 +30,6 @@ body {
 }
 
 
-/* Header */
 header {
     position: sticky;
     top: 0;
@@ -83,14 +82,12 @@ nav a.active:hover {
     background: var(--wine-brown);
 }
 
-/* Container */
 .container {
     max-width: 1200px;
     margin: 36px auto;
     padding: 0 20px;
 }
 
-/* Картки */
 .card {
     background: var(--panel-light);
     border-radius: var(--radius);
@@ -107,7 +104,6 @@ nav a.active:hover {
     border-color: var(--wine-gold);
 }
 
-/* Сітка */
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -115,7 +111,6 @@ nav a.active:hover {
     margin-top: 25px;
 }
 
-/* Кнопки та пігулки */
 .pill {
     display: inline-block;
     padding: 10px 20px;
@@ -136,7 +131,6 @@ nav a.active:hover {
     background: linear-gradient(135deg, var(--wine-terracotta), var(--wine-gold));
 }
 
-/* Модальні вікна */
 .modal {
     position: fixed;
     inset: 0;
@@ -185,7 +179,6 @@ nav a.active:hover {
     color: var(--wine-accent);
 }
 
-/* Заголовки */
 h1, h2, h3 {
     font-family: 'Playfair Display', serif;
     color: var(--wine-brown);
@@ -199,7 +192,6 @@ h1 {
     margin-bottom: 25px;
 }
 
-/* Форми */
 input, select, textarea, button {
     font-family: 'Inter', sans-serif;
 }
@@ -236,7 +228,6 @@ button:hover {
     box-shadow: 0 6px 15px rgba(180, 101, 29, 0.3);
 }
 
-/* Footer */
 footer {
     text-align: center;
     color: var(--muted-brown);
@@ -247,7 +238,6 @@ footer {
     background: rgba(255, 250, 240, 0.9);
 }
 
-/* Адаптивність */
 @media (max-width: 880px) {
     .container {
         padding: 0 15px;
@@ -291,9 +281,6 @@ footer {
     }
 }
 
-/* Додайте до style.css */
-
-/* Загальні стилі для форм */
 input, select, textarea {
     background: white;
     border: 2px solid rgba(212, 165, 116, 0.5);
@@ -316,7 +303,6 @@ input::placeholder {
     opacity: 0.7;
 }
 
-/* Специфічні стилі для форми бронювання */
 #booking-form input,
 #booking-form select {
     width: 100%;
@@ -332,4 +318,5 @@ input::placeholder {
 
 #booking-form .box {
     max-width: 500px;
+
 }
