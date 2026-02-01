@@ -1,6 +1,3 @@
-// common.js - загальні функції для всіх сторінок
-
-// Завантаження поточного користувача
 function getCurrentUser() {
     try {
         return JSON.parse(localStorage.getItem('currentUser'));
@@ -9,12 +6,10 @@ function getCurrentUser() {
     }
 }
 
-// Перевірка авторизації
 function isAuthenticated() {
     return getCurrentUser() !== null;
 }
 
-// Оновлення навігації (викликати на кожній сторінці)
 function updateNavigation() {
     const authLink = document.getElementById('auth-link');
     const authText = document.getElementById('auth-text');
@@ -30,13 +25,11 @@ function updateNavigation() {
     }
 }
 
-// Функція для виходу
 function logout() {
     localStorage.removeItem('currentUser');
     window.location.href = 'index.html';
 }
 
-// Функція для перевірки авторизації перед дією
 function requireAuth(callback) {
     if (!isAuthenticated()) {
         if (confirm('Для цієї дії необхідно увійти в систему. Перейти на сторінку входу?')) {
@@ -47,7 +40,6 @@ function requireAuth(callback) {
     return callback();
 }
 
-// Функція для додавання до бажаного
 function addToWishlist(tourId, tourData) {
     if (!requireAuth(() => true)) return false;
     
@@ -57,39 +49,34 @@ function addToWishlist(tourId, tourData) {
     
     if (userIndex === -1) return false;
     
-    // Перевірка наявності вже в бажаному
+
     const exists = users[userIndex].wishlist.some(item => item.id === tourId);
     if (exists) {
         alert('Цей тур вже у вашому списку бажаного');
         return false;
     }
     
-    // Додавання
     users[userIndex].wishlist.push({
         id: tourId,
         ...tourData,
         addedAt: new Date().toISOString()
     });
     
-    // Оновлення поточного користувача
     localStorage.setItem('currentUser', JSON.stringify(users[userIndex]));
     localStorage.setItem('wineTourismUsers', JSON.stringify(users));
     
     return true;
 }
 
-// Завантаження списку бажаного
 function getWishlist() {
     if (!isAuthenticated()) return [];
     const user = getCurrentUser();
     return user.wishlist || [];
 }
 
-// Ініціалізація при завантаженні сторінки
 document.addEventListener('DOMContentLoaded', function() {
     updateNavigation();
 
-    // Отримання поточного користувача
 function getCurrentUser() {
     try {
         return JSON.parse(localStorage.getItem('currentUser'));
@@ -98,32 +85,25 @@ function getCurrentUser() {
     }
 }
 
-// Перевірка авторизації
 function isAuthenticated() {
     return getCurrentUser() !== null;
 }
 
-// Вихід з системи
 function logout() {
     localStorage.removeItem('currentUser');
     window.location.href = 'index.html';
 }
 
-// ========== ФУНКЦІЇ БАЖАНОГО ==========
-
-// Отримання списку бажаного
 function getWishlist() {
     const user = getCurrentUser();
     return user ? (user.wishlist || []) : [];
 }
 
-// Перевірка чи тур вже в бажаному
 function isInWishlist(tourId) {
     const wishlist = getWishlist();
     return wishlist.some(item => item.id === tourId);
 }
 
-// Додавання до бажаного
 function addToWishlist(tourId, tourData) {
     if (!isAuthenticated()) {
         showNotification('Будь ласка, увійдіть в систему для додавання турів до бажаного', 'error');
@@ -139,13 +119,11 @@ function addToWishlist(tourId, tourData) {
         return false;
     }
     
-    // Перевірка чи тур вже в бажаному
     if (isInWishlist(tourId)) {
         showNotification('Цей тур вже у вашому списку бажаного', 'info');
         return false;
     }
     
-    // Додавання туру до бажаного
     users[userIndex].wishlist = users[userIndex].wishlist || [];
     users[userIndex].wishlist.push({
         id: tourId,
@@ -153,14 +131,12 @@ function addToWishlist(tourId, tourData) {
         addedAt: new Date().toISOString()
     });
     
-    // Оновлення поточного користувача
     currentUser.wishlist = users[userIndex].wishlist;
     localStorage.setItem('currentUser', JSON.stringify(currentUser));
     localStorage.setItem('wineTourismUsers', JSON.stringify(users));
     
     showNotification('Тур додано до бажаного!', 'success');
     
-    // Оновлюємо кнопки на сторінці
     if (typeof updateWishlistButtons === 'function') {
         updateWishlistButtons();
     }
@@ -168,7 +144,6 @@ function addToWishlist(tourId, tourData) {
     return true;
 }
 
-// Видалення з бажаного
 function removeFromWishlist(tourId) {
     if (!isAuthenticated()) {
         return false;
@@ -182,17 +157,14 @@ function removeFromWishlist(tourId) {
         return false;
     }
     
-    // Видалення туру з бажаного
     users[userIndex].wishlist = users[userIndex].wishlist.filter(item => item.id !== tourId);
     
-    // Оновлення поточного користувача
     currentUser.wishlist = users[userIndex].wishlist;
     localStorage.setItem('currentUser', JSON.stringify(currentUser));
     localStorage.setItem('wineTourismUsers', JSON.stringify(users));
     
     showNotification('Тур видалено з бажаного', 'success');
     
-    // Оновлюємо кнопки на сторінці
     if (typeof updateWishlistButtons === 'function') {
         updateWishlistButtons();
     }
@@ -200,14 +172,9 @@ function removeFromWishlist(tourId) {
     return true;
 }
 
-// ========== СПОВІЩЕННЯ ==========
 
-// Функція для показу сповіщень
 function showNotification(message, type = 'info') {
-    // Спочатку спробуємо знайти існуюче сповіщення
     let notification = document.getElementById('global-notification');
-    
-    // Якщо немає - створимо
     if (!notification) {
         notification = document.createElement('div');
         notification.id = 'global-notification';
@@ -227,7 +194,6 @@ function showNotification(message, type = 'info') {
         `;
         document.body.appendChild(notification);
         
-        // Додаємо CSS анімації
         const style = document.createElement('style');
         style.textContent = `
             @keyframes slideIn {
@@ -242,7 +208,6 @@ function showNotification(message, type = 'info') {
         document.head.appendChild(style);
     }
     
-    // Встановлюємо текст та стиль
     notification.textContent = message;
     notification.className = '';
     
@@ -262,7 +227,6 @@ function showNotification(message, type = 'info') {
     
     notification.style.display = 'block';
     
-    // Автоматично ховаємо сповіщення через 3 секунди
     setTimeout(() => {
         notification.style.animation = 'slideOut 0.3s ease';
         setTimeout(() => {
@@ -272,13 +236,9 @@ function showNotification(message, type = 'info') {
     }, 3000);
 }
 
-// ========== ОНОВЛЕННЯ НАВІГАЦІЇ ==========
-
-// Функція для оновлення навігації на всіх сторінках
 function updateNavigation() {
     const currentUser = getCurrentUser();
     
-    // Оновлюємо лінк Вхід/Кабінет
     const authLink = document.getElementById('auth-link');
     const authIcon = document.getElementById('auth-icon');
     const authText = document.getElementById('auth-text');
@@ -295,7 +255,6 @@ function updateNavigation() {
         }
     }
     
-    // Оновлюємо відображення імені користувача (якщо є відповідний елемент)
     const userNameElement = document.getElementById('user-name');
     if (userNameElement && currentUser) {
         userNameElement.textContent = currentUser.name;
@@ -303,9 +262,6 @@ function updateNavigation() {
     }
 }
 
-// ========== ПЕРЕВІРКА ДОСТУПУ ==========
-
-// Функція для перевірки доступу до сторінки
 function checkPageAccess(requireAuth = false) {
     if (requireAuth && !isAuthenticated()) {
         showNotification('Для доступу до цієї сторінки необхідно увійти в систему', 'error');
@@ -317,9 +273,6 @@ function checkPageAccess(requireAuth = false) {
     return true;
 }
 
-// ========== ЗАГАЛЬНІ ФУНКЦІЇ ==========
-
-// Функція для форматування дати
 function formatDate(dateString) {
     if (!dateString) return 'Н/Д';
     const date = new Date(dateString);
@@ -330,19 +283,14 @@ function formatDate(dateString) {
     });
 }
 
-// Функція для форматування ціни
 function formatPrice(price) {
     return price.toLocaleString('uk-UA') + ' грн';
 }
 
-// ========== ІНІЦІАЛІЗАЦІЯ ==========
 
-// Ініціалізація при завантаженні сторінки
 document.addEventListener('DOMContentLoaded', function() {
-    // Оновлюємо навігацію
     updateNavigation();
     
-    // Додаємо обробники для кнопок виходу
     document.querySelectorAll('.logout-btn').forEach(btn => {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
@@ -352,14 +300,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Перевіряємо доступ до сторінки (якщо потрібно)
     const requireAuth = document.body.hasAttribute('data-require-auth');
     if (requireAuth) {
         checkPageAccess(true);
     }
 });
 
-// Робимо функції глобально доступними
 window.getCurrentUser = getCurrentUser;
 window.isAuthenticated = isAuthenticated;
 window.logout = logout;
@@ -368,4 +314,5 @@ window.isInWishlist = isInWishlist;
 window.addToWishlist = addToWishlist;
 window.removeFromWishlist = removeFromWishlist;
 window.showNotification = showNotification;
+
 });
