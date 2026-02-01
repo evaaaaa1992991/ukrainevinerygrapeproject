@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* ====== ЦЕНТР СТОРІНКИ ====== */
         .auth-container {
             min-height: 70vh;
             display: flex;
@@ -31,7 +30,7 @@
         align-items: center;
         padding: 40px 20px;
         }
-        /* ====== БЛОКИ ====== */
+
         .auth-block {
             background: #ffffff;
             padding: 25px;
@@ -47,7 +46,6 @@
             color: #8b4513;
         }
 
-        /* ====== ФОРМИ ====== */
         .auth-form {
             display: flex;
             flex-direction: column;
@@ -66,7 +64,6 @@
             margin-top: 10px;
         }
 
-        /* ====== ПОВІДОМЛЕННЯ ====== */
         .notification {
             position: fixed;
             top: 20px;
@@ -87,7 +84,6 @@
             background: linear-gradient(135deg, #c0392b, #e74c3c);
         }
 
-        /* ====== АДАПТИВ ====== */
         @media (max-width: 768px) {
             .auth-wrapper {
                 flex-direction: column;
@@ -114,13 +110,9 @@
 </header>
 
 <main class="auth-container">
-
-    <!-- Повідомлення -->
     <div id="notification" class="notification"></div>
-
     <div class="auth-layout">
 
-        <!-- ЛІВА КОЛОНКА -->
         <div class="auth-info">
             <h1><i></i> Особистий кабінет</h1>
             <p>
@@ -129,10 +121,8 @@
             </p>
         </div>
 
-        <!-- ПРАВА КОЛОНКА -->
         <div class="auth-wrapper">
 
-        <!-- ====== ВХІД ====== -->
         <div class="auth-block">
             <h2 class="auth-title">
                 <i></i> Вхід
@@ -165,12 +155,10 @@
             </form>
         </div>
 
-        <!-- ====== РЕЄСТРАЦІЯ ====== -->
         <div class="auth-block">
             <h2 class="auth-title">
                 <i></i> Реєстрація
             </h2>
-
             <form id="register-form" class="auth-form">
                 <div class="form-group">
                     <label><i class="fas fa-user"></i> Імʼя та прізвище</label>
@@ -219,14 +207,12 @@
 
     <script>
     	
-        // ========== БАЗА ДАНИХ КОРИСТУВАЧІВ ==========
         class UserDatabase {
             constructor() {
                 this.users = this.loadUsers();
                 this.currentUser = this.loadCurrentUser();
             }
             
-            // Завантаження користувачів з LocalStorage
             loadUsers() {
                 try {
                     const users = localStorage.getItem('wineTourismUsers');
@@ -237,7 +223,6 @@
                 }
             }
             
-            // Завантаження поточного користувача
             loadCurrentUser() {
                 try {
                     const user = localStorage.getItem('currentUser');
@@ -248,7 +233,6 @@
                 }
             }
             
-            // Збереження користувачів
             saveUsers() {
                 try {
                     localStorage.setItem('wineTourismUsers', JSON.stringify(this.users));
@@ -257,7 +241,6 @@
                 }
             }
             
-            // Збереження поточного користувача
             saveCurrentUser() {
                 try {
                     localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
@@ -266,7 +249,6 @@
                 }
             }
             
-            // Реєстрація нового користувача
             register(name, email, password) {
                 // Перевірка наявності користувача
                 if (this.users.some(user => user.email === email)) {
@@ -276,10 +258,8 @@
                     };
                 }
                 
-                // Хешування пароля (спрощена імітація)
                 const hashedPassword = this.hashPassword(password);
                 
-                // Створення нового користувача
                 const newUser = {
                     id: Date.now().toString(),
                     name: name.trim(),
@@ -298,11 +278,9 @@
                     avatarLetter: name.trim().charAt(0).toUpperCase()
                 };
                 
-                // Додавання до бази даних
                 this.users.push(newUser);
                 this.currentUser = newUser;
                 
-                // Збереження
                 this.saveUsers();
                 this.saveCurrentUser();
                 
@@ -313,7 +291,6 @@
                 };
             }
             
-            // Вхід користувача
             login(email, password) {
                 const user = this.users.find(user => 
                     user.email === email.toLowerCase().trim()
@@ -326,7 +303,6 @@
                     };
                 }
                 
-                // Перевірка пароля (спрощена)
                 const hashedPassword = this.hashPassword(password);
                 if (user.password !== hashedPassword) {
                     return { 
@@ -335,11 +311,9 @@
                     };
                 }
                 
-                // Оновлення даних про останній вхід
                 user.lastLogin = new Date().toISOString();
                 this.currentUser = user;
                 
-                // Збереження
                 this.saveUsers();
                 this.saveCurrentUser();
                 
@@ -350,14 +324,12 @@
                 };
             }
             
-            // Вихід користувача
             logout() {
                 this.currentUser = null;
                 this.saveCurrentUser();
                 return { success: true, message: 'Ви вийшли з системи' };
             }
             
-            // Оновлення профілю
             updateProfile(userId, updates) {
                 const userIndex = this.users.findIndex(user => user.id === userId);
                 
@@ -365,10 +337,8 @@
                     return { success: false, message: 'Користувача не знайдено' };
                 }
                 
-                // Оновлення даних
                 this.users[userIndex] = { ...this.users[userIndex], ...updates };
                 
-                // Оновлення поточного користувача, якщо це він
                 if (this.currentUser && this.currentUser.id === userId) {
                     this.currentUser = this.users[userIndex];
                     this.saveCurrentUser();
@@ -383,7 +353,6 @@
                 };
             }
             
-            // Додавання до бажаного
             addToWishlist(userId, tourId, tourData) {
                 const userIndex = this.users.findIndex(user => user.id === userId);
                 
@@ -391,7 +360,6 @@
                     return { success: false, message: 'Користувача не знайдено' };
                 }
                 
-                // Перевірка наявності вже в бажаному
                 const exists = this.users[userIndex].wishlist.some(item => item.id === tourId);
                 
                 if (exists) {
@@ -401,14 +369,12 @@
                     };
                 }
                 
-                // Додавання
                 this.users[userIndex].wishlist.push({
                     id: tourId,
                     ...tourData,
                     addedAt: new Date().toISOString()
                 });
                 
-                // Оновлення поточного користувача
                 if (this.currentUser && this.currentUser.id === userId) {
                     this.currentUser.wishlist = this.users[userIndex].wishlist;
                     this.saveCurrentUser();
@@ -422,7 +388,6 @@
                 };
             }
             
-            // Видалення з бажаного
             removeFromWishlist(userId, tourId) {
                 const userIndex = this.users.findIndex(user => user.id === userId);
                 
@@ -430,12 +395,10 @@
                     return { success: false, message: 'Користувача не знайдено' };
                 }
                 
-                // Видалення
                 this.users[userIndex].wishlist = this.users[userIndex].wishlist.filter(
                     item => item.id !== tourId
                 );
                 
-                // Оновлення поточного користувача
                 if (this.currentUser && this.currentUser.id === userId) {
                     this.currentUser.wishlist = this.users[userIndex].wishlist;
                     this.saveCurrentUser();
@@ -449,13 +412,10 @@
                 };
             }
             
-            // Спрощене хешування пароля (для демонстрації)
             hashPassword(password) {
-                // У реальному додатку використовуйте bcrypt або іншу бібліотеку
                 return btoa(password + 'wine_tourism_salt');
             }
             
-            // Генерація кольору для аватара
             generateAvatarColor() {
                 const colors = [
                     '#8b4513', '#a0522d', '#d4a574', '#b5651d',
@@ -464,23 +424,18 @@
                 return colors[Math.floor(Math.random() * colors.length)];
             }
             
-            // Перевірка чи користувач авторизований
             isAuthenticated() {
                 return this.currentUser !== null;
             }
-            
-            // Отримання поточного користувача
             getCurrentUser() {
                 return this.currentUser;
             }
         }
         
-        // Ініціалізація бази даних
+
         const userDB = new UserDatabase();
-        
-        // ========== ІНІЦІАЛІЗАЦІЯ СТОРІНКИ ==========
+    
         document.addEventListener('DOMContentLoaded', function() {
-            // Перевірка, чи користувач вже авторизований
             if (userDB.isAuthenticated() && window.location.pathname.includes('auth.html')) {
                 showNotification('Ви вже авторизовані!', 'success');
                 setTimeout(() => {
@@ -489,34 +444,21 @@
                 return;
             }
             
-            // Налаштування перемикання вкладок
-            setupTabs();
-            
-            // Налаштування перемикання видимості пароля
-            setupPasswordToggle();
-            
-            // Налаштування форми входу
-            setupLoginForm();
-            
-            // Налаштування форми реєстрації
+            setupTabs();      
+            setupPasswordToggle();          
+            setupLoginForm();     
             setupRegisterForm();
-            
-            // Додавання реального валідації
             setupRealTimeValidation();
         });
-        
-        // ========== ФУНКЦІЇ ДЛЯ РОБОТИ ЗІ СТОРІНКОЮ ==========
         
         function setupTabs() {
             document.querySelectorAll('.auth-tab').forEach(tab => {
                 tab.addEventListener('click', function() {
                     const tabId = this.getAttribute('data-tab');
                     
-                    // Активуємо відповідну вкладку
                     document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
                     
-                    // Показуємо відповідну форму
                     document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
                     document.getElementById(`${tabId}-form`).classList.add('active');
                 });
@@ -552,7 +494,6 @@
                 const email = document.getElementById('login-email').value.trim();
                 const password = document.getElementById('login-password').value;
                 
-                // Валідація
                 if (!validateEmail(email)) {
                     showFormError('login-email-error', 'Будь ласка, введіть коректну email адресу');
                     return;
@@ -563,19 +504,16 @@
                     return;
                 }
                 
-                // Спроба входу
                 const result = userDB.login(email, password);
                 
                 if (result.success) {
                     showNotification('Вхід успішний! Перенаправляємо...', 'success');
                     
-                    // Запам'ятовування користувача, якщо обрано опцію
                     const rememberMe = document.getElementById('remember-me').checked;
                     if (rememberMe) {
                         localStorage.setItem('rememberedUser', email);
                     }
                     
-                    // Перенаправлення
                     setTimeout(() => {
                         window.location.href = 'index.html';
                     }, 1500);
@@ -622,7 +560,6 @@
                     return;
                 }
                 
-                // Реєстрація
                 const result = userDB.register(name, email, password);
                 
                 if (result.success) {
@@ -638,7 +575,6 @@
         }
         
         function setupRealTimeValidation() {
-            // Email в реальному часі
             document.getElementById('register-email').addEventListener('blur', function() {
                 const email = this.value.trim();
                 if (email && !validateEmail(email)) {
@@ -648,7 +584,6 @@
                 }
             });
             
-            // Пароль в реальному часі
             document.getElementById('register-password').addEventListener('input', function() {
                 if (this.value.length > 0 && this.value.length < 6) {
                     showFormError('register-password-error', 'Пароль має містити принаймні 6 символів');
@@ -657,7 +592,6 @@
                 }
             });
             
-            // Підтвердження пароля в реальному часі
             document.getElementById('register-confirm').addEventListener('input', function() {
                 const password = document.getElementById('register-password').value;
                 
@@ -669,7 +603,6 @@
             });
         }
         
-        // ========== ДОПОМІЖНІ ФУНКЦІЇ ==========
         
         function validateEmail(email) {
             const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -701,15 +634,11 @@
             notification.className = `notification ${type}`;
             notification.style.display = 'block';
             
-            // Автоматичне приховування через 3 секунди
             setTimeout(() => {
                 notification.style.display = 'none';
             }, 3000);
         }
         
-        // ========== ГЛОБАЛЬНІ ФУНКЦІЇ ==========
-        
-        // Функція для виходу (можна викликати з будь-якої сторінки)
         window.logoutUser = function() {
             userDB.logout();
             showNotification('Ви вийшли з системи', 'success');
@@ -718,17 +647,14 @@
             }, 1000);
         };
         
-        // Функція для перевірки авторизації на будь-якій сторінці
         window.checkAuth = function() {
             return userDB.isAuthenticated();
         };
         
-        // Функція для отримання поточного користувача
         window.getCurrentUser = function() {
             return userDB.getCurrentUser();
         };
         
-        // Функція для додавання до бажаного
         window.addToWishlist = function(tourId, tourData) {
             if (!userDB.isAuthenticated()) {
                 showNotification('Будь ласка, увійдіть в систему', 'error');
@@ -750,7 +676,6 @@
             return result.success;
         };
         
-        // Функція для видалення з бажаного
         window.removeFromWishlist = function(tourId) {
             if (!userDB.isAuthenticated()) {
                 return false;
@@ -759,7 +684,6 @@
             return userDB.removeFromWishlist(userDB.currentUser.id, tourId);
         };
         
-        // Функція для отримання списку бажаного
         window.getWishlist = function() {
             if (!userDB.isAuthenticated()) {
                 return [];
@@ -771,6 +695,7 @@
 </body>
 
 </html>
+
 
 
 
