@@ -247,7 +247,6 @@
 
     <main class="container">
         <div class="profile-container" id="profile-container">
-            <!-- Вміст завантажується через JavaScript -->
         </div>
     </main>
 
@@ -256,15 +255,12 @@
     </footer>
 
     <script>
-        // Завантаження користувача з localStorage
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         
-        // Перевірка авторизації
         if (!currentUser) {
             window.location.href = 'auth.html';
         }
         
-        // Дані про тури
         const toursData = {
             '1': {
                 title: 'Одеський винний тур "Шлях до моря"',
@@ -310,14 +306,12 @@
             }
         };
         
-        // Завантаження профілю
         function loadProfile() {
             const users = JSON.parse(localStorage.getItem('wineTourismUsers')) || [];
             const user = users.find(u => u.id === currentUser.id) || currentUser;
             const wishlist = user.wishlist || [];
             const bookedTours = user.bookedTours || [];
             
-            // HTML для профілю
             const profileHTML = `
                 <div class="profile-sidebar">
                     <div class="profile-avatar" style="background-color: ${user.avatarColor || '#8b4513'}">
@@ -354,14 +348,12 @@
                     type="button" 
                     class="logout-btn"
                     style="background: rgba(231, 76, 60, 0.08);"
-                    onclick="deleteAccount()"
->
-    <i class="fas fa-user-slash"></i> Видалити акаунт
-</button>
+                    onclick="deleteAccount()">
+                    <i class="fas fa-user-slash"></i> Видалити акаунт
+                </button>
                 </div>
 
                 <div class="profile-content">
-                    <!-- Вкладка Огляд -->
                     <div id="overview-tab" class="tab-content active">
                         <h2><i class="fas fa-chart-line"></i> Статистика</h2>
                         
@@ -390,7 +382,6 @@
                         ` : ''}
                     </div>
                     
-                    <!-- Вкладка Бажане -->
                     <div id="wishlist-tab" class="tab-content">
                         <h2><i class="fas fa-heart"></i> Моє бажане</h2>
                         
@@ -429,7 +420,6 @@
                     </div>
                     
                     
-                    <!-- Вкладка Налаштування -->
                     <div id="settings-tab" class="tab-content">
                         <h2><i class="fas fa-cog"></i> Налаштування профілю</h2>
                         
@@ -481,7 +471,6 @@
             document.getElementById('profile-container').innerHTML = profileHTML;
         }
         
-        // ========== ФУНКЦІЇ ==========
         
         function formatDate(dateString) {
             if (!dateString) return 'Н/Д';
@@ -490,26 +479,22 @@
         }
         
         function switchTab(tabId) {
-            // Приховуємо всі вкладки
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
             
-            // Видаляємо активний клас з меню
             const menuLinks = document.querySelectorAll('.profile-menu a');
             if (menuLinks.length > 0) {
                 menuLinks.forEach(link => {
                     link.classList.remove('active');
                 });
                 
-                // Додаємо активний клас до відповідного посилання
                 const activeLink = document.querySelector(`.profile-menu a[href="#${tabId}"]`);
                 if (activeLink) {
                     activeLink.classList.add('active');
                 }
             }
             
-            // Показуємо вибрану вкладку
             const tabElement = document.getElementById(`${tabId}-tab`);
             if (tabElement) {
                 tabElement.classList.add('active');
@@ -586,16 +571,13 @@
                 return;
             }
             
-            // Зберігаємо дані туру для форми бронювання
             sessionStorage.setItem('bookingTourId', tourId);
             sessionStorage.setItem('bookingTourTitle', tour.title);
             
-            // Перенаправляємо на сторінку бронювання
             window.location.href = 'routes.html#booking-form';
         }
         
         function logout() {
-            // Видаляємо дані про поточного користувача
             localStorage.removeItem('currentUser');
             window.location.href = 'index.html';
         }
@@ -609,22 +591,17 @@
 
     let users = JSON.parse(localStorage.getItem('wineTourismUsers')) || [];
 
-    // видаляємо користувача 
     users = users.filter(u => u.id !== currentUser.id);
 
-    // зберігаємо оновлений список
     localStorage.setItem('wineTourismUsers', JSON.stringify(users));
 
-    // прибираємо поточного 
     localStorage.removeItem('currentUser');
 
     alert('Ваш акаунт успішно видалено.');
 
-    // перекидаємо на головну 
     window.location.href = 'index.html';
     }
         function showNotification(message, type = 'info') {
-            // Створюємо елемент сповіщення
             const notification = document.createElement('div');
             notification.style.cssText = `
                 position: fixed;
@@ -640,7 +617,6 @@
                 box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             `;
             
-            // Встановлюємо колір в залежності від типу
             switch(type) {
                 case 'success':
                     notification.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
@@ -655,7 +631,6 @@
             notification.textContent = message;
             document.body.appendChild(notification);
             
-            // Автоматично видаляємо сповіщення через 3 секунди
             setTimeout(() => {
                 notification.style.animation = 'slideOut 0.3s ease';
                 setTimeout(() => {
@@ -665,7 +640,6 @@
                 }, 300);
             }, 3000);
             
-            // Додаємо CSS анімації
             const style = document.createElement('style');
             style.textContent = `
                 @keyframes slideIn {
@@ -680,11 +654,11 @@
             document.head.appendChild(style);
         }
         
-        // Завантажуємо профіль при завантаженні сторінки
         document.addEventListener('DOMContentLoaded', loadProfile);
     </script>
 </body>
 
 </html>
+
 
 
