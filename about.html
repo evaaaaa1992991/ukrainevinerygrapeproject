@@ -8,14 +8,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
-            /* Основний фон */
             background-image: url('вкладка про сайт фон.jpg') !important;
             background-size: cover !important;
             background-position: center !important;
             background-attachment: fixed !important;
             background-repeat: no-repeat !important;
-            
-            /* Інші властивості */
             position: relative !important;
             min-height: 100vh;
             margin: 0;
@@ -23,8 +20,6 @@
             display: flex;
             flex-direction: column;
         }
-
-        /* Розмитий шар поверх фону */
         body::before {
             content: '';
             position: fixed;
@@ -37,14 +32,10 @@
             -webkit-backdrop-filter: blur(8px);
             z-index: -1;
         }
-
-        /* Основний контент - розтягується для розміщення футера внизу */
         main.container {
             flex: 1;
             padding: 20px;
         }
-
-        /* Білий контейнер для заголовка */
         .main-header-wrapper {
             background: rgba(255, 255, 255, 0.98) !important;
             border-radius: var(--radius);
@@ -73,7 +64,6 @@
             font-weight: 500;
         }
         
-        /* Білі бокси для всіх секцій */
         .section-card {
             background: rgba(255, 255, 255, 0.98) !important;
             border-radius: var(--radius);
@@ -314,7 +304,6 @@
             margin-bottom: 15px;
         }
         
-        /* Стиль для футера */
         footer {
             text-align: center;
             color: var(--muted-brown);
@@ -418,18 +407,13 @@
     </header>
 
     <main class="container">
-        <!-- Заголовок -->
         <div class="main-header-wrapper">
             <h1><i class="fas fa-info-circle"></i> Про цей web-проєкт</h1>
             <p class="subtitle">Інтерактивний сайт для дослідження українського виноробства та планування винного туризму</p>
         </div>
-
-        <!-- Герой секція -->
         <div class="section-card about-hero">
             <p>На сторінках цього сайту зібрано огляд винних регіонів України, різноманіття сортів винограду, туристичних маршрутів і крафтових виноробень та вин. Проєкт показує виноробство як важливу складову культурної спадщини та економічного потенціалу, поєднуючи сучасні вебтехнології.</p>
         </div>
-
-        <!-- Статистика -->
         <div class="section-card">
             <h2></i> Статистика проєкту</h2>
             <div class="stats-grid">
@@ -451,8 +435,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Основні цілі проєкту -->
         <div class="section-card">
             <h2></i> Основні цілі проєкту</h2>
             
@@ -472,8 +454,6 @@
                     <p>Розробити інтерактивну веб-платформу, яка популяризує українське виноробство та забезпечує користувачів повною інформацією для планування винного туризму.</p>
                 </div>
                 
-
-                
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-tasks"></i>
@@ -489,8 +469,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Технології проєкту -->
         <div class="section-card">
             <h2></i> Технології проєкту</h2>
             <p style="text-align: center; margin-bottom: 25px; color: var(--text-dark);">Проєкт розроблено з використанням сучасних веб-технологій:</p>
@@ -504,8 +482,6 @@
                 <div class="tech-item">LocalStorage</div>
             </div>
         </div>
-
-        <!-- Історія розробки -->
         <div class="section-card timeline-wrapper">
             <h2></i> Історія розробки</h2>
             
@@ -541,8 +517,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Авторка проєкту -->
         <div class="section-card author-card">
             <h3></i> Авторка проєкту</h3>
             <div class="author-info">
@@ -564,4 +538,5 @@
 </body>
 
 </html>
+
 
